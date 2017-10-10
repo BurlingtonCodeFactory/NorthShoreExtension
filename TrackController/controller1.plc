@@ -1,0 +1,4 @@
+crossing 1 occupied true crossingOn
+crossing -1 occupoed true crossingOn
+crossing 1 occupied false crossingOff
+crossing -1 occupied false crossingOff
