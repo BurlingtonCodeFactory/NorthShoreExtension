@@ -11,6 +11,7 @@ public class TrackController {
     public String name;
     public List<Block> blocks;
     public PLC plc;
+    public List<String> plcFileNames;
 
     public TrackController(int id, String name, String plcFilename)
     {
@@ -18,6 +19,9 @@ public class TrackController {
         this.name = name;
         this.blocks = new ArrayList<Block>();
         this.plc = new PLC(plcFilename);
+        this.plcFileNames = new ArrayList<>();
+        this.plcFileNames.add(plcFilename);
+        this.plcFileNames.add("controller2.plc");
     }
 
     public boolean addBlock(Block block)

@@ -15,6 +15,7 @@ import java.util.Scanner;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import trackcontroller.models.*;
+import trackcontroller.plc.PLC;
 
 import javax.sound.midi.Track;
 
@@ -105,7 +106,8 @@ public class TrackViewController {
 
     }
 
-    @FXML public void controllerSelected(MouseEvent arg0) {
+    @FXML public void controllerSelected(MouseEvent arg0)
+    {
         String controllerName = controllerList.getSelectionModel().getSelectedItem();
         TrackController selectedController = Main.trackControllers.stream().filter(c -> c.name.equals(controllerName)).findFirst().get();
 
@@ -126,24 +128,26 @@ public class TrackViewController {
         }
         plcContents.setText(plcString);
 
-        String plcName = selectedController.plc.filename;
+        List<String> plcFileNames = selectedController.plcFileNames;
         plcList.getItems().clear();
         ObservableList<String> plcNames = FXCollections.observableArrayList();
-        plcNames.add(plcName);
+        plcNames.addAll(plcFileNames);
         plcList.setItems(plcNames);
 
     }
 
-    @FXML public void blockSelected(MouseEvent arg0) {
+    @FXML public void blockSelected(MouseEvent arg0)
+    {
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
         blockNumber.setText(String.valueOf(blockSelected.number));
         blockLine.setText(blockSelected.line.toString());
         blockInfrastructure.setText(blockSelected.infrastructure.toString());
-        blockSize.setText(String.valueOf(blockSelected.size)+"m");
-        blockSpeed.setText(String.valueOf(blockSelected.speed)+"m/s");
+        blockSize.setText(String.valueOf(blockSelected.size)+"feet");
+        blockSpeed.setText(String.valueOf(blockSelected.speed)+"mph");
         if(blockSelected.authority != null)
         {
-            blockAuthority.setText(String.valueOf(blockSelected.authority.size()) + "blocks");
+            blockAuthority.setText(String.valueOf(blockSelected.authority.size()) +
+                    (blockSelected.authority.size() == 1 ? " block" : " blocks" ));
         }
         else
         {
@@ -151,7 +155,7 @@ public class TrackViewController {
         }
         blockLights.setText(blockSelected.lightGreen ? "Green" : "Red");
         blockHeater.setText(blockSelected.heaterOn ? "On" : "Off");
-        blockRailBroken.setText(blockSelected.railBroken ? "Yes" : "No");
+        blockRailBroken.setText(blockSelected.failure ? "Yes" : "No");  //TODO: change back to railBroken
         blockTrackCircuit.setText(blockSelected.circuitFailure ? "Failed" : "Good");
         blockPowerFailure.setText(blockSelected.powerFailure ? "Yes" : "No");
         blockOccupancy.setText(blockSelected.trainPresent ? "Train" : "Free");
@@ -177,14 +181,74 @@ public class TrackViewController {
         }
     }
 
-    @FXML public void switchOccupancy(MouseEvent arg0) {
+    @FXML public void switchOccupancy(MouseEvent arg0)
+    {
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
         blockSelected.trainPresent = !blockSelected.trainPresent;
         blockOccupancy.setText(blockSelected.trainPresent ? "Train" : "Free");
 
-        List<Block> testAuthority = new ArrayList<>();
-        testAuthority.add(blockSelected.rightNeighbor);
+        //List<Block> testAuthority = new ArrayList<>();
+        //testAuthority.add(blockSelected.rightNeighbor);
 
         Main.trackControllers.get(0).evaluateBlocks();
     }
+
+    @FXML public void switchFailure(MouseEvent arg0)
+    {
+        Block blockSelected = blockList.getSelectionModel().getSelectedItem();
+        blockSelected.failure = !blockSelected.failure;
+        blockRailBroken.setText(blockSelected.failure ? "Yes" : "No");
+
+        Main.trackControllers.get(0).evaluateBlocks();
+    }
+
+    @FXML public void switchAuthority(MouseEvent arg0)
+    {
+        Block blockSelected = blockList.getSelectionModel().getSelectedItem();
+        if(blockSelected.speed == 0)
+        {
+            blockSelected.suggestedSpeed = 10;
+            blockSelected.suggestedAuthority = new ArrayList<>();
+            blockSelected.suggestedAuthority.add(blockSelected.rightNeighbor);
+            if(blockSelected.rightNeighbor.rightNeighbor != null)
+            {
+                blockSelected.suggestedAuthority.add(blockSelected.rightNeighbor.rightNeighbor);
+            }
+        }
+        else
+        {
+            blockSelected.suggestedSpeed = 0;
+            blockSelected.suggestedAuthority = new ArrayList<>();
+        }
+        Main.trackControllers.get(0).evaluateBlocks();
+        blockSpeed.setText(String.valueOf(blockSelected.speed)+"m/s");
+        blockAuthority.setText(String.valueOf(blockSelected.authority.size()) +
+                (blockSelected.authority.size() == 1 ? " block" : " blocks" ));
+    }
+
+    @FXML public void plcSelected(MouseEvent arg0)
+    {
+        String plcName = plcList.getSelectionModel().getSelectedItem();
+        String plcString = "";
+        try {
+            Scanner scanner = new Scanner(new File(plcName));
+            plcString = scanner.useDelimiter("\\A").next();
+            scanner.close();
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("File not found");
+        }
+        plcContents.setText(plcString);
+    }
+
+    @FXML public void plcActivated(MouseEvent arg0)
+    {
+        String plcName = plcList.getSelectionModel().getSelectedItem();
+        String controllerName = controllerList.getSelectionModel().getSelectedItem();
+        TrackController selectedController = Main.trackControllers.stream().filter(c -> c.name.equals(controllerName)).findFirst().get();
+        selectedController.plc = new PLC(plcName);
+        Main.trackControllers.get(0).evaluateBlocks();
+    }
+
 }

@@ -78,13 +78,14 @@ public class PLC {
                 field.equals("continue") ||
                 field.equals("stop") ||
                 field.equals("heaterOn") ||
-                field.equals("heaterOff");
+                field.equals("heaterOff") ||
+                field.equals("route");
     }
 
     private class PLCRule
     {
         BlockType infrastructure;
-        int offset;
+        String offset;
         String field;
         String value;
         String action;
@@ -107,7 +108,8 @@ public class PLC {
                     break;
             }
 
-            offset = Integer.parseInt(command[1]);
+
+            offset = command[1];
             field = command[2];
             value = command[3];
             action = command[4];
@@ -117,7 +119,24 @@ public class PLC {
         {
             if(this.infrastructure == BlockType.ALL || this.infrastructure == block.infrastructure)
             {
-                Block intendedBlock = getBlockByOffset(offset, block);
+                Block tempBlock;
+                try
+                {
+                    int off = Integer.parseInt(offset);
+                    tempBlock = getBlockByOffset(off, block);
+                }
+                catch(NumberFormatException e)
+                {
+                    if(offset.equals("L"))
+                    {
+                        tempBlock = block.switchZero;
+                    }
+                    else
+                    {
+                        tempBlock = block.switchOne;
+                    }
+                }
+                final Block intendedBlock = tempBlock;
 
                 switch(field)
                 {
@@ -140,11 +159,11 @@ public class PLC {
                         }
                         break;
                     case "route":
-                        if(block.suggestedAuthority.stream().filter(b -> b.number == intendedBlock.switchZero.number).count() == 1)
+                        if(intendedBlock.suggestedAuthority.contains(block.switchZero))
                         {
                             performAction("switchZero", block);
                         }
-                        else if(block.suggestedAuthority.stream().filter(b -> b.number == intendedBlock.switchOne.number).count() == 1)
+                        else if(intendedBlock.suggestedAuthority.contains(block.switchOne))
                         {
                             performAction("switchOne", block);
                         }
@@ -167,11 +186,11 @@ public class PLC {
                     break;
                 case "switchZero":
                     block.switchState = false;
-                    block.rightNeighbor = block.switchZero;
+                    //block.rightNeighbor = block.switchZero;
                     break;
                 case "switchOne":
                     block.switchState = true;
-                    block.rightNeighbor = block.switchOne;
+                    //block.rightNeighbor = block.switchOne;
                     break;
                 case "continue":
                     block.speed = block.suggestedSpeed;

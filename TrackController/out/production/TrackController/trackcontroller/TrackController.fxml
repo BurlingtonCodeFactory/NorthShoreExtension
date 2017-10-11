@@ -42,23 +42,23 @@
       <Label layoutX="339.0" layoutY="412.0" text="Switch Position:" />
       <Label layoutX="339.0" layoutY="439.0" text="Crossing Bar:" />
       <Label layoutX="339.0" layoutY="388.0" text="Occupancy:" />
-      <Label fx:id="blockNumber" layoutX="164.0" layoutY="284.0" text="Label" />
-      <Label fx:id="blockInfrastructure" layoutX="164.0" layoutY="318.0" text="Label" />
-      <Label fx:id="blockLine" layoutX="359.0" layoutY="284.0" text="Label" />
-      <Label fx:id="blockSize" layoutX="359.0" layoutY="318.0" text="Label" />
-      <Label fx:id="blockSpeed" layoutX="114.0" layoutY="383.0" text="Label" />
-      <Label fx:id="blockAuthority" layoutX="114.0" layoutY="405.0" text="Label" />
-      <Label fx:id="blockLights" layoutX="114.0" layoutY="425.0" text="Label" />
-      <Label fx:id="blockHeater" layoutX="114.0" layoutY="448.0" text="Label" />
-      <Label fx:id="blockRailBroken" layoutX="288.0" layoutY="386.0" text="Label" />
-      <Label fx:id="blockTrackCircuit" layoutX="288.0" layoutY="412.0" text="Label" />
-      <Label fx:id="blockPowerFailure" layoutX="288.0" layoutY="440.0" text="Label" />
-      <Label fx:id="blockOccupancy" layoutX="472.0" layoutY="388.0" onMouseClicked="#switchOccupancy" text="Label" />
-      <Label fx:id="blockSwitchPosition" layoutX="472.0" layoutY="414.0" text="Label" />
-      <Label fx:id="blockCrossingBar" layoutX="472.0" layoutY="440.0" text="Label" />
+      <Label fx:id="blockNumber" layoutX="164.0" layoutY="284.0" />
+      <Label fx:id="blockInfrastructure" layoutX="164.0" layoutY="318.0" />
+      <Label fx:id="blockLine" layoutX="359.0" layoutY="284.0" />
+      <Label fx:id="blockSize" layoutX="359.0" layoutY="318.0" />
+      <Label fx:id="blockSpeed" layoutX="114.0" layoutY="383.0" onMouseClicked="#switchAuthority" />
+      <Label fx:id="blockAuthority" layoutX="114.0" layoutY="405.0" />
+      <Label fx:id="blockLights" layoutX="114.0" layoutY="425.0" />
+      <Label fx:id="blockHeater" layoutX="114.0" layoutY="448.0" />
+      <Label fx:id="blockRailBroken" layoutX="288.0" layoutY="386.0" onMouseClicked="#switchFailure" />
+      <Label fx:id="blockTrackCircuit" layoutX="288.0" layoutY="412.0" />
+      <Label fx:id="blockPowerFailure" layoutX="288.0" layoutY="440.0" />
+      <Label fx:id="blockOccupancy" layoutX="472.0" layoutY="388.0" onMouseClicked="#switchOccupancy" />
+      <Label fx:id="blockSwitchPosition" layoutX="472.0" layoutY="414.0" />
+      <Label fx:id="blockCrossingBar" layoutX="472.0" layoutY="440.0" />
       <TextArea fx:id="plcContents" editable="false" layoutX="533.0" layoutY="52.0" prefHeight="371.0" prefWidth="301.0" />
-      <ListView fx:id="plcList" layoutX="533.0" prefHeight="52.0" prefWidth="301.0" />
+      <ListView fx:id="plcList" layoutX="533.0" onMouseClicked="#plcSelected" prefHeight="52.0" prefWidth="301.0" />
       <Button layoutX="676.0" layoutY="423.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="157.0" text="Load PLC" />
-      <Button layoutX="535.0" layoutY="423.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="141.0" text="Activate" />
+      <Button layoutX="535.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#plcActivated" prefHeight="52.0" prefWidth="141.0" text="Activate" />
    </children>
 </AnchorPane>

@@ -57,17 +57,17 @@ public class Main extends Application {
 
         //add blocks to controllers
         Block a = new Block(0, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,false, null, false);
+                BlockType.STANDARD, 500, 0 ,false, null, true);
         Block b = new Block(1, Line.GREEN,
-                BlockType.CROSSING, 100, 0 ,false, null, false);
+                BlockType.CROSSING, 500, 0 ,false, null, true);
         Block c = new Block(2, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,false, null, false);
+                BlockType.STANDARD, 500, 0 ,false, null, true);
         Block d = new Block(3, Line.GREEN,
-                BlockType.SWITCH, 100, 0 ,false, null, false);
+                BlockType.SWITCH, 500, 0 ,false, null, true);
         Block e = new Block(4, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,false, null, false);
+                BlockType.STANDARD, 500, 0 ,false, null, true);
         Block f = new Block(5, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,false, null, false);
+                BlockType.STANDARD, 500, 0 ,false, null, true);
 
         a.rightNeighbor = b;
         a.leftNeighbor = null;
@@ -78,7 +78,8 @@ public class Main extends Application {
         d.leftNeighbor = c;
         d.switchZero = e;
         d.switchOne = f;
-        d.rightNeighbor = e;
+        d.rightNeighbor = f;
+        d.switchState = false;
 
 
 
@@ -97,7 +98,6 @@ public class Main extends Application {
         testAuthority.add(e);
 
 
-        //trackControllers.get(0).plc.evaluateBlock(new CTCCommand(b, 10, testAuthority));
         Application.launch(Main.class, (java.lang.String[])null);
 
     }
