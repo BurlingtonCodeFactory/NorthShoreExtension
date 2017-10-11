@@ -18,7 +18,25 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+
+                launch(args);
+
+//        Train train = new Train(1, 100000.00, 0.00);
+//        System.out.println("Acceleration: " + train.getAccelerationString());
+//        System.out.println("Velocity: " + train.getVelocityString() + " | " + train.deltaTmillis);
+//
+//        new java.util.Timer().scheduleAtFixedRate(new java.util.TimerTask() {
+//            @Override
+//                    public void run() {
+//
+//                        train.update();
+//                        System.out.println("Acceleration: " + train.getAccelerationString());
+//                        System.out.println("Velocity: " + train.getVelocityString() + " | " + train.deltaTmillis);
+//
+//
+//                    }
+//                }, 100,100);
+
 
     }
 }

@@ -1,23 +1,20 @@
 package TrainModel;
 
 import java.lang.Math;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
 
 public class Train {
 
     //All values are are calculated within the program using SI units. Returned values will be converted to U.S customary units.
 
     private double g = 9.8;
-    private double coeffFriction = 0.57;
-    private double brakingDeceleration = 0;
+    private double coeffFrictionStatic = 0.74, coeffFrictionKinetic = 0.57;
+    private double gradeDeceleration = 0, staticFrictionAcceleration = 0, kineticFrictionAcceleration = 0, brakingAcceleration = 0;
     private double maximumAcceleration = 0.5;
     private double maximumVelocity = 19.4444;
     private double power, grade, mass;
     private double velocity;
     private double acceleration;
-    private double deltaT;
+    public double previousTimestamp, deltaTmillis;
 
 
 
@@ -27,78 +24,74 @@ public class Train {
         power = pwr;
         grade = grd;
 
-        //Calculate mass of train based on type and cars number
-        mass = 37104 * cars;
+        //Establish existing acceleration components
+        gradeDeceleration = g * Math.sin(grade);
+        staticFrictionAcceleration = g * coeffFrictionStatic;
+        kineticFrictionAcceleration = g * coeffFrictionKinetic;
 
-        //Train begins with velocity zero and maximum acceleration
+        //Calculate mass of train based on type and cars number
+        mass = 37096 * cars;
+
+        //Train begins with velocity zero
         velocity = 0;
+
+        //Calculate initial acceleration
         acceleration = maximumAcceleration;
 
-        //Initialize clock;
-        Clock clock = new Clock() {
-            @Override
-            public ZoneId getZone() {
-                return null;
-            }
-
-            @Override
-            public Clock withZone(ZoneId zone) {
-                return null;
-            }
-
-            @Override
-            public Instant instant() {
-                return null;
-            }
-        };
-
-        System.out.println(clock);
+        //Get Initial timestamp (wall-clock time)
+        previousTimestamp = System.currentTimeMillis();
     }
 
     public void update()
     {
-        //Calculate new velocity, limit to max
-        velocity = velocity  + (acceleration * deltaT);
+        //Calculate elapsed time since last update
+        deltaTmillis = System.currentTimeMillis() - previousTimestamp;
+        previousTimestamp = System.currentTimeMillis();
 
-        if(velocity > maximumVelocity)
+        //Calculate new velocity
+        velocity = velocity  + (acceleration * (deltaTmillis / 1000));
+
+        if(velocity < 0 && gradeDeceleration <= 0)
         {
-            velocity = maximumVelocity;
+            velocity = 0;
         }
 
-        //Calculate new acceleration, limit to max. If velocity is zero, preset to maximum acceleration
-        if(velocity == 0 )
+        //Calculate new acceleration
+        if(velocity != 0)
         {
-            acceleration = maximumAcceleration;
+            if(((power / (mass * velocity)) - gradeDeceleration) > (kineticFrictionAcceleration + brakingAcceleration))
+            {
+                acceleration = (power / (mass * velocity)) - gradeDeceleration - kineticFrictionAcceleration - brakingAcceleration;
+            }
+            else
+            {
+                acceleration = (power / (mass * velocity)) - gradeDeceleration - kineticFrictionAcceleration - brakingAcceleration;
+            }
         }
         else
         {
-            acceleration = power/(velocity * mass) - (g * (coeffFriction * Math.sin(grade))) + brakingDeceleration;
 
-            if(acceleration > maximumAcceleration)
-            {
-                acceleration = maximumAcceleration;
-            }
         }
 
     }
 
     public void activateEBrake()
     {
-        brakingDeceleration = -2.73;
+        brakingAcceleration = 2.73;
     }
 
-    public String getAccelerationString()
+    public double getVelocity()
     {
-        return String.valueOf(acceleration);
+        return velocity;
     }
 
-    public String getVelocityString()
+    public double getAcceleration()
     {
-        return String.valueOf(velocity);
+        return acceleration;
     }
 
-    public String getPowerString()
+    public double getPower()
     {
-        return String.valueOf(power);
+        return power;
     }
 }

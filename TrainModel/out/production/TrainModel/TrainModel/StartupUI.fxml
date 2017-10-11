@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane minHeight="440.0" prefHeight="450.5" prefWidth="375.5" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.StartupController">
+<AnchorPane minHeight="440.0" prefHeight="450.5" prefWidth="375.5" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="TrainModel.StartupController">
   <children>
     <Rectangle arcHeight="5.0" arcWidth="5.0" height="98.0" layoutX="0.0" layoutY="352.0" stroke="WHITE" strokeType="CENTERED" width="375.0">
       <fill>
