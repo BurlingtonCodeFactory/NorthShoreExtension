@@ -12,15 +12,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 
 public class PLC {
-    public HashSet<PLCRule> rules;
-
+    public List<PLCRule> rules;
+    public String filename;
 
     public PLC(String file)
     {
-        rules = new HashSet<>();
+        filename = file;
+        rules = new ArrayList<>();
         BufferedReader reader = null;
         try
         {
@@ -111,40 +113,40 @@ public class PLC {
             action = command[4];
         }
 
-        public boolean evaluateRule(CTCCommand command)
+        public boolean evaluateRule(Block block)
         {
-            if(this.infrastructure == BlockType.ALL || this.infrastructure == command.block.infrastructure)
+            if(this.infrastructure == BlockType.ALL || this.infrastructure == block.infrastructure)
             {
-                Block intendedBlock = getBlockByOffset(offset, command.block);
+                Block intendedBlock = getBlockByOffset(offset, block);
 
                 switch(field)
                 {
                     case "occupied":
                         if(intendedBlock.trainPresent == Boolean.parseBoolean(value))
                         {
-                            performAction(action, command.block, command);
+                            performAction(action, block);
                         }
                         break;
                     case "switch":
                         if(intendedBlock.switchState == (value.equals(1) == true))
                         {
-                            performAction(action, command.block, command);
+                            performAction(action, block);
                         }
                         break;
                     case "failure":
                         if(intendedBlock.failure == Boolean.parseBoolean(value))
                         {
-                            performAction(action, command.block, command);
+                            performAction(action, block);
                         }
                         break;
                     case "route":
-                        if(command.authority.stream().filter(b -> b.number == intendedBlock.switchZero.number).count() == 1)
+                        if(block.suggestedAuthority.stream().filter(b -> b.number == intendedBlock.switchZero.number).count() == 1)
                         {
-                            performAction("switchZero", command.block, command);
+                            performAction("switchZero", block);
                         }
-                        else if(command.authority.stream().filter(b -> b.number == intendedBlock.switchOne.number).count() == 1)
+                        else if(block.suggestedAuthority.stream().filter(b -> b.number == intendedBlock.switchOne.number).count() == 1)
                         {
-                            performAction("switchOne", command.block, command);
+                            performAction("switchOne", block);
                         }
                         break;
                 }
@@ -153,7 +155,7 @@ public class PLC {
             return true;
         }
 
-        public void performAction(String action, Block block, CTCCommand command)
+        public void performAction(String action, Block block)
         {
             switch(action)
             {
@@ -165,13 +167,15 @@ public class PLC {
                     break;
                 case "switchZero":
                     block.switchState = false;
+                    block.rightNeighbor = block.switchZero;
                     break;
                 case "switchOne":
                     block.switchState = true;
+                    block.rightNeighbor = block.switchOne;
                     break;
                 case "continue":
-                    block.speed = command.speed;
-                    block.authority = command.authority;
+                    block.speed = block.suggestedSpeed;
+                    block.authority = block.suggestedAuthority;
                     block.lightGreen = true;
                     break;
                 case "stop":
@@ -208,10 +212,10 @@ public class PLC {
         }
     }
 
-    public boolean evaluateBlock(CTCCommand suggestedCommand)
+    public boolean evaluateBlock(Block block)
     {
         for (PLCRule rule : rules) {
-            rule.evaluateRule(suggestedCommand);
+            rule.evaluateRule(block);
         }
         return true;
     }

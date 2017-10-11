@@ -37,34 +37,37 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import trackcontroller.models.*;
 
 public class Main extends Application {
-
+    static List<TrackController> trackControllers;
+    static HashMap<Block, Integer> blockMapping;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        List<TrackController> trackControllers = new ArrayList<>();
-        HashMap<Block, Integer> blockMapping = new HashMap<>();
+        trackControllers = new ArrayList<>();
+        blockMapping = new HashMap<>();
 
         //add blocks to controllers
         Block a = new Block(0, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,true, null, false);
+                BlockType.STANDARD, 100, 0 ,false, null, false);
         Block b = new Block(1, Line.GREEN,
-                BlockType.CROSSING, 100, 0 ,true, null, false);
+                BlockType.CROSSING, 100, 0 ,false, null, false);
         Block c = new Block(2, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,true, null, false);
+                BlockType.STANDARD, 100, 0 ,false, null, false);
         Block d = new Block(3, Line.GREEN,
-                BlockType.SWITCH, 100, 0 ,true, null, false);
+                BlockType.SWITCH, 100, 0 ,false, null, false);
         Block e = new Block(4, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,true, null, false);
+                BlockType.STANDARD, 100, 0 ,false, null, false);
         Block f = new Block(5, Line.GREEN,
-                BlockType.STANDARD, 100, 0 ,true, null, false);
+                BlockType.STANDARD, 100, 0 ,false, null, false);
 
         a.rightNeighbor = b;
         a.leftNeighbor = null;
@@ -75,6 +78,7 @@ public class Main extends Application {
         d.leftNeighbor = c;
         d.switchZero = e;
         d.switchOne = f;
+        d.rightNeighbor = e;
 
 
 
@@ -93,10 +97,9 @@ public class Main extends Application {
         testAuthority.add(e);
 
 
-
-        trackControllers.get(0).plc.evaluateBlock(new CTCCommand(b, 10, testAuthority));
-        System.out.println(b.crossingOn);
+        //trackControllers.get(0).plc.evaluateBlock(new CTCCommand(b, 10, testAuthority));
         Application.launch(Main.class, (java.lang.String[])null);
+
     }
 
     @Override

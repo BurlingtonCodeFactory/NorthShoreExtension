@@ -8,8 +8,10 @@ public class Block {
     public BlockType infrastructure;
     public int size;
     public double speed;
+    public double suggestedSpeed;
     public boolean trainPresent;
     public List<Block> authority;
+    public List<Block> suggestedAuthority;
     public boolean lightGreen;
     public Block leftNeighbor;
     public Block rightNeighbor;
@@ -17,6 +19,9 @@ public class Block {
     public boolean crossingOn = false;
     public boolean switchState = false;
     public boolean failure = false;
+    public boolean railBroken = false;
+    public boolean circuitFailure = false;
+    public boolean powerFailure = false;
     public Block switchZero;
     public Block switchOne;
 
@@ -30,5 +35,20 @@ public class Block {
         this.trainPresent = trainPresent;
         this.authority = authority;
         this.lightGreen = lightGreen;
+    }
+
+    public int getNumber()
+    {
+        return number;
+    }
+
+    public Line getLine()
+    {
+        return line;
+    }
+
+    public BlockType getInfrastructure()
+    {
+        return infrastructure;
     }
 }

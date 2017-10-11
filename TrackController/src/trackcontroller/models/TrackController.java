@@ -25,9 +25,11 @@ public class TrackController {
        return blocks.add(block);
     }
 
-    public boolean evaluateCommandFromCTC(CTCCommand command)
+    public void evaluateBlocks()
     {
-       return plc.evaluateBlock(command);
+        for (Block block : blocks)
+        {
+            plc.evaluateBlock(block);
+        }
     }
-
 }
