@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" prefHeight="698.0000999999975" prefWidth="1146.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="TrainModel.TrainModelController">
+  <children>
+    <Pane id="DROP_DOWN" layoutX="0.0" layoutY="0.0" prefHeight="201.0" prefWidth="136.0">
+      <children>
+        <MenuButton layoutX="0.0" layoutY="1.0" mnemonicParsing="false" text="Train">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+          </items>
+        </MenuButton>
+      </children>
+    </Pane>
+    <Pane id="E_BRAKE" layoutX="5.0" layoutY="566.0" prefHeight="126.0" prefWidth="124.0">
+      <children>
+        <Button fx:id="EMERGENCY_BRAKE" layoutX="0.0" layoutY="0.0" mnemonicParsing="false" prefHeight="132.0001220703125" prefWidth="136.00001362305193" text="E" textFill="WHITE">
+          <font>
+            <Font size="35.0" />
+          </font>
+        </Button>
+      </children>
+    </Pane>
+    <Pane id="ROUTE_INFORMATION_SYSTEM" layoutX="129.0" layoutY="566.0" prefHeight="126.0" prefWidth="1007.0">
+      <children>
+        <TextField layoutX="0.0" layoutY="0.0" prefHeight="132.0001220703125" prefWidth="1006.999977929685" />
+      </children>
+    </Pane>
+    <Pane id="CENTRAL_INDICATORS" layoutX="413.0" layoutY="14.0" prefHeight="363.0" prefWidth="320.0">
+      <children>
+        <ProgressBar layoutX="23.0" layoutY="82.0" prefWidth="107.0" progress="0.0" />
+        <ProgressBar layoutX="189.0" layoutY="82.0" prefWidth="107.0" progress="0.0" />
+        <TextField layoutX="23.0" layoutY="102.0" prefWidth="107.0" />
+        <TextField layoutX="189.0" layoutY="102.0" prefWidth="107.0" />
+        <TextField layoutX="107.0" layoutY="147.0" prefWidth="107.0" />
+        <TextField layoutX="107.0" layoutY="29.0" prefWidth="107.0" />
+        <Label layoutX="19.0" layoutY="62.0" text="Acceleration (mph^2)">
+          <font>
+            <Font size="12.0" fx:id="x1" />
+          </font>
+        </Label>
+        <Label font="$x1" layoutX="117.0" layoutY="10.0" text="Input Power (W)" />
+        <Label font="$x1" layoutX="209.0" layoutY="62.0" text="Speed (mph)" />
+        <Label font="$x1" layoutX="143.0" layoutY="129.0" text="Label" />
+      </children>
+    </Pane>
+    <Pane id="RIGHT_HAND_INDICATORS" layoutX="930.0" layoutY="5.0" prefHeight="574.0" prefWidth="202.0">
+      <children>
+        <TextField layoutX="58.0" layoutY="46.0" prefWidth="85.29998779296875" />
+        <TextField layoutX="58.0" layoutY="85.0" prefWidth="85.29998779296875" />
+        <TextField layoutX="58.0" layoutY="122.0" prefWidth="85.29998779296875" />
+        <TextField layoutX="58.0" layoutY="162.0" prefWidth="85.29998779296875" />
+        <TextField layoutX="58.0" layoutY="198.0" prefWidth="85.29998779296875" />
+        <TextField layoutX="58.0" layoutY="235.0" prefWidth="85.29998779296875" />
+        <TextField fx:id="PASSENGER_COUNT" layoutX="58.0" layoutY="273.0" prefWidth="85.29998779296875" />
+        <Label font="$x1" layoutX="19.0" layoutY="51.0" text="Label" />
+        <Label font="$x1" layoutX="19.0" layoutY="90.0" text="Label" />
+        <Label font="$x1" layoutX="19.0" layoutY="127.0" text="Label" />
+        <Label font="$x1" layoutX="19.0" layoutY="167.0" text="Label" />
+        <Label font="$x1" layoutX="19.0" layoutY="203.0" text="Label" />
+        <Label font="$x1" layoutX="19.0" layoutY="240.0" text="Label" />
+        <Label font="$x1" layoutX="19.0" layoutY="275.0" text="Label" />
+      </children>
+    </Pane>
+    <Slider disable="false" layoutX="62.0" layoutY="184.0" orientation="VERTICAL" prefHeight="80.0" />
+  </children>
+</AnchorPane>
