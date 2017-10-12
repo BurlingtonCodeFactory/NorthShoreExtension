@@ -1,7 +1,9 @@
 package CTCOffice.Controllers;
 
+import CTCOffice.Interfaces.IRouteService;
 import CTCOffice.Models.Block;
 import CTCOffice.Models.Repository;
+import CTCOffice.Models.Stop;
 import CTCOffice.Models.Train;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,15 +11,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
     private final Repository repository;
+    private final IRouteService routeService;
 
     @FXML
     public ChoiceBox<String> multiplier;
@@ -73,9 +82,19 @@ public class MainController {
     @FXML
     public Button trainAuthorityButton;
 
+    @FXML
+    public ListView<Stop> trainStops;
+
+    @FXML
+    public ChoiceBox<Block> trainStopBlock;
+
+    @FXML
+    public Button trainStopButton;
+
     @Inject
-    public MainController(Repository repository) {
+    public MainController(Repository repository, IRouteService routeService) {
         this.repository = repository;
+        this.routeService = routeService;
     }
 
     public void initialize() {
@@ -84,7 +103,7 @@ public class MainController {
 
         List<String> lines = new ArrayList<>();
         for (Block block : repository.getBlocks()) {
-            if (!lines.contains(block.getLine())) {
+            if (!lines.contains(block.getLine()) && !block.getLine().equals("Yard")) {
                 lines.add(block.getLine());
             }
         }
@@ -99,7 +118,7 @@ public class MainController {
                 // TODO: This shouldn't be done each time as blocks are static after launch
                 List<Block> blocks = new ArrayList<>();
                 for (Block block : repository.getBlocks()) {
-                    if (block.getLine().equals(lines.get(newValue.intValue()))) {
+                    if (block.getLine().equals(lines.get(newValue.intValue())) || block.getLine().equals("Yard")) { // Assuming the Yard is connected to all lines
                         blocks.add(block);
                     }
                 }
@@ -136,17 +155,24 @@ public class MainController {
 
                 List<Block> blocks = new ArrayList<>();
                 for (Block block : repository.getBlocks()) {
-                    if (block.getLine().equals(lines.get(newValue.intValue()))) {
+                    if (block.getLine().equals(lines.get(newValue.intValue())) || block.getLine().equals("Yard")) {
                         blocks.add(block);
                     }
                 }
-                trainAuthoritySelect.setItems(FXCollections.observableArrayList(blocks));
+
+                ObservableList<Block> observableBlocks = FXCollections.observableArrayList(blocks);
+                trainAuthoritySelect.setItems(observableBlocks);
+                trainStopBlock.setItems(observableBlocks);
             }
         });
 
         trainIdentifier.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() < 0) {
+                    return;
+                }
+
                 Train train = trainIdentifier.getItems().get(newValue.intValue());
 
                 trainLocation.textProperty().bind(train.getCurrentLocation().asString());
@@ -155,10 +181,37 @@ public class MainController {
 
                 if (train.getCurrentLocation().getValue() == null) {
                     trainDispatch.setDisable(false);
+                    trainAuthorityButton.setDisable(true);
                 }
                 else {
                     trainDispatch.setDisable(true);
+                    trainAuthorityButton.setDisable(false);
                 }
+
+                trainStopButton.setDisable(false);
+                trainStops.setItems(train.getStops());
+            }
+        });
+
+        trainStops.setCellFactory(new Callback<ListView<Stop>, ListCell<Stop>>() {
+            @Override
+            public ListCell<Stop> call(ListView<Stop> param) {
+                return new ListCell<Stop>() {
+                    @Override
+                    protected void updateItem(Stop stop, boolean empty) {
+                        super.updateItem(stop, empty);
+                        if (empty) {
+                            setText(null);
+                            setGraphic(null);
+                        }
+                        else {
+                            setText(null);
+
+                            final Parent parent = loadItemFxml(stop, trainIdentifier.getSelectionModel().getSelectedItem());
+                            setGraphic(parent);
+                        }
+                    }
+                };
             }
         });
     }
@@ -171,6 +224,7 @@ public class MainController {
     public void trainCreateButton(ActionEvent e) {
         int newIdentifier = repository.getTrains().size() + 1;
         Train newTrain = new Train(newIdentifier, trainLine.getValue());
+        newTrain.setStops(new ArrayList<>());
 
         repository.addTrain(newTrain);
 
@@ -198,6 +252,7 @@ public class MainController {
 
         train.setCurrentLocation(yard); // This assumes that a station named yard will always be present
         trainDispatch.setDisable(true);
+        trainAuthorityButton.setDisable(false);
     }
 
     public void trainSpeedSet(ActionEvent e) {
@@ -213,9 +268,42 @@ public class MainController {
 
     public void trainAuthoritySet(ActionEvent e) {
         Train train = trainIdentifier.getValue();
-        List<Block> blocks = new ArrayList<>();
-        blocks.add(trainAuthoritySelect.getSelectionModel().getSelectedItem()); // Call to service to perform shortest path algorithm and return (sending where you are, where you were, and list of blocks available [on line])
 
-        train.setCommandedAuthority(blocks);
+        List<Block> blocks = new ArrayList<>();
+        for (Block block : repository.getBlocks()) {
+            if (block.getLine().equals(train.getLine()) || block.getLine().equals("Yard")) {
+                blocks.add(block);
+            }
+        }
+
+        List<Block> authority = routeService.getShortestPath(train.getPreviousLocation(), train.getCurrentLocation().getValue(), trainAuthoritySelect.getSelectionModel().getSelectedItem(), blocks);
+
+        train.setCommandedAuthority(authority);
+    }
+
+    public void trainStopAdd(ActionEvent e) {
+        Block block = trainStopBlock.getSelectionModel().getSelectedItem();
+        Train train = trainIdentifier.getSelectionModel().getSelectedItem();
+
+        /*List<Stop> stops = train.getStops();
+        stops.add(new Stop(block));
+        train.setStops(stops);*/
+        train.addStop(new Stop(block));
+    }
+
+    private Parent loadItemFxml(Stop stop, Train train) {
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../Views/StopView.fxml"));
+
+        try {
+
+            StopController stopController = new StopController(stop, train);
+
+            fxmlLoader.setController(stopController);
+            fxmlLoader.load();
+
+            return fxmlLoader.getRoot();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

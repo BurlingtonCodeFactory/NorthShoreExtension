@@ -1,9 +1,8 @@
 package CTCOffice.Models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -13,7 +12,8 @@ public class Train {
     private ObjectProperty<Block> currentLocation = new SimpleObjectProperty<>();
     private Block previousLocation;
     private IntegerProperty commandedSpeed = new SimpleIntegerProperty();
-    private ObjectProperty<List<Block>> commandedAuthority = new SimpleObjectProperty<>();
+    private ListProperty<Block> commandedAuthority = new SimpleListProperty<>();
+    private ListProperty<Stop> stops = new SimpleListProperty<>();
 
     public int getIdentifier() {
         return identifier;
@@ -47,17 +47,33 @@ public class Train {
         this.commandedSpeed.setValue(commandedSpeed);
     }
 
-    public ObjectProperty<List<Block>> getCommandedAuthority() {
+    public ListProperty<Block> getCommandedAuthority() {
         return commandedAuthority;
     }
 
     public void setCommandedAuthority(List<Block> commandedAuthority) {
-        this.commandedAuthority.setValue(commandedAuthority);
+        this.commandedAuthority.setValue(FXCollections.observableArrayList(commandedAuthority));
     }
 
     public Train(int identifier, String line) {
         this.identifier = identifier;
         this.line = line;
+    }
+
+    public ObservableList<Stop> getStops() {
+        return stops.getValue();
+    }
+
+    public void setStops(List<Stop> stops) {
+        this.stops.setValue(FXCollections.observableArrayList(stops));
+    }
+
+    public void addStop(Stop stop) {
+        stops.getValue().add(stop);
+    }
+
+    public void removeStop(Stop stop) {
+        stops.remove(stop);
     }
 
     @Override

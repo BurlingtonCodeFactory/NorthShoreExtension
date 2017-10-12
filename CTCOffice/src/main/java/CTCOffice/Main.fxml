@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -123,6 +124,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -155,7 +159,15 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <children>
                   <ChoiceBox fx:id="trainAuthoritySelect" />
-                  <Button minWidth="40.0" mnemonicParsing="false" onAction="#trainAuthoritySet" text="Set" />
+                  <Button fx:id="trainAuthorityButton" disable="true" minWidth="40.0" mnemonicParsing="false" onAction="#trainAuthoritySet" text="Set" />
+               </children>
+            </HBox>
+            <Label text="Schedule" GridPane.rowIndex="9" />
+            <ListView fx:id="trainStops" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
+               <children>
+                  <ChoiceBox fx:id="trainStopBlock" />
+                  <Button fx:id="trainStopButton" disable="true" minWidth="40.0" mnemonicParsing="false" onAction="#trainStopAdd" text="Add" />
                </children>
             </HBox>
          </children>

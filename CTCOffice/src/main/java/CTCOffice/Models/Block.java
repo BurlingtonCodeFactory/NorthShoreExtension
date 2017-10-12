@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Block {
     private int blockId;
@@ -73,6 +74,26 @@ public class Block {
     @Override
     public String toString() {
         return station == null ? Integer.toString(blockId) : station;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Block)) {
+            return false;
+        }
+
+        Block block = (Block)obj;
+
+        return blockId == block.getBlockId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.blockId);
     }
 }
 
