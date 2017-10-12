@@ -6,21 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/artifacts/TrackController_jar/TrackController.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/TrackController_jar.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/module_trackcontroller.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/artifacts/TrackController_jar/controller1.plc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/artifacts/TrackController_jar/controller2.plc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/TrackController/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/trackcontroller.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/trackcontroller.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/Main.class" afterPath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/TrackViewController.class" afterPath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/TrackViewController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/trackcontroller/TrackViewController.java" afterPath="$PROJECT_DIR$/src/trackcontroller/TrackViewController.java" />
-    </list>
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -432,12 +418,12 @@
       <workItem from="1359379250712" duration="1302000" />
       <workItem from="1507236950422" duration="15519000" />
       <workItem from="1507598297053" duration="28729000" />
-      <workItem from="1507770508800" duration="491000" />
+      <workItem from="1507770508800" duration="682000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46041000" />
+    <option name="totallyTimeSpent" value="46232000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
