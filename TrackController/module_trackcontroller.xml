@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_trackcontroller" default="compile.module.trackcontroller">
+  <dirname property="module.trackcontroller.basedir" file="${ant.file.module_trackcontroller}"/>
+  
+  <property name="module.jdk.home.trackcontroller" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.trackcontroller" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.trackcontroller" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.trackcontroller" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="trackcontroller.output.dir" value="${module.trackcontroller.basedir}/out/production/TrackController"/>
+  <property name="trackcontroller.testoutput.dir" value="${module.trackcontroller.basedir}/out/test/TrackController"/>
+  
+  <path id="trackcontroller.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="trackcontroller.module.production.classpath">
+    <path refid="${module.jdk.classpath.trackcontroller}"/>
+  </path>
+  
+  <path id="trackcontroller.runtime.production.module.classpath">
+    <pathelement location="${trackcontroller.output.dir}"/>
+  </path>
+  
+  <path id="trackcontroller.module.classpath">
+    <path refid="${module.jdk.classpath.trackcontroller}"/>
+    <pathelement location="${trackcontroller.output.dir}"/>
+  </path>
+  
+  <path id="trackcontroller.runtime.module.classpath">
+    <pathelement location="${trackcontroller.testoutput.dir}"/>
+    <pathelement location="${trackcontroller.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.trackcontroller">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.trackcontroller">
+    <patternset refid="excluded.from.module.trackcontroller"/>
+  </patternset>
+  
+  <path id="trackcontroller.module.sourcepath">
+    <dirset dir="${module.trackcontroller.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.trackcontroller" depends="compile.module.trackcontroller.production,compile.module.trackcontroller.tests" description="Compile module TrackController"/>
+  
+  <target name="compile.module.trackcontroller.production" depends="register.custom.compilers" description="Compile module TrackController; production classes">
+    <mkdir dir="${trackcontroller.output.dir}"/>
+    <javac2 destdir="${trackcontroller.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.trackcontroller}/javac">
+      <compilerarg line="${compiler.args.trackcontroller}"/>
+      <bootclasspath refid="trackcontroller.module.bootclasspath"/>
+      <classpath refid="trackcontroller.module.production.classpath"/>
+      <src refid="trackcontroller.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.trackcontroller"/>
+    </javac2>
+    
+    <copy todir="${trackcontroller.output.dir}">
+      <fileset dir="${module.trackcontroller.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.trackcontroller.tests" depends="register.custom.compilers,compile.module.trackcontroller.production" description="compile module TrackController; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.trackcontroller" description="cleanup module">
+    <delete dir="${trackcontroller.output.dir}"/>
+    <delete dir="${trackcontroller.testoutput.dir}"/>
+  </target>
+</project>
