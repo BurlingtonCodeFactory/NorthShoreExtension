@@ -142,7 +142,7 @@ public class TrackViewController {
         blockNumber.setText(String.valueOf(blockSelected.number));
         blockLine.setText(blockSelected.line.toString());
         blockInfrastructure.setText(blockSelected.infrastructure.toString());
-        blockSize.setText(String.valueOf(blockSelected.size)+"feet");
+        blockSize.setText(String.valueOf(blockSelected.size)+" feet");
         blockSpeed.setText(String.valueOf(blockSelected.speed)+"mph");
         if(blockSelected.authority != null)
         {
