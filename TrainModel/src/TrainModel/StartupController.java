@@ -7,10 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.lang.*;
 
-//public class StartupController implements Initializable
 public class StartupController extends Application
 {
 
@@ -43,7 +41,7 @@ public class StartupController extends Application
 //        }
 
         int cars = Integer.parseInt(CARS.getText());
-        double power = Double.parseDouble(POWER.getText());
+        double power = Double.parseDouble(POWER.getText()) * 1000; //Multiplied by 1000 to convert from kW to W
         double grade = Double.parseDouble(GRADE.getText());
 
         Train train = new Train(cars, power, grade);
@@ -56,6 +54,8 @@ public class StartupController extends Application
             stage.setTitle("Train Model");
             stage.setScene(new Scene(root1));
             stage.show();
+
+            fxmlLoader.<TrainModelController>getController().init(train);
         }
         catch(Exception e)
         {

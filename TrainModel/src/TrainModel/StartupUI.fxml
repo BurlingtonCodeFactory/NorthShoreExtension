@@ -31,8 +31,8 @@
         <Font size="40.0" />
       </font>
     </Label>
-    <Label layoutX="19.0" layoutY="73.0" prefHeight="44.0" prefWidth="352.0" text="Complete all fields. Press start to begin Train Model simulation." textAlignment="CENTER" textFill="#cc0000" wrapText="true" />
-    <Label layoutX="283.0" layoutY="235.0" text="Watts" />
+    <Label layoutX="14.0" layoutY="73.0" prefHeight="44.0" prefWidth="352.0" text="Complete all fields. Press start to begin Train Model simulation." textAlignment="CENTER" textFill="#cc0000" wrapText="true" />
+    <Label layoutX="300.0" layoutY="235.0" text="kW" />
     <Label layoutX="291.0" layoutY="168.0" text="Cars" />
     <Label layoutX="306.0" layoutY="304.0" text="\%" />
   </children>

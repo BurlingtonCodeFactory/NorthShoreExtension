@@ -21,7 +21,10 @@ public class Main extends Application {
 
                 launch(args);
 
+
 //        Train train = new Train(1, 100000.00, 0.00);
+
+
 //        System.out.println("Acceleration: " + train.getAccelerationString());
 //        System.out.println("Velocity: " + train.getVelocityString() + " | " + train.deltaTmillis);
 //

@@ -9,12 +9,13 @@ public class Train {
     private double g = 9.8;
     private double coeffFrictionStatic = 0.74, coeffFrictionKinetic = 0.57;
     private double gradeDeceleration = 0, staticFrictionAcceleration = 0, kineticFrictionAcceleration = 0, brakingAcceleration = 0;
-    private double maximumAcceleration = 0.5;
+    private double maximumAcceleration = 1;
     private double maximumVelocity = 19.4444;
     private double power, grade, mass;
     private double velocity;
     private double acceleration;
-    public double previousTimestamp, deltaTmillis;
+    private double previousTimestamp, deltaTmillis;
+    private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
 
 
 
@@ -61,11 +62,13 @@ public class Train {
         {
             if(((power / (mass * velocity)) - gradeDeceleration) > (kineticFrictionAcceleration + brakingAcceleration))
             {
-                acceleration = (power / (mass * velocity)) - gradeDeceleration - kineticFrictionAcceleration - brakingAcceleration;
+                acceleration = (power / (mass * velocity))/* - gradeDeceleration - kineticFrictionAcceleration */- brakingAcceleration
+                ;
             }
             else
             {
-                acceleration = (power / (mass * velocity)) - gradeDeceleration - kineticFrictionAcceleration - brakingAcceleration;
+                acceleration = (power / (mass * velocity))/* - gradeDeceleration - kineticFrictionAcceleration */- brakingAcceleration
+                ;
             }
         }
         else
@@ -75,9 +78,28 @@ public class Train {
 
     }
 
+    public void engineFailure()
+    {
+        power = 0;
+    }
+
+    public void signalPickupFailure()
+    {
+
+    }
+
+    public void brakeFailure()
+    {
+        brakeFailure = true;
+    }
+
     public void activateEBrake()
     {
-        brakingAcceleration = 2.73;
+
+        if(brakeFailure == false)
+        {
+            brakingAcceleration = 2.73;
+        }
     }
 
     public double getVelocity()
