@@ -109,7 +109,7 @@ public class TrackViewController {
     @FXML public void controllerSelected(MouseEvent arg0)
     {
         String controllerName = controllerList.getSelectionModel().getSelectedItem();
-        TrackController selectedController = Main.trackControllers.stream().filter(c -> c.name.equals(controllerName)).findFirst().get();
+        TrackController selectedController = Main.trackControllers.get(0);
 
         blockList.getItems().clear();
         ObservableList<Block> controllerBlocks = FXCollections.observableArrayList();
@@ -221,7 +221,7 @@ public class TrackViewController {
             blockSelected.suggestedAuthority = new ArrayList<>();
         }
         Main.trackControllers.get(0).evaluateBlocks();
-        blockSpeed.setText(String.valueOf(blockSelected.speed)+"m/s");
+        blockSpeed.setText(String.valueOf(blockSelected.speed)+"mph");
         blockAuthority.setText(String.valueOf(blockSelected.authority.size()) +
                 (blockSelected.authority.size() == 1 ? " block" : " blocks" ));
     }
@@ -246,7 +246,7 @@ public class TrackViewController {
     {
         String plcName = plcList.getSelectionModel().getSelectedItem();
         String controllerName = controllerList.getSelectionModel().getSelectedItem();
-        TrackController selectedController = Main.trackControllers.stream().filter(c -> c.name.equals(controllerName)).findFirst().get();
+        TrackController selectedController = Main.trackControllers.get(0);
         selectedController.plc = new PLC(plcName);
         Main.trackControllers.get(0).evaluateBlocks();
     }

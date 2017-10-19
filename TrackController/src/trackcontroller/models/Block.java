@@ -1,5 +1,6 @@
 package trackcontroller.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Block {
@@ -35,6 +36,7 @@ public class Block {
         this.trainPresent = trainPresent;
         this.authority = authority;
         this.lightGreen = lightGreen;
+        this.suggestedAuthority = new ArrayList<Block>();
     }
 
     public int getNumber()

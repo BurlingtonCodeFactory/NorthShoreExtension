@@ -6,7 +6,426 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/TrackController_jar/TrackController.jar" afterPath="$PROJECT_DIR$/out/artifacts/TrackController_jar/TrackController.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/Main.class" afterPath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/Main.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/TrackViewController.class" afterPath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/TrackViewController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/models/Block.class" afterPath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/models/Block.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/plc/PLC$PLCRule.class" afterPath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/plc/PLC$PLCRule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/plc/PLC.class" afterPath="$PROJECT_DIR$/out/production/TrackController/trackcontroller/plc/PLC.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/ControllerInterface.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/ControllerInterface.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/Main$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/Main$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/Main.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/Main.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/Train.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/com/company/Train.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Alarm$AlarmMarkerEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Alarm$AlarmMarkerEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Alarm$Repetition.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Alarm$Repetition.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Alarm.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Alarm.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/AlarmBuilder.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/AlarmBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$10.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$10.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$11.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$11.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$12.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$12.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$13.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$13.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$14.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$14.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$15.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$15.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$16.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$16.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$17.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$17.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$18.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$18.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$19.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$19.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$2.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$20.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$20.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$21.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$21.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$22.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$22.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$23.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$23.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$24.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$24.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$25.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$25.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$26.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$26.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$27.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$27.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$28.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$28.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$29.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$29.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$3.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$30.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$30.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$31.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$31.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$32.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$32.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$33.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$33.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$34.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$34.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$35.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$35.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$36.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$36.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$37.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$37.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$38.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$38.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$39.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$39.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$4.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$40.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$40.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$41.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$41.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$42.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$42.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$43.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$43.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$44.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$44.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$45.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$45.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$5.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$6.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$7.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$8.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$9.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$ClockSkinType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock$ClockSkinType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Clock.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/ClockBuilder$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/ClockBuilder$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/ClockBuilder.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/ClockBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Command.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Command.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/FGauge$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/FGauge$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/FGauge.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/FGauge.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/FGaugeBuilder.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/FGaugeBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Fonts.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Fonts.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$10.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$10.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$100.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$100.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$101.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$101.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$102.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$102.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$103.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$103.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$104.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$104.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$105.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$105.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$106.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$106.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$107.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$107.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$108.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$108.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$109.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$109.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$11.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$11.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$110.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$110.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$111.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$111.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$12.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$12.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$13.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$13.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$14.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$14.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$15.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$15.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$16.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$16.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$17.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$17.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$18.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$18.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$19.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$19.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$2.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$20.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$20.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$21.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$21.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$22.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$22.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$23.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$23.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$24.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$24.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$25.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$25.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$26.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$26.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$27.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$27.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$28.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$28.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$29.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$29.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$3.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$30.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$30.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$31.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$31.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$32.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$32.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$33.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$33.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$34.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$34.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$35.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$35.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$36.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$36.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$37.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$37.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$38.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$38.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$39.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$39.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$4.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$40.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$40.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$41.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$41.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$42.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$42.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$43.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$43.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$44.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$44.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$45.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$45.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$46.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$46.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$47.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$47.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$48.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$48.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$49.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$49.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$5.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$50.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$50.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$51.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$51.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$52.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$52.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$53.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$53.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$54.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$54.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$55.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$55.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$56.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$56.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$57.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$57.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$58.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$58.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$59.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$59.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$6.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$60.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$60.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$61.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$61.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$62.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$62.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$63.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$63.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$64.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$64.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$65.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$65.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$66.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$66.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$67.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$67.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$68.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$68.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$69.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$69.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$7.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$70.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$70.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$71.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$71.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$72.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$72.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$73.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$73.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$74.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$74.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$75.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$75.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$76.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$76.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$77.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$77.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$78.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$78.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$79.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$79.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$8.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$80.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$80.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$81.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$81.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$82.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$82.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$83.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$83.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$84.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$84.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$85.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$85.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$86.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$86.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$87.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$87.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$88.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$88.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$89.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$89.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$9.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$90.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$90.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$91.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$91.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$92.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$92.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$93.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$93.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$94.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$94.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$95.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$95.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$96.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$96.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$97.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$97.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$98.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$98.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$99.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$99.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$ButtonEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$ButtonEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$KnobType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$KnobType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$LedType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$LedType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleBehavior.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleBehavior.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleShape.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleShape.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleSize.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleSize.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$NeedleType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$ScaleDirection.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$ScaleDirection.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$SkinType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$SkinType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$ThresholdEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge$ThresholdEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Gauge.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeBuilder$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeBuilder$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeBuilder.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$10.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$10.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$11.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$11.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$12.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$12.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$2.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$3.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$4.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$5.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$6.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$7.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$8.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$9.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$2.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$3.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$4.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$5.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$6.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$7.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$8.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign$GaugeBackground.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/GaugeDesign.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$10.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$10.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$11.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$11.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$12.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$12.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$13.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$13.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$14.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$14.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$15.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$15.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$16.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$16.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$17.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$17.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$18.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$18.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$19.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$19.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$2.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$20.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$20.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$21.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$21.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$22.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$22.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$23.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$23.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$24.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$24.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$25.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$25.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$26.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$26.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$27.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$27.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$28.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$28.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$29.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$29.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$3.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$30.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$30.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$31.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$31.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$32.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$32.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$33.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$33.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$34.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$34.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$35.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$35.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$36.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$36.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$37.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$37.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$4.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$5.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$6.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$7.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$8.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$9.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdDesign.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdFont.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/LcdFont.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker$MarkerEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker$MarkerEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker$MarkerType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker$MarkerType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Marker.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/MarkerBuilder.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/MarkerBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Needle$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Needle$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Needle.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Needle.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$2.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$3.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$4.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$5.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$6.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$7.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$SectionEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section$SectionEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Section.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/SectionBuilder.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/SectionBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Test$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Test$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Test.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/Test.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TickLabelLocation.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TickLabelLocation.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TickLabelOrientation.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TickLabelOrientation.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TickMarkType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TickMarkType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TimeSection$TimeSectionEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TimeSection$TimeSectionEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TimeSection.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TimeSection.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TimeSectionBuilder.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/TimeSectionBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/AlarmEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/AlarmEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/AlarmEventListener.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/AlarmEventListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/TimeEvent$TimeEventType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/TimeEvent$TimeEventType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/TimeEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/TimeEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/TimeEventListener.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/TimeEventListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/UpdateEvent$EventType.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/UpdateEvent$EventType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/UpdateEvent.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/UpdateEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/UpdateEventListener.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/events/UpdateEventListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/AmpSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/AmpSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/AmpSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/AmpSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/BarSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/BarSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/BatterySkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/BatterySkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/BulletChartSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/BulletChartSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ChargeSkin$BarColor.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ChargeSkin$BarColor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ChargeSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ChargeSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ClockSkinBase.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ClockSkinBase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DBClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DBClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DashboardSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DashboardSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DesignClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DesignClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DigitalClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DigitalClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DigitalSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/DigitalSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/FatClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/FatClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/FlatSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/FlatSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/GaugeSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/GaugeSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/GaugeSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/GaugeSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/GaugeSkinBase.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/GaugeSkinBase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/HSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/HSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/HSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/HSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/IndicatorSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/IndicatorSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/IndicatorSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/IndicatorSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/IndustrialClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/IndustrialClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/KpiSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/KpiSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdClockSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdClockSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LcdSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LevelSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LevelSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LinearSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LinearSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LinearSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/LinearSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/MinimalClockSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/MinimalClockSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/MinimalClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/MinimalClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ModernSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/ModernSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/PearClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/PearClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/PlainClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/PlainClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/QuarterSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/QuarterSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/QuarterSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/QuarterSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/RoundLcdClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/RoundLcdClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SectionSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SectionSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SimpleDigitalSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SimpleDigitalSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SimpleSectionSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SimpleSectionSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SimpleSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SimpleSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SlimClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SlimClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SlimSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SlimSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SpaceXSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/SpaceXSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TextClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TextClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileClockSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileKpiSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileKpiSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileSparklineSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileSparklineSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileTextKpiSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TileTextKpiSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TinySkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/TinySkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/VSkin$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/VSkin$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/VSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/VSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/WhiteSkin.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/skins/WhiteSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/AngleConicalGradient.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/AngleConicalGradient.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/ConicalGradient.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/ConicalGradient.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Data.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Data.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/GradientLookup.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/GradientLookup.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Helper$1.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Helper$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Helper.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Helper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/MarkerComparator.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/MarkerComparator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/MovingAverage.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/MovingAverage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/SectionComparator.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/SectionComparator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Statistics.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/Statistics.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/TimeSectionComparator.class" afterPath="$PROJECT_DIR$/../TrainController/out/production/Intellij Projects/eu/hansolo/medusa/tools/TimeSectionComparator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Alarm.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Alarm.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Clock$1.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Clock$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Clock.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Clock.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/FGauge.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/FGauge.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Gauge$110.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Gauge$110.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Gauge.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Gauge.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Marker.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Marker.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Section.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/Section.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/TimeSection.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/TimeSection.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/AmpSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/AmpSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/BarSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/BarSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/BatterySkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/BatterySkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/BulletChartSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/BulletChartSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ChargeSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ChargeSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ClockSkinBase.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ClockSkinBase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DBClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DBClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DashboardSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DashboardSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DesignClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DesignClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DigitalSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/DigitalSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/FatClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/FatClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/FlatSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/FlatSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/GaugeSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/GaugeSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/GaugeSkinBase.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/GaugeSkinBase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/HSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/HSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/IndicatorSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/IndicatorSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/IndustrialClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/IndustrialClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/KpiSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/KpiSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/LcdSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/LcdSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/LevelSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/LevelSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/LinearSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/LinearSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/MinimalClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/MinimalClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ModernSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/ModernSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/PearClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/PearClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/PlainClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/PlainClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/QuarterSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/QuarterSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SectionSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SectionSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SimpleDigitalSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SimpleDigitalSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SimpleSectionSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SimpleSectionSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SimpleSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SimpleSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SlimSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SlimSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SpaceXSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/SpaceXSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileClockSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileClockSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileKpiSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileKpiSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileSparklineSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileSparklineSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileTextKpiSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TileTextKpiSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TinySkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/TinySkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/VSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/VSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/WhiteSkin.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/skins/WhiteSkin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/Data.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/Data.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/Helper.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/Helper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/MovingAverage.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/MovingAverage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/Statistics.class" afterPath="$PROJECT_DIR$/../TrainModel/out/production/TrainModel/eu/hansolo/medusa/tools/Statistics.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CTCOffice/gradlew" afterPath="$PROJECT_DIR$/../CTCOffice/gradlew" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CTCOffice/gradlew.bat" afterPath="$PROJECT_DIR$/../CTCOffice/gradlew.bat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller2.plc" afterPath="$PROJECT_DIR$/controller2.plc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/trackcontroller/Main.java" afterPath="$PROJECT_DIR$/src/trackcontroller/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/trackcontroller/TrackViewController.java" afterPath="$PROJECT_DIR$/src/trackcontroller/TrackViewController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/trackcontroller/models/Block.java" afterPath="$PROJECT_DIR$/src/trackcontroller/models/Block.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/trackcontroller/plc/PLC.java" afterPath="$PROJECT_DIR$/src/trackcontroller/plc/PLC.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/.idea/misc.xml" afterPath="$PROJECT_DIR$/../TrainController/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../TrainController/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainController/Intellij Projects.iml" afterPath="$PROJECT_DIR$/../TrainController/Intellij Projects.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TrainModel/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../TrainModel/.idea/workspace.xml" />
+    </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -66,15 +485,10 @@
       <file leaf-file-name="Block.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/Block.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+            <state relative-caret-position="555">
+              <caret line="38" column="57" lean-forward="false" selection-start-line="38" selection-start-column="57" selection-end-line="38" selection-end-column="57" />
               <folding>
-                <element signature="e#1226#1227#0" expanded="true" />
-                <element signature="e#1255#1256#0" expanded="true" />
-                <element signature="e#1288#1289#0" expanded="true" />
-                <element signature="e#1315#1316#0" expanded="true" />
-                <element signature="e#1363#1364#0" expanded="true" />
-                <element signature="e#1400#1401#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -83,8 +497,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/trackcontroller/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
+            <state relative-caret-position="405">
+              <caret line="69" column="73" lean-forward="false" selection-start-line="69" selection-start-column="73" selection-end-line="69" selection-end-column="73" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -92,11 +506,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PLC.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PLC.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+            <state relative-caret-position="15">
+              <caret line="100" column="51" lean-forward="false" selection-start-line="100" selection-start-column="51" selection-end-line="100" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -104,11 +518,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrackViewController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TrackViewController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/trackcontroller/TrackViewController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="144" column="63" lean-forward="false" selection-start-line="144" selection-start-column="63" selection-end-line="144" selection-end-column="63" />
+            <state relative-caret-position="3135">
+              <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -170,11 +584,11 @@
         <option value="$PROJECT_DIR$/src/trackcontroller/models/CTCCommand.java" />
         <option value="$PROJECT_DIR$/src/trackcontroller/BlockController.java" />
         <option value="$PROJECT_DIR$/src/trackcontroller/TrackController.fxml" />
-        <option value="$PROJECT_DIR$/src/trackcontroller/models/Block.java" />
-        <option value="$PROJECT_DIR$/src/trackcontroller/plc/PLC.java" />
         <option value="$PROJECT_DIR$/src/trackcontroller/models/TrackController.java" />
         <option value="$PROJECT_DIR$/src/trackcontroller/Main.java" />
+        <option value="$PROJECT_DIR$/src/trackcontroller/models/Block.java" />
         <option value="$PROJECT_DIR$/src/trackcontroller/TrackViewController.java" />
+        <option value="$PROJECT_DIR$/src/trackcontroller/plc/PLC.java" />
       </list>
     </option>
   </component>
@@ -208,7 +622,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -245,9 +661,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -269,6 +683,8 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -419,11 +835,14 @@
       <workItem from="1507236950422" duration="15519000" />
       <workItem from="1507598297053" duration="28729000" />
       <workItem from="1507770508800" duration="682000" />
+      <workItem from="1507827222354" duration="2101000" />
+      <workItem from="1508079678370" duration="7000" />
+      <workItem from="1508443234206" duration="34000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46232000" />
+    <option name="totallyTimeSpent" value="48536000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -431,14 +850,13 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27058825" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27058825" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -448,8 +866,8 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22823529" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22823529" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -457,6 +875,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -477,22 +896,26 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java</url>
-          <line>161</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <condition expression="block.infrastructure == BlockType.SWITCH &amp;&amp; this.field.equals(&quot;Route&quot;)" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java</url>
           <line>119</line>
           <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/trackcontroller/TrackViewController.java</url>
+          <line>212</line>
+          <properties />
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/trackcontroller/TrackViewController.java</url>
+          <line>206</line>
+          <properties />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="21" />
+      <option name="time" value="26" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -503,15 +926,138 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/Block.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1500">
+          <caret line="100" column="51" lean-forward="false" selection-start-line="100" selection-start-column="51" selection-end-line="100" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/TrackViewController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3135">
+          <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/TrackController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="38" column="57" lean-forward="false" selection-start-line="38" selection-start-column="57" selection-end-line="38" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="69" column="73" lean-forward="false" selection-start-line="69" selection-start-column="73" selection-end-line="69" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/TrackViewController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3135">
+          <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/TrackController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1500">
+          <caret line="100" column="51" lean-forward="true" selection-start-line="100" selection-start-column="51" selection-end-line="100" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
           <folding>
-            <element signature="e#1226#1227#0" expanded="true" />
-            <element signature="e#1255#1256#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-            <element signature="e#1315#1316#0" expanded="true" />
-            <element signature="e#1363#1364#0" expanded="true" />
-            <element signature="e#1400#1401#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2415">
+          <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/TrackController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/TrackViewController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1905">
+          <caret line="144" column="63" lean-forward="false" selection-start-line="144" selection-start-column="63" selection-end-line="144" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -538,7 +1084,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -586,14 +1131,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/trackcontroller/TrackController.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="12" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/TrackController.java">
@@ -619,12 +1164,7 @@
         <state relative-caret-position="255">
           <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
           <folding>
-            <element signature="e#1226#1227#0" expanded="true" />
-            <element signature="e#1255#1256#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-            <element signature="e#1315#1316#0" expanded="true" />
-            <element signature="e#1363#1364#0" expanded="true" />
-            <element signature="e#1400#1401#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -665,10 +1205,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
           <caret line="2408" column="20" lean-forward="false" selection-start-line="2408" selection-start-column="20" selection-end-line="2408" selection-end-column="20" />
-          <folding>
-            <element signature="e#94262#94263#0" expanded="false" />
-            <element signature="e#94300#94301#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -689,14 +1225,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/trackcontroller/TrackController.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-65">
           <caret line="27" column="14" lean-forward="true" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/BlockType.java">
@@ -711,7 +1247,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="1768" column="0" lean-forward="false" selection-start-line="1768" selection-start-column="0" selection-end-line="1768" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -727,39 +1262,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/trackcontroller/models/Block.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
-          <folding>
-            <element signature="e#1226#1227#0" expanded="true" />
-            <element signature="e#1255#1256#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-            <element signature="e#1315#1316#0" expanded="true" />
-            <element signature="e#1363#1364#0" expanded="true" />
-            <element signature="e#1400#1401#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/trackcontroller/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+        <state relative-caret-position="555">
+          <caret line="38" column="57" lean-forward="false" selection-start-line="38" selection-start-column="57" selection-end-line="38" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -768,9 +1277,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/trackcontroller/TrackViewController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="144" column="63" lean-forward="false" selection-start-line="144" selection-start-column="63" selection-end-line="144" selection-end-column="63" />
+        <state relative-caret-position="3135">
+          <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="69" column="73" lean-forward="false" selection-start-line="69" selection-start-column="73" selection-end-line="69" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trackcontroller/plc/PLC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="100" column="51" lean-forward="false" selection-start-line="100" selection-start-column="51" selection-end-line="100" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

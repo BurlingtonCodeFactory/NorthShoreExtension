@@ -98,7 +98,7 @@ public class PLC {
                     infrastructure = BlockType.SWITCH;
                     break;
                 case "standard":
-                    infrastructure = BlockType.STANDARD;
+                    infrastructure = BlockType.ALL;
                     break;
                 case "crossing":
                     infrastructure = BlockType.CROSSING;
@@ -137,6 +137,11 @@ public class PLC {
                     }
                 }
                 final Block intendedBlock = tempBlock;
+
+                if(intendedBlock == null)
+                {
+                    return true;
+                }
 
                 switch(field)
                 {
