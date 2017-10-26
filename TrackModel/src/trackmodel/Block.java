@@ -11,6 +11,7 @@ public class Block {
     private boolean trainPresent;
     private double speed;
     private double suggestedSpeed;
+    private double speedLimit;
     private List<Block> authority;
     private List<Block> suggestedAuthority;
     private boolean lightGreen;
@@ -21,9 +22,10 @@ public class Block {
     private boolean railBroken;
     private boolean circuitFailed;
     private boolean powerFailed;
+    private boolean underground;
 
 
-    public Block(int number, LineType lineType, BlockType infra, int size, Block previousBlock, Block nextBlock){
+    public Block(int number, LineType lineType, BlockType infra, int size, double speedLimit, Block previousBlock, Block nextBlock, boolean underground){
         this.number = number;
         this.lineType = lineType;
         this.infrastructure = infra;
@@ -31,6 +33,7 @@ public class Block {
         this.trainPresent = false;
         this.speed = 0;
         this.suggestedSpeed = 0;
+        this.speedLimit = speedLimit;
         this.authority = new ArrayList<>();
         this.suggestedAuthority = new ArrayList<>();
         this.lightGreen = true;
@@ -41,6 +44,7 @@ public class Block {
         this.railBroken = false;
         this.circuitFailed = false;
         this.powerFailed = false;
+        this.underground = underground;
     }
 
     //<editor-fold desc="Getters">
@@ -79,6 +83,8 @@ public class Block {
     {
         return suggestedSpeed;
     }
+
+    public double getSpeedLimit() { return speedLimit; }
 
     public List<Block> getAuthority()
     {

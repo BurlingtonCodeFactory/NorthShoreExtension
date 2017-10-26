@@ -1,5 +1,5 @@
 package trackmodel;
 
 public enum BlockType {
-    STANDARD, SWITCH, CROSSING, STATION, UNDERGROUND
+    STANDARD, SWITCH, CROSSING, STATION
 }
