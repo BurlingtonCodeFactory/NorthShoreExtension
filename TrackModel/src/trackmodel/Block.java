@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Block {
     private int number;
-    private Line line;
+    private LineType lineType;
     private BlockType infrastructure;
     private int size;
     private boolean trainPresent;
@@ -23,9 +23,9 @@ public class Block {
     private boolean powerFailed;
 
 
-    public Block(int number, Line line, BlockType infra, int size, Block previousBlock, Block nextBlock){
+    public Block(int number, LineType lineType, BlockType infra, int size, Block previousBlock, Block nextBlock){
         this.number = number;
-        this.line = line;
+        this.lineType = lineType;
         this.infrastructure = infra;
         this.size = size;
         this.trainPresent = false;
@@ -50,9 +50,9 @@ public class Block {
         return number;
     }
 
-    public Line getLine()
+    public LineType getLineType()
     {
-        return line;
+        return lineType;
     }
 
     public BlockType getInfrastructure()

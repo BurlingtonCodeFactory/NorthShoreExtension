@@ -5,9 +5,9 @@ public class Switch extends Block {
     private Block switchZero;
     private Block switchOne;
 
-    public Switch(int number, Line line, BlockType infra, int size, Block previousBlock, Block switchZero, Block switchOne)
+    public Switch(int number, LineType lineType, BlockType infra, int size, Block previousBlock, Block switchZero, Block switchOne)
     {
-        super(number, line, infra, size, previousBlock, switchZero);
+        super(number, lineType, infra, size, previousBlock, switchZero);
         this.switchState = false;
         this.switchZero = switchZero;
         this.switchOne = switchOne;

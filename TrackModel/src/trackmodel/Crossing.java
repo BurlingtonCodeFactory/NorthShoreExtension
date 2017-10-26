@@ -3,9 +3,9 @@ package trackmodel;
 public class Crossing extends Block{
     private boolean crossingOn;
 
-    public Crossing(int number, Line line, BlockType infra, int size, Block previousBlock, Block nextBlock)
+    public Crossing(int number, LineType lineType, BlockType infra, int size, Block previousBlock, Block nextBlock)
     {
-        super(number, line, infra, size, previousBlock, nextBlock);
+        super(number, lineType, infra, size, previousBlock, nextBlock);
         this.crossingOn = false;
     }
 
