@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="TrainModel:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TrainModel_jar</output-path>
+    <root id="archive" name="TrainModel.jar">
+      <element id="module-output" name="TrainModel" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/Medusa-master/Medusa-master/Medusa-7.9.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -57,17 +57,17 @@ public class Main extends Application {
 
         //add blocks to controllers
         Block a = new Block(0, Line.GREEN,
-                BlockType.STANDARD, 500, 0 ,false, null, true);
+                BlockType.STANDARD, 500, 0 ,false, new ArrayList<Block>(), true);
         Block b = new Block(1, Line.GREEN,
-                BlockType.CROSSING, 500, 0 ,false, null, true);
+                BlockType.CROSSING, 500, 0 ,false, new ArrayList<Block>(), true);
         Block c = new Block(2, Line.GREEN,
-                BlockType.STANDARD, 500, 0 ,false, null, true);
+                BlockType.STANDARD, 500, 0 ,false, new ArrayList<Block>(), true);
         Block d = new Block(3, Line.GREEN,
-                BlockType.SWITCH, 500, 0 ,false, null, true);
+                BlockType.SWITCH, 500, 0 ,false, new ArrayList<Block>(), true);
         Block e = new Block(4, Line.GREEN,
-                BlockType.STANDARD, 500, 0 ,false, null, true);
+                BlockType.STANDARD, 500, 0 ,false, new ArrayList<Block>(), true);
         Block f = new Block(5, Line.GREEN,
-                BlockType.STANDARD, 500, 0 ,false, null, true);
+                BlockType.STANDARD, 500, 0 ,false, new ArrayList<Block>(), true);
 
         a.rightNeighbor = b;
         a.leftNeighbor = null;
