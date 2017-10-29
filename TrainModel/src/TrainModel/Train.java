@@ -7,16 +7,13 @@ public class Train {
     //All values are are calculated within the program using SI units. Returned values will be converted to U.S customary units.
 
     private double g = 9.8;
-    private double coeffFrictionStatic = 0.74, coeffFrictionKinetic = 0.57;
-    private double gradeDeceleration = 0, staticFrictionAcceleration = 0, kineticFrictionAcceleration = 0, brakingAcceleration = 0;
-    private double maximumAcceleration = 1;
-    private double maximumVelocity = 19.4444;
+    private double coeffFriction = 0.57;
+    private double gradeForce = 0, frictionForce = 0, brakingForce = 0, powerForce = 0, staticForce = 0, dynamicForce = 0, netForce = 0;
     private double power, grade, mass;
-    private double velocity;
-    private double acceleration;
+    private double velocity = 0, speed = 0;
+    private double acceleration = 0, previousAcceleration = 0, brakingAcceleration = 0;
     private double previousTimestamp, deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
-
 
 
     public Train (int cars, double pwr, double grd)
@@ -25,19 +22,8 @@ public class Train {
         power = pwr;
         grade = grd;
 
-        //Establish existing acceleration components
-        gradeDeceleration = g * Math.sin(grade);
-        staticFrictionAcceleration = g * coeffFrictionStatic;
-        kineticFrictionAcceleration = g * coeffFrictionKinetic;
-
         //Calculate mass of train based on type and cars number
         mass = 37096 * cars;
-
-        //Train begins with velocity zero
-        velocity = 0;
-
-        //Calculate initial acceleration
-        acceleration = maximumAcceleration;
 
         //Get Initial timestamp (wall-clock time)
         previousTimestamp = System.currentTimeMillis();
@@ -49,33 +35,60 @@ public class Train {
         deltaTmillis = System.currentTimeMillis() - previousTimestamp;
         previousTimestamp = System.currentTimeMillis();
 
-        //Calculate new velocity
-        velocity = velocity  + (acceleration * (deltaTmillis / 1000));
+        //Calculate new velocity and speed
+        velocity = velocity  + (((previousAcceleration + acceleration) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
+        speed = Math.abs(velocity);
 
-        if(velocity < 0 && gradeDeceleration <= 0)
+
+
+        //Calculate forces
+        frictionForce = mass * g * coeffFriction * Math.cos(Math.toRadians(grade)); // We've got to convert this to degrees
+        brakingForce = brakingAcceleration * mass;
+        gradeForce = -(mass * g * Math.sin(Math.toRadians(grade))); //Negative here as a positive grade will reduce forward force
+        powerForce = Math.sqrt((power * mass * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
+
+        staticForce = frictionForce + brakingForce;
+        dynamicForce = powerForce + gradeForce;
+
+        //One last velocity check
+        if(velocity < 0 && staticForce > dynamicForce)
         {
             velocity = 0;
         }
 
+        //Calculate net force
+        if(velocity > 0)                                //Forward movement
+        {
+            netForce = dynamicForce - staticForce;
+        }
+        else if (velocity < 0 && gradeForce < 0)        //Backwards movement
+        {
+            netForce = dynamicForce + staticForce;
+        }
+        else if(velocity == 0)
+        {
+            if(dynamicForce > staticForce)              //Acceleration
+            {
+                netForce = dynamicForce - staticForce;
+                System.out.println("Hey");
+            }
+            else if(dynamicForce <= staticForce)
+            {
+
+                if(Math.abs(gradeForce) > staticForce)  //Downhill roll from standstill
+                {
+                    netForce = dynamicForce + staticForce;
+                }
+                else                                    //Standstill
+                {
+                    netForce = 0;
+                }
+            }
+        }
+
         //Calculate new acceleration
-        if(velocity != 0)
-        {
-            if(((power / (mass * velocity)) - gradeDeceleration) > (kineticFrictionAcceleration + brakingAcceleration))
-            {
-                acceleration = (power / (mass * velocity))/* - gradeDeceleration - kineticFrictionAcceleration */- brakingAcceleration
-                ;
-            }
-            else
-            {
-                acceleration = (power / (mass * velocity))/* - gradeDeceleration - kineticFrictionAcceleration */- brakingAcceleration
-                ;
-            }
-        }
-        else
-        {
-
-        }
-
+        previousAcceleration = acceleration;
+        acceleration = netForce / mass;
     }
 
     public void engineFailure()
@@ -104,7 +117,7 @@ public class Train {
 
     public double getVelocity()
     {
-        return velocity;
+        return speed;
     }
 
     public double getAcceleration()

@@ -82,7 +82,7 @@ public class TrainModelController extends Application {
             }
         };
 
-        new java.util.Timer().scheduleAtFixedRate(tt, 750,750);
+        new java.util.Timer().scheduleAtFixedRate(tt, 250,250);
 
     }
 
