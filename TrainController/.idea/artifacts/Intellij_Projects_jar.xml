@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Intellij Projects:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Intellij_Projects_jar</output-path>
-    <root id="archive" name="Intellij Projects.jar">
-      <element id="module-output" name="Intellij Projects" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/src/Medusa-master/Medusa-7.9.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>

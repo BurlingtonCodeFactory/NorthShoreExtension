@@ -23,7 +23,7 @@ public class CTCOffice extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("Main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../../../resources/main/fxml/Main.fxml"));
 
         Injector injector = Guice.createInjector(new CTCModule());
         fxmlLoader.setControllerFactory(injector::getInstance);

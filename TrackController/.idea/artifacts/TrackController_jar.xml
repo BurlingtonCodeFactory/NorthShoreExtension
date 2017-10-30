@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="TrackController:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/TrackController_jar</output-path>
-    <root id="archive" name="TrackController.jar">
-      <element id="module-output" name="TrackController" />
-    </root>
-  </artifact>
-</component>
