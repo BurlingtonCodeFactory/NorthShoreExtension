@@ -1,0 +1,5 @@
+mainClassName = "TrainController.Main"
+
+dependencies {
+    compile group: "eu.hansolo", name: "Medusa", version: "7.9"
+}

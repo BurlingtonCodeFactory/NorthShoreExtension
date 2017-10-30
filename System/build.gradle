@@ -1,0 +1,3 @@
+dependencies {
+    compile project(':CTCOffice'), project(':TrackController'), project(':TrainController'), project(':TrainModel')
+}

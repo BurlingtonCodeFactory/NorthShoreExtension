@@ -12,11 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import javafx.util.converter.NumberStringConverter;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -292,7 +290,7 @@ public class MainController {
     }
 
     private Parent loadItemFxml(Stop stop, Train train) {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../Views/StopView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../../../../resources/main/fxml/StopView.fxml"));
 
         try {
 
