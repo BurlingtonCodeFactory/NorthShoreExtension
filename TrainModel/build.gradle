@@ -1,3 +1,5 @@
+apply plugin: "application"
+
 mainClassName = "TrainModel.Main"
 
 dependencies {
