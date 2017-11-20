@@ -55,7 +55,7 @@ public class StartupController extends Application
             stage.setScene(new Scene(root1));
             stage.show();
 
-            fxmlLoader.<TrainModelController>getController().init(train);
+            fxmlLoader.<TrainModel.TrainModel>getController().init(train);
         }
         catch(Exception e)
         {
