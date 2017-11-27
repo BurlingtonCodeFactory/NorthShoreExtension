@@ -46,20 +46,20 @@ public class StartupController extends Application
 
         Train train = new Train(cars, power, grade);
 
-        //Open Train Model UI
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrainModelUI.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Train Model");
-            stage.setScene(new Scene(root1));
-            stage.show();
-
-            fxmlLoader.<TrainModel.TrainModel>getController().init(train);
-        }
-        catch(Exception e)
-        {
-        }
+//        //Open Train Model UI
+//        try{
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrainModelUI.fxml"));
+//            Parent root1 = (Parent) fxmlLoader.load();
+//            Stage stage = new Stage();
+//            stage.setTitle("Train Model");
+//            stage.setScene(new Scene(root1));
+//            stage.show();
+//
+//            fxmlLoader.<TrainModel.TrainModel>getController().init(train);
+//        }
+//        catch(Exception e)
+//        {
+//        }
 
 
     }

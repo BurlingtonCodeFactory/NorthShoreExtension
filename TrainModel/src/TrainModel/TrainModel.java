@@ -4,16 +4,20 @@ import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
-
 import java.util.*;
 
 
 public class TrainModel extends Application {
+
+    //Initialize Track Model Interface
+    ITrackModelForTrainModel track; //TODO: Fix this
 
     //Initialize array of trains
     private ArrayList<Train> trains;
@@ -36,6 +40,7 @@ public class TrainModel extends Application {
 
     public void init(Train trn)
     {
+
         train = trn;
         POWER.setText(Double.toString(train.getPower() / 1000)); //Divide by 1000 here to display as kW
 
@@ -44,7 +49,6 @@ public class TrainModel extends Application {
                 .subTitle("")
                 .unit("mph")
                 .build();
-
 
         SPEED_GAUGE_PANE.getChildren().add(speedGauge);
 
@@ -96,22 +100,42 @@ public class TrainModel extends Application {
     }
 
 
-    public TrainModel()
+    public TrainModel(TrackModel track) //TODO: should this constructor take a track model?
     {
+        //Assign track
+        this.track = track; //TODO: NEED TO WRITE INTERFACE!!!
+
         //Create trains ArrayList
         trains = new ArrayList<Train>(25);
 
         //ID of trains will begin at 1
         ID = 1;
+
+
     }
 
-    public int createTrain(int previousBlock, int currentBlock, int cars, boolean setupPID)
+    public int createTrain(int previousBlock, int currentBlock, int cars, boolean setupPID) //This constructor should probably take a track
     {
         //Create Train
         Train train = new Train(previousBlock, currentBlock, cars, setupPID, ID);
 
         //Add train to trains
         trains.add(train);
+
+        //Open Train Model UI
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrainUI.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Train " + ID);
+            stage.setScene(new Scene(root1));
+            stage.show();
+
+            fxmlLoader.<TrainModel>getController().init(train);
+        }
+        catch(Exception e)
+        {
+        }
 
         //Increment ID
         ID++;
@@ -172,7 +196,6 @@ public class TrainModel extends Application {
             itTrains.next().update();
         }
     }
-
 
 }
 
