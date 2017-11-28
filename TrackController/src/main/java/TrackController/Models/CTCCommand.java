@@ -1,6 +1,7 @@
 package TrackController.Models;
 
-import TrackModel.Block;
+
+import TrackModel.Models.Block;
 
 import java.util.List;
 
