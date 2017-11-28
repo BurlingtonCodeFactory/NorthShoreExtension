@@ -31,13 +31,12 @@
  */
 package TrackController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import TrackController.Models.Block;
+import TrackModel.Block;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,11 +46,13 @@ import TrackController.Models.*;
 
 public class Main extends Application {
     static List<TrackController> trackControllers;
+    static TrackControllerManager controllerManager;
     static HashMap<Block, Integer> blockMapping;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /*
         trackControllers = new ArrayList<>();
         blockMapping = new HashMap<>();
 
@@ -96,6 +97,8 @@ public class Main extends Application {
         testAuthority.add(c);
         testAuthority.add(d);
         testAuthority.add(e);
+        */
+        controllerManager = new TrackControllerManager();
 
 
         Application.launch(Main.class, (java.lang.String[])null);

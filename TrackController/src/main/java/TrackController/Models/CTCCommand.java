@@ -1,5 +1,7 @@
 package TrackController.Models;
 
+import TrackModel.Block;
+
 import java.util.List;
 
 public class CTCCommand {

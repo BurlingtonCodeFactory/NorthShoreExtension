@@ -1,8 +1,8 @@
 package TrackController.PLC;
 
-import TrackController.Models.Block;
-import TrackController.Models.BlockType;
-import TrackController.Models.CTCCommand;
+
+import TrackController.ITrackModelForTC;
+import TrackModel.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,15 +13,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PLC {
-    public List<PLCRule> rules;
+    public List<PLCRule> standardRules;
+    public List<PLCRule> switchRules;
+    public List<PLCRule> crossingRules;
     public String filename;
 
     public PLC(String file)
     {
         filename = file;
-        rules = new ArrayList<>();
+        standardRules = new ArrayList<>();
+        switchRules = new ArrayList<>();
+        crossingRules = new ArrayList<>();
         BufferedReader reader = null;
         try
         {
@@ -32,7 +35,18 @@ public class PLC {
                 PLCRule newRule = processLine(inCommand);
                 if(newRule != null)
                 {
-                    rules.add(newRule);
+                    if(newRule.infrastructure == BlockType.STANDARD)
+                    {
+                        standardRules.add(newRule);
+                    }
+                    else if(newRule.infrastructure == BlockType.CROSSING)
+                    {
+                        crossingRules.add(newRule);
+                    }
+                    else if(newRule.infrastructure == BlockType.SWITCH)
+                    {
+                        switchRules.add(newRule);
+                    }
                 }
             }
         }
@@ -97,13 +111,13 @@ public class PLC {
                     infrastructure = BlockType.SWITCH;
                     break;
                 case "standard":
-                    infrastructure = BlockType.ALL;
+                    infrastructure = BlockType.STANDARD;
                     break;
                 case "crossing":
                     infrastructure = BlockType.CROSSING;
                     break;
                 default:
-                    infrastructure = BlockType.ALL;
+                    infrastructure = BlockType.STANDARD;
                     break;
             }
 
@@ -116,9 +130,9 @@ public class PLC {
 
         public boolean evaluateRule(Block block)
         {
-            if(this.infrastructure == BlockType.ALL || this.infrastructure == block.infrastructure)
+            if(this.infrastructure == BlockType.STANDARD || this.infrastructure == block.getInfrastructure())
             {
-                Block tempBlock;
+                Block tempBlock =  null;
                 try
                 {
                     int off = Integer.parseInt(offset);
@@ -128,24 +142,25 @@ public class PLC {
                 {
                     if(offset.equals("L"))
                     {
-                        tempBlock = block.switchZero;
+                        //tempBlock = block.switchZero;
                     }
                     else
                     {
-                        tempBlock = block.switchOne;
+                        //tempBlock = block.switchOne;
                     }
                 }
                 final Block intendedBlock = tempBlock;
-
+                /*
                 if(intendedBlock == null)
                 {
                     return true;
                 }
-
+                */
+                /*
                 switch(field)
                 {
                     case "occupied":
-                        if(intendedBlock.trainPresent == Boolean.parseBoolean(value))
+                        if(intendedBlock.isTrainPresent() == Boolean.parseBoolean(value))
                         {
                             performAction(action, block);
                         }
@@ -157,33 +172,97 @@ public class PLC {
                         }
                         break;
                     case "failure":
-                        if(intendedBlock.failure == Boolean.parseBoolean(value))
+                        if(intendedBlock.isFailed() == Boolean.parseBoolean(value))
                         {
                             performAction(action, block);
                         }
                         break;
                     case "route":
-                        if(intendedBlock.suggestedAuthority.contains(block.switchZero))
+                        if(intendedBlock.getSuggestedAuthority().contains(block.switchZero))
                         {
                             performAction("switchZero", block);
                         }
-                        else if(intendedBlock.suggestedAuthority.contains(block.switchOne))
+                        else if(intendedBlock.getSuggestedAuthority().contains(block.switchOne))
                         {
                             performAction("switchOne", block);
                         }
                         break;
                 }
+                */
             }
 
             return true;
         }
 
+        public void evaluateStandardRule(Block block)
+        {
+            int off = Integer.parseInt(offset);
+            Block intendedBlock = getBlockByOffset(off, block);
+
+            switch(field)
+            {
+                case "occupied":
+                    if(intendedBlock.isTrainPresent() == Boolean.parseBoolean(value))
+                    {
+                        performAction(action, block);
+                    }
+                    break;
+            }
+
+        }
+
+        /*
+        public void evaluateSwitchRule(Switch block)
+        {
+            int off = Integer.parseInt(offset);
+            Block intendedBlock = getBlockByOffset(off, block);
+
+            switch(field)
+            {
+                case "route":
+                    if(getBlockByOffset(-1,block).isTrainPresent() &&
+                            getBlockByOffset(-1,block).getSuggestedAuthority().contains(block.getSwitchZero()))
+                    {
+                        performAction("switchZero", block);
+                    }
+                    if(intendedBlock.getSuggestedAuthority().contains(block.switchZero))
+                    {
+                        performAction("switchZero", block);
+                    }
+                    else if(intendedBlock.getSuggestedAuthority().contains(block.switchOne))
+                    {
+                        performAction("switchOne", block);
+                    }
+                    break;
+
+            }
+        }
+        */
+
+        public void evaluateCrossingRule(Crossing block)
+        {
+            int off = Integer.parseInt(offset);
+            Block intendedBlock = getBlockByOffset(off, block);
+
+        }
+
+
         public void performAction(String action, Block block)
         {
             switch(action)
             {
+                case "continue":
+                    block.setSpeed(block.getSuggestedSpeed());
+                    block.setAuthority(block.getSuggestedAuthority());
+                    block.setLightGreen(true);
+                case "stop":
+                    block.setSpeed(0);
+                    block.setAuthority(new ArrayList<>());
+                    block.setLightGreen(false);
+                    break;
+                /*
                 case "crossingOn":
-                    block.crossingOn = true;
+                    block.set = true;
                     break;
                 case "crossingOff":
                     block.crossingOn = false;
@@ -212,6 +291,7 @@ public class PLC {
                 case "heaterOff":
                     block.heaterOn = false;
                     break;
+                    */
             }
         }
 
@@ -223,11 +303,11 @@ public class PLC {
             while(offset > 0) {
                 if (right)
                 {
-                    base = base.rightNeighbor;
+                    base = base.getNextBlock();
                 }
                 else
                 {
-                    base = base.leftNeighbor;
+                    base = base.getPreviousBlock();
                 }
                 offset--;
             }
@@ -237,9 +317,23 @@ public class PLC {
 
     public boolean evaluateBlock(Block block)
     {
-        for (PLCRule rule : rules) {
+        if(block instanceof Switch)
+        {
+            for (PLCRule rule : switchRules) {
+                rule.evaluateRule(block);
+            }
+        }
+        else if (block instanceof Crossing)
+        {
+            for (PLCRule rule : crossingRules) {
+                rule.evaluateRule(block);
+            }
+        }
+
+        for (PLCRule rule : standardRules) {
             rule.evaluateRule(block);
         }
         return true;
     }
+
 }
