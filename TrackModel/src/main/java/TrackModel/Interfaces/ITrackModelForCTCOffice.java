@@ -3,9 +3,11 @@ package TrackModel.Interfaces;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
 
+import java.util.List;
+
 public interface ITrackModelForCTCOffice {
     void addBlock(Block block);
     Block getBlock(int id);
-    Iterable<Block> getBlocks(Line line);
-    Iterable<Block> getBlocks();
+    List<Block> getBlocks(Line line);
+    List<Block> getBlocks();
 }

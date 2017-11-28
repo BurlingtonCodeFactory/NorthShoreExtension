@@ -30,6 +30,13 @@ public class TrackModel implements ITrackModelForCTCOffice {
         }
 
         blocks.put(block.getId(), block);
+
+        if (block.getLine() == Line.GREEN) {
+            greenLine.add(block);
+        }
+        else {
+            redLine.add(block);
+        }
     }
 
     @Override
@@ -38,12 +45,12 @@ public class TrackModel implements ITrackModelForCTCOffice {
     }
 
     @Override
-    public Iterable<Block> getBlocks(Line line) {
+    public List<Block> getBlocks(Line line) {
         return line == Line.GREEN ? greenLine : redLine;
     }
 
     @Override
-    public Iterable<Block> getBlocks() {
-        return blocks.values();
+    public List<Block> getBlocks() {
+        return new ArrayList<>(blocks.values());
     }
 }
