@@ -1,8 +1,7 @@
 package TrackModel;
 
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
-import TrackModel.Models.Block;
-import TrackModel.Models.Line;
+import TrackModel.Models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
