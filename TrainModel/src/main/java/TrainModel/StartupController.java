@@ -20,7 +20,7 @@ public class StartupController extends Application
 //
 //    }
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../../../resources/main/fxml/TrainModelUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("TrainUI.fxml"));
         primaryStage.setTitle("Train Model");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -46,20 +46,20 @@ public class StartupController extends Application
 
         Train train = new Train(cars, power, grade);
 
-        //Open Train Model UI
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../../resources/main/fxml/TrainModelUI.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Train Model");
-            stage.setScene(new Scene(root1));
-            stage.show();
-
-            fxmlLoader.<TrainModelController>getController().init(train);
-        }
-        catch(Exception e)
-        {
-        }
+//        //Open Train Model UI
+//        try{
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrainUI.fxml"));
+//            Parent root1 = (Parent) fxmlLoader.load();
+//            Stage stage = new Stage();
+//            stage.setTitle("Train Model");
+//            stage.setScene(new Scene(root1));
+//            stage.show();
+//
+//            fxmlLoader.<TrainModel.TrainModel>getController().init(train);
+//        }
+//        catch(Exception e)
+//        {
+//        }
 
 
     }

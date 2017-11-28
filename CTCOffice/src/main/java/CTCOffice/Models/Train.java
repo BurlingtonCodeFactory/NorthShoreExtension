@@ -1,5 +1,7 @@
 package CTCOffice.Models;
 
+import TrackModel.Models.Block;
+import TrackModel.Models.Line;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +10,7 @@ import java.util.List;
 
 public class Train {
     private int identifier;
-    private String line;
+    private Line line;
     private ObjectProperty<Block> currentLocation = new SimpleObjectProperty<>();
     private Block previousLocation;
     private IntegerProperty commandedSpeed = new SimpleIntegerProperty();
@@ -19,7 +21,7 @@ public class Train {
         return identifier;
     }
 
-    public String getLine() {
+    public Line getLine() {
         return line;
     }
 
@@ -55,7 +57,7 @@ public class Train {
         this.commandedAuthority.setValue(FXCollections.observableArrayList(commandedAuthority));
     }
 
-    public Train(int identifier, String line) {
+    public Train(int identifier, Line line) {
         this.identifier = identifier;
         this.line = line;
     }

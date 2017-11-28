@@ -1,46 +1,240 @@
 package TrainModel;
 
+import javafx.application.Application;
+import eu.hansolo.medusa.Gauge;
+import eu.hansolo.medusa.GaugeBuilder;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import java.lang.Math;
 
-public class Train {
+public class Train extends Application{
 
     //All values are are calculated within the program using SI units. Returned values will be converted to U.S customary units.
 
+    //Initialize JavaFX UI Fields
+    @FXML
+    public TextField POWER;
+    public Circle BRAKE_INDICATOR;
+    public Pane SPEED_GAUGE_PANE;
+    public Pane ACCELERATION_GAUGE_PANE;
+
+    //Initialize constructor properties
+    int cars, ID;
+    int previousBlock, currentBlock;
+    boolean setupPID;
+    ITrackModelForTrainModel track;
+
+    //Initialize other train properties
     private double g = 9.8;
     private double coeffFriction = 0.57;
     private double gradeForce = 0, frictionForce = 0, brakingForce = 0, powerForce = 0, staticForce = 0, dynamicForce = 0, netForce = 0;
     private double power, grade, mass;
     private double velocity = 0, speed = 0;
+    private double  displacement = 0, totalDisplacement = 0, totalBlockLength = 0;
     private double acceleration = 0, previousAcceleration = 0, brakingAcceleration = 0;
     private double previousTimestamp, deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
 
-
-    public Train (int cars, double pwr, double grd)
+    public Train(int previousBlock, int currentBlock, int cars, boolean setupPID, int ID, ITrackModelForTrainModel track)
     {
-        //Set power and grade
-        power = pwr;
-        grade = grd;
+        //Assign values to fields
+        this.previousBlock = previousBlock;
+        this.currentBlock = currentBlock;
+        this.cars = cars;
+        this.setupPID = setupPID;
+        this.ID = ID;
+        this.track = track;
 
-        //Calculate mass of train based on type and cars number
-        mass = 37096 * cars;
+        //Calculate Initial Train Mass
+        mass = cars * 37096;
+
+        //Initialize associated Train Controller
+        TrainController trainController = new TrainController(setupPID);    //TODO: Fix this
+
+        //Initialize block length tracking
+        totalBlockLength = track.getBlockByID(currentBlock).getLength();
+
+        //Open and Initialize Train UI
+        try
+        {
+            //Open UI
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrainUI.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Train " + ID);
+            stage.setScene(new Scene(root1));
+            stage.show();
+
+            //Set up gauges
+            Gauge speedGauge = GaugeBuilder.create()
+                    .title("Speed Gauge")
+                    .subTitle("")
+                    .unit("mph")
+                    .build();
+
+            SPEED_GAUGE_PANE.getChildren().add(speedGauge);
+
+            Gauge accelerationGauge = GaugeBuilder.create()
+                    .title("Acceleration Gauge")
+                    .subTitle("")
+                    .unit("mph/s")
+                    .build();
+            accelerationGauge.setMinValue(-15.0);
+            accelerationGauge.setMaxValue(15.0);
+
+            ACCELERATION_GAUGE_PANE.getChildren().add(accelerationGauge);
+        }
+        catch(Exception e)
+        {
+        }
 
         //Get Initial timestamp (wall-clock time)
         previousTimestamp = System.currentTimeMillis();
     }
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+    }
+
     public void update()
     {
         //Calculate elapsed time since last update
-        deltaTmillis = System.currentTimeMillis() - previousTimestamp;
+        deltaTmillis = System.currentTimeMillis() - previousTimestamp;      //TODO: How are we doing this
         previousTimestamp = System.currentTimeMillis();
+
+        //Calculate displacement, and track and report block changes
+        displacement = velocity * deltaTmillis / 1000;
+        totalDisplacement = totalDisplacement + displacement;
+
+        while(totalDisplacement > totalBlockLength)         //This loop iterates as long as the trains displacement has surpassed the given displacement for this block
+        {
+            trainController.nextBlock();
+
+            //Get next block and add its length to total block length
+            int temp = track.getNextBlock(previousBlock, currentBlock); //TODO: what does this return, block or ID?
+            totalBlockLength = totalBlockLength + temp.getLength();
+
+            //Update current and previous blocks
+            previousBlock = currentBlock;
+            currentBlock = temp;
+        }
+        track.setOccupancy(currentBlock);
+
+        //Get physical data from track
+        coeffFriction = track.getFriction(); //TODO: these methods need to take a block ID, talk to Andrew
+        grade = track.getGrade();
+
+        //Get input data from train controller
+        power = trainController.getPower();
+
+        if(trainController.getServiceBrake())
+        {
+            brakingAcceleration = 1.2;
+        }
+        if(trainController.getEmergencyBrake())
+        {
+            brakingAcceleration = 2.3;
+        }
+        else if (!(trainController.getServiceBrake() || trainController.getEmergencyBrake()))
+        {
+            brakingAcceleration = 0;
+        }
+
+        //Calculate new acceleration
+        double temp = calculateAcceleration();
+        previousAcceleration = acceleration;
+        acceleration = temp;
 
         //Calculate new velocity and speed
         velocity = velocity  + (((previousAcceleration + acceleration) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
         speed = Math.abs(velocity);
 
+        //Relay data to Train Controller //TODO: do these methods take blocks?
+        trainController.updateVelocity(velocity);
+        trainController.setBeacon(track.getBeacon());
+        trainController.setAuthority(track.getAuthority());
+        trainControlelr.setSpeed(track.getSpeed()); //TODO: Get correct method for train controller
 
+        //Other train processes
+        if(trainController.getLights())
+        {
 
+        }
+
+        if(trainController.getLeftDoors())
+        {
+
+        }
+
+        if(trainController.getRightDoors())
+        {
+
+        }
+
+        if(cabinTemp != trainController.getCabinTemp()) //TODO: notify chris, this should be changed to an int!
+        {
+            cabinTemp = Integer.signum(cabinTemp - trainController.getCabinTemp());
+        }
+
+        RIS = trainController.getRIS();
+
+        //Update UI, try catch here because they were acting weird
+        try
+        {
+            speedGauge.setValue(speed * 2.23694); // Multiply by constant to convert m/s to mph
+        }
+        catch(Exception e)
+        {
+            System.out.println("Exception in set speed gauge");
+        }
+        try
+        {
+            accelerationGauge.setValue(acceleration * 2.23694); // Multiply by constant to convert m/s^2 to mph^2
+        }
+        catch(Exception e)
+        {
+            System.out.println("Exception in set acceleration gauge");
+        }
+        try
+        {
+            POWER.setText(Double.toString(power / 1000)); //Divide by 1000 to display power in kW
+        }
+        catch(Exception e)
+        {
+            System.out.println("Exception in set power");
+        }
+    }
+
+    public boolean delete() //TODO: How to implement?
+    {
+        return false;
+    }
+
+    public void embarkDebark()
+    {
+        //Debark passengers some value less than current passengers
+
+        //Embark passengers within capacity of train
+
+        //Recalculate train mass
+
+        //Relay throughput to CTC
+    }
+
+    public void nextBlock()
+    {
+
+    }
+
+    public double calculateAcceleration()
+    {
         //Calculate forces
         frictionForce = mass * g * coeffFriction * Math.cos(Math.toRadians(grade)); // We've got to convert this to degrees
         brakingForce = brakingAcceleration * mass;
@@ -70,7 +264,6 @@ public class Train {
             if(dynamicForce > staticForce)              //Acceleration
             {
                 netForce = dynamicForce - staticForce;
-                System.out.println("Hey");
             }
             else if(dynamicForce <= staticForce)
             {
@@ -86,38 +279,71 @@ public class Train {
             }
         }
 
-        //Calculate new acceleration
-        previousAcceleration = acceleration;
         acceleration = netForce / mass;
+        return acceleration;
     }
 
-    public void engineFailure()
-    {
-        power = 0;
-    }
+    //Setters//////////////////////////////////////////////////
 
-    public void signalPickupFailure()
+    public void setSuggestedSpeed(double suggestedSpeed1)
     {
 
     }
 
-    public void brakeFailure()
+    public void setAuthority(double authority)
     {
-        brakeFailure = true;
+
     }
 
-    public void activateEBrake()
+    public void setBeacon(int beacon)
     {
 
+    }
+
+    public void setEmergencyBrake()
+    {
         if(brakeFailure == false)
         {
             brakingAcceleration = 2.73;
         }
     }
 
+    public void setCurrentSpeed(double currentSpeed)
+    {
+
+    }
+
+    public void setUnderground(boolean underground)
+    {
+
+    }
+
+    public void setEngineFailure()
+    {
+        power = 0;
+    }
+
+    public void setSignalPickupFailure()
+    {
+
+    }
+
+    public void setBrakeFailure()
+    {
+        brakeFailure = true;
+    }
+
+
+    //Getters//////////////////////////////////////////////////
+
+    public int getID()
+    {
+        return ID;
+    }
+
     public double getVelocity()
     {
-        return speed;
+        return velocity;
     }
 
     public double getAcceleration()
@@ -129,4 +355,5 @@ public class Train {
     {
         return power;
     }
+
 }
