@@ -1,10 +1,12 @@
 package CTCOffice.Controllers;
 
 import CTCOffice.Interfaces.IRouteService;
-import CTCOffice.Models.Block;
-import CTCOffice.Models.Repository;
+import CTCOffice.Interfaces.ITrainRepository;
 import CTCOffice.Models.Stop;
 import CTCOffice.Models.Train;
+import TrackModel.Interfaces.ITrackModelForCTCOffice;
+import TrackModel.Models.Block;
+import TrackModel.Models.Line;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,9 +23,12 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainController {
-    private final Repository repository;
+    private final ITrackModelForCTCOffice trackModel;
+    private final ITrainRepository trainRepository;
     private final IRouteService routeService;
 
     @FXML
@@ -90,8 +95,9 @@ public class MainController {
     public Button trainStopButton;
 
     @Inject
-    public MainController(Repository repository, IRouteService routeService) {
-        this.repository = repository;
+    public MainController(ITrackModelForCTCOffice trackModel, ITrainRepository trainRepository, IRouteService routeService) {
+        this.trackModel = trackModel;
+        this.trainRepository = trainRepository;
         this.routeService = routeService;
     }
 
@@ -99,12 +105,9 @@ public class MainController {
         multiplier.setItems(FXCollections.observableArrayList("1", "2", "5", "10", "100"));
         multiplier.getSelectionModel().selectFirst();
 
-        List<String> lines = new ArrayList<>();
-        for (Block block : repository.getBlocks()) {
-            if (!lines.contains(block.getLine()) && !block.getLine().equals("Yard")) {
-                lines.add(block.getLine());
-            }
-        }
+        List<String> lines = Stream.of(Line.values())
+                .map(Line::name)
+                .collect(Collectors.toList());
 
         ObservableList<String> observableLines = FXCollections.observableArrayList(lines);
         blockLine.setItems(observableLines);
@@ -115,7 +118,7 @@ public class MainController {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 // TODO: This shouldn't be done each time as blocks are static after launch
                 List<Block> blocks = new ArrayList<>();
-                for (Block block : repository.getBlocks()) {
+                for (Block block : trackModel.getBlocks()) {
                     if (block.getLine().equals(lines.get(newValue.intValue())) || block.getLine().equals("Yard")) { // Assuming the Yard is connected to all lines
                         blocks.add(block);
                     }
@@ -129,10 +132,10 @@ public class MainController {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 Block block = blockName.getItems().get(newValue.intValue());
 
-                blockOccupied.textProperty().bind(block.getOccupied().asString());
+                /*blockOccupied.textProperty().bind(block.getIsOccupied().asString());
                 blockSpeedLimit.textProperty().setValue(Integer.toString(block.getSpeedLimit()));
-                blockMaintenance.textProperty().bind(block.getIsUnderMaintenance().asString());
-                blockBeacon.setDisable(block.getStation() == null);
+                blockMaintenance.textProperty().bind(block.getUnderMaintenance().asString());
+                blockBeacon.setDisable(block.getStation() == null);*/
             }
         });
 
@@ -142,7 +145,7 @@ public class MainController {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 List<Train> trains = new ArrayList<>();
-                for (Train train : repository.getTrains()) {
+                for (Train train : trainRepository.getTrains()) {
                     if (train.getLine().equals(lines.get(newValue.intValue()))) {
                         trains.add(train);
                     }
@@ -152,7 +155,7 @@ public class MainController {
                 trainCreate.setDisable(false);
 
                 List<Block> blocks = new ArrayList<>();
-                for (Block block : repository.getBlocks()) {
+                for (Block block : trackModel.getBlocks()) {
                     if (block.getLine().equals(lines.get(newValue.intValue())) || block.getLine().equals("Yard")) {
                         blocks.add(block);
                     }
@@ -216,36 +219,36 @@ public class MainController {
 
     public void blockMaintenanceButton(ActionEvent e) {
         Block block = blockName.getValue();
-        block.setIsUnderMaintenance(!block.getIsUnderMaintenance().getValue());
+        //block.setSuggestMaintenance(!block.getUnderMaintenance().getValue());
     }
 
     public void trainCreateButton(ActionEvent e) {
-        int newIdentifier = repository.getTrains().size() + 1;
+        /*int newIdentifier = trainRepository.getTrains().size() + 1;
         Train newTrain = new Train(newIdentifier, trainLine.getValue());
         newTrain.setStops(new ArrayList<>());
 
-        repository.addTrain(newTrain);
+        trainRepository.addTrain(newTrain);
 
         List<Train> trains = new ArrayList<>();
-        for (Train train : repository.getTrains()) {
+        for (Train train : trainRepository.getTrains()) {
             if (train.getLine().equals(trainLine.getValue())) {
                 trains.add(train);
             }
         }
         trainIdentifier.setItems(FXCollections.observableArrayList(trains));
 
-        trainIdentifier.getSelectionModel().select(newTrain);
+        trainIdentifier.getSelectionModel().select(newTrain);*/
     }
 
     public void trainDispatchButton(ActionEvent e) {
         Train train = trainIdentifier.getValue();
 
-        List<Block> blocks = repository.getBlocks();
+        List<Block> blocks = trackModel.getBlocks();
         Block yard = null;
         for (Block block : blocks) {
-            if (block.getStation() != null && block.getStation().equals("Yard")) {
+            /*if (block.getStation() != null && block.getStation().equals("Yard")) {
                 yard = block;
-            }
+            }*/
         }
 
         train.setCurrentLocation(yard); // This assumes that a station named yard will always be present
@@ -267,14 +270,7 @@ public class MainController {
     public void trainAuthoritySet(ActionEvent e) {
         Train train = trainIdentifier.getValue();
 
-        List<Block> blocks = new ArrayList<>();
-        for (Block block : repository.getBlocks()) {
-            if (block.getLine().equals(train.getLine()) || block.getLine().equals("Yard")) {
-                blocks.add(block);
-            }
-        }
-
-        List<Block> authority = routeService.getShortestPath(train.getPreviousLocation(), train.getCurrentLocation().getValue(), trainAuthoritySelect.getSelectionModel().getSelectedItem(), blocks);
+        List<Block> authority = routeService.getShortestPath(train.getPreviousLocation(), train.getCurrentLocation().getValue(), trainAuthoritySelect.getSelectionModel().getSelectedItem());
 
         train.setCommandedAuthority(authority);
     }

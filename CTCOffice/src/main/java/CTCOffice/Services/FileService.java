@@ -141,9 +141,9 @@ public class FileService implements IFileService {
             }
         }
 
-        int elevation;
+        double elevation;
         try {
-            elevation = Integer.parseInt(tokens[6]);
+            elevation = Double.parseDouble(tokens[6]);
         } catch (NumberFormatException e) {
             return null;
         }

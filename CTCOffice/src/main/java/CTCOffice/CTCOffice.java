@@ -1,8 +1,8 @@
 package CTCOffice;
 
 import CTCOffice.Interfaces.IFileService;
-import CTCOffice.Models.Block;
-import CTCOffice.Models.Repository;
+import TrackModel.Interfaces.ITrackModelForCTCOffice;
+import TrackModel.TrackModel;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
@@ -37,7 +37,7 @@ public class CTCOffice extends Application {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         IFileService fileService = injector.getInstance(IFileService.class);
-        Repository repository = injector.getInstance(Repository.class);
+        ITrackModelForCTCOffice trackModel = injector.getInstance(TrackModel.class);
 
         /*String line;
         while ((line = bufferedReader.readLine()) != null) {

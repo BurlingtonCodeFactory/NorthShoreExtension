@@ -7,12 +7,18 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class FileServiceTests {
     @Test
@@ -35,8 +41,8 @@ public class FileServiceTests {
         // Arrange
         FileService fileService = new FileService();
 
-        String line = "3,green,station,0,0.5,1;2,10,1,false,true,40,25,TestStation";
-        Station expected = new Station(3, Line.GREEN, BlockType.STATION, 0, 0.5, new ArrayList<>(Arrays.asList(1, 2)), 10, 1, false, true, 40, 25, "TestStation");
+        String line = "3,green,station,0,0.5,1;2,1.10,2.1,false,true,40,25,TestStation";
+        Station expected = new Station(3, Line.GREEN, BlockType.STATION, 0, 0.5, new ArrayList<>(Arrays.asList(1, 2)), 1.10, 2.1, false, true, 40, 25, "TestStation");
 
         // Act
         Station result = (Station) fileService.parseBlock(line);
@@ -196,5 +202,26 @@ public class FileServiceTests {
 
         // Assert
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void GreenLine_Parsed() {
+        // Arrange
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader("build/resources/test/greenLine.csv");
+        } catch (FileNotFoundException e) {
+            fail("greenLine.csv not found.");
+        }
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        FileService fileService = new FileService();
+
+        // Act
+        List<Block> blocks = fileService.parseTrackLayout(bufferedReader);
+
+        // Assert
+        assertTrue(blocks != null);
+        assertEquals(151, blocks.size());
     }
 }
