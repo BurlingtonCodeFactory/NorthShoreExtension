@@ -2,6 +2,7 @@ package com.company;
 
 import javax.swing.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.sun.javafx.tools.resource.DeployResource.Type.icon;
@@ -10,7 +11,7 @@ public class TrainController {
 
     double prevAcceleration;
     double acceleration;
-    List<Node> track;
+    ArrayList<Block> track;
     Double current_velocity;
 
     Double commanded_velocity;
@@ -34,12 +35,14 @@ public class TrainController {
 
     Double setpoint_velocity;
 
-    int currentBlock;
+
     int previousBlock;
     double kp;
     PID pid;
     Double cabinTemp;
     String [] stations = new String[226];
+    boolean departing;
+    String nextStation;
 
     Double blockLength;
     Double distToStation;
@@ -49,25 +52,30 @@ public class TrainController {
     double speed;
     int beacon;
 
-    Node greenYard;
-    Node redYard;
+    Block greenYard;
+    Block redYard;
     String RIS;
     boolean arriving;
-    int searchNode;
+    int searchBlock;
     String name;
     int ID;
+    Block currentBlock;
 
 
 
-    public TrainController( boolean pidInputBypass, int previous, int current, int ID){
+    public TrainController(boolean pidInputBypass, int previous, int current, int ID, ITrackModelForTrainController trackInterface){
+
 
         this.ID = ID;
+
+        track = trackInterface.getTrack();
+
 
         this.name = "Train Controller " + Integer.toString(ID);
         prevAcceleration = 0;
         acceleration=0;
 
-        currentBlock = current;
+
         previousBlock = previous;
         stopping = false;
 
@@ -85,9 +93,9 @@ public class TrainController {
         input_velocity  = 0.0;
         authority =0.0;
 
-        Node yard = new Node(0.0, 0.0, null, true, 0);
+        Block yard = new Block(0.0, 0.0, null, true, 0);
         greenYard = yard;
-        Node node = yard;
+        Block block = yard;
         this.speedLimit = Double.MAX_VALUE;
         this.cabinTemp = 67.0;
 
@@ -115,20 +123,26 @@ public class TrainController {
         stations[88] = "Poplar";
         stations[96] = "Castle Shannon";
 
-        
+        track = new ArrayList<Block>();
         for (int i =0; i<stations.length;i++){
+
             if(stations[i] != null){
-                node = addNode(node, true, i, 0.0, 0.0 );
+                block = addBlock(block, true, i, 0.0, 0.0 );
 
 
             }
              else if(i == 150){
-                node = addNode(node, true, i, 0.0, 0.0 );
-                redYard = node;
+                block = addBlock(block, true, i, 0.0, 0.0 );
+                redYard = block;
             }
             else {
-                 node = addNode(node, false, i, 0.0, 0.0);
+                block = addBlock(block, false, i, 0.0, 0.0);
             }
+
+            if(i == current){
+                 currentBlock = block;
+            }
+            track.add(i, block);
         }
 
 
@@ -161,11 +175,7 @@ public class TrainController {
 
     }
 
-    public void setTrackModel(List<Node> track){
 
-        this.track = track;
-
-    }
 
 
     public PID getPid(){
@@ -174,6 +184,30 @@ public class TrainController {
 
     public void setPID(PID new_pid){
         pid = new_pid;
+
+    }
+
+    public void updateVelocity(double velocity){
+        current_velocity = velocity;
+    }
+
+    public void setUnderground(boolean underground){
+        lights = underground;
+    }
+
+    public int nextBlock(int previous, int current){
+
+        if(departing){
+            RIS = "Next station is " + nextStation;
+        }
+        Block block;
+        if(track.get(current).getPrev().ID == previous) {
+             block = track.get(current).getNext();
+        } else {
+            block = track.get(current).getPrev();
+        }
+        return block.ID;
+
 
     }
 
@@ -192,7 +226,7 @@ public class TrainController {
         {
             int block = beacon &1072693248;
             block = block >> 20;
-            currentBlock = block;
+            currentBlock = track.get(block);
 
         }
         else
@@ -208,27 +242,28 @@ public class TrainController {
             stationTwo = stationTwo >> 1;
 
             int id = -1;
-            Node node = greenYard;
+            Block block = greenYard;
             while (id != stationOne){
-                node = node.next;
-                id = node.getID();
+                block = block.next;
+                id = block.getID();
 
             }
 
-            if(node.getID() == previousBlock){
-                node = node.getNext();
-                double dist = node.getDistToStation(stationTwo, node);
-                set_authority(dist);
+            if(block.getID() == previousBlock){
+                block = block.getNext();
+                double dist = block.getDistToStation(stationTwo, block);
+                setAuthority(dist);
 
+                departing = true;
 
+                nextStation = stations[stationTwo];
+                RIS = "Now departing " + stations[stationOne];
 
-                RIS = "Next station is " + stations[stationTwo];
-
-                //oldID = node.getPrev().getID();
+                //oldID = block.getPrev().getID();
                 //newID = currentBlock
                 //searchNode = currentBlock
                 //int id;
-                //while(searchNode != node.getID())
+                //while(searchNode != block.getID())
                 //  distToStation += getBlockLength(searchNode.getID())
                 //  searchNoce = getNextBlock(oldID, newID);
                 //  oldID = newID;
@@ -251,18 +286,22 @@ public class TrainController {
 
 
 
-    public Node addNode(Node node, boolean station, int block, double speedLimit, double blockLength){
-        Node newNode = new Node(blockLength, speedLimit,  node, station, block);
+    public Block addBlock(Block block, boolean station, int blockID, double speedLimit, double blockLength){
+        Block newBlock = new Block(blockLength, speedLimit,  block, station, blockID);
 
-        node.next= newNode;
-        return newNode;
+        block.next= newBlock;
+        return newBlock;
 
     }
 
-    public void set_authority(Double a){
+    public void setAuthority(Double a){
 
         this.authority = a;
 
+    }
+
+    public boolean getLights(){
+        return lights;
     }
 
     public double getPower(){
@@ -348,7 +387,9 @@ public class TrainController {
 
 
 
-
+    public void setEmergencyBrake(){
+        emergency_brake = true;
+    }
 
     public void setEBrake( boolean brake){
 
@@ -356,7 +397,7 @@ public class TrainController {
 
     }
 
-    public boolean getEBrake(){
+    public boolean getEmergencyBrake(){
         return this.emergency_brake;
     }
 
@@ -364,14 +405,17 @@ public class TrainController {
         this.cabinTemp = temp;
     }
 
-    public Double getCabinTemp(){
+    public double getCabinTemp(){
         return this.cabinTemp;
     }
 
+    public String getRIS(){
+        return RIS;
+    }
 
 
-    public void nextBlock(){
-
+    public void setSetpointVelocity(double vel){
+        this.setpoint_velocity = vel;
     }
 
     public void setUnderground(Boolean underground){
@@ -427,7 +471,7 @@ public class TrainController {
         //Calculate forces
         double mass = 37096;
 
-        double frictionForce = mass * 9.8 * .57 * Math.cos(Math.toRadians(0)); // We've got to convert this to degrees
+        double frictionForce = mass * 9.8 * .001 * Math.cos(Math.toRadians(0)); // We've got to convert this to degrees
 
         double brakingAcceleration = 0;
 
@@ -536,12 +580,12 @@ public class TrainController {
 
 }
 
-class Node{
+class Block{
 
     boolean station;
     int block;
-    Node previous;
-    Node next;
+    Block previous;
+    Block next;
     int ID;
     double speedLimit;
     double length;
@@ -549,7 +593,7 @@ class Node{
 
 
 
-    public Node(double length, double speed,  Node prev, boolean station, int id){
+    public Block(double length, double speed,  Block prev, boolean station, int id){
 
         this.length = length;
         this.speedLimit = speed;
@@ -560,7 +604,7 @@ class Node{
 
     }
 
-    public void addNext(Node next){
+    public void addNext(Block next){
         this.next = next;
     }
 
@@ -570,17 +614,17 @@ class Node{
         return this.ID;
     }
 
-    public Node getNext(){
+    public Block getNext(){
         return  this.next;
     }
 
-    public double getDistToStation(int stationBlock, Node node){
-        double dist = node.length;
+    public double getDistToStation(int stationBlock, Block block){
+        double dist = block.length;
 
-        while(node.getID() != stationBlock){
-            node = node.getNext();
-            if(node.getID() != stationBlock) {
-                dist = dist + node.length;
+        while(block.getID() != stationBlock){
+            block = block.getNext();
+            if(block.getID() != stationBlock) {
+                dist = dist + block.length;
             }
         }
         return dist;
@@ -589,7 +633,7 @@ class Node{
 
 
 
-    public Node getPrev(){
+    public Block getPrev(){
         return this.previous;
     }
 }

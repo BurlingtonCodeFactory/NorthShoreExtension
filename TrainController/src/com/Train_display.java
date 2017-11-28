@@ -3,9 +3,15 @@ package com.company;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -115,6 +121,14 @@ public class Train_display {
         tempValue.setPromptText("Input new Temperature here:");
         tempValue.setAlignment(Pos.CENTER);
         Button tempSubmit = new Button("Change Temp");
+        tempSubmit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                double temp = Double.parseDouble(tempValue.getText());
+
+                trainController.setCabinTemp(temp);
+            }
+        });
         tempSubmit.setAlignment(Pos.CENTER);
 
         pane_one.add(temp, 0, 4);
@@ -143,10 +157,31 @@ public class Train_display {
         door_field.setAlignment(Pos.CENTER);
 
         left_door = new ToggleButton();
+
+        left_door.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(trainController.doorsOpenLeft){
+                    trainController.doorsOpenLeft = false;
+                }else{
+                    trainController.open_left_doors();
+                }
+            }
+        });
         left_door.setText("Open Left Door");
         left_door.setAlignment(Pos.CENTER);
 
         right_door = new ToggleButton();
+        right_door.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(trainController.doorsOpenRight){
+                    trainController.doorsOpenRight = false;
+                }else{
+                    trainController.open_right_doors();
+                }
+            }
+        });
         right_door.setText("Open Right Door");
         right_door.setAlignment(Pos.CENTER);
 
@@ -155,6 +190,16 @@ public class Train_display {
         auto_button.setText("Start Automatic Mode");
 
         lights = new ToggleButton();
+        lights.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(trainController.lights){
+                    trainController.lights = false;
+                }else{
+                    trainController.lights=true;
+                }
+            }
+        });
         lights.setText("Lights On");
         lights.setAlignment(Pos.CENTER);
 
@@ -198,6 +243,13 @@ public class Train_display {
         velocity_select.setSnapToTicks(true);
         velocity_select.orientationProperty().setValue(Orientation.VERTICAL);
 
+        velocity_select.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                trainController.setpoint_velocity = velocity_select.getValue();
+            }
+        });
+
 
         pane_three.add(velocity_select, 0, 0);
 
@@ -212,6 +264,17 @@ public class Train_display {
         e_brake.setSnapToTicks(true);
         e_brake.setPrefHeight(150);
         e_brake.orientationProperty().setValue(Orientation.VERTICAL);
+
+        e_brake.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(e_brake.getValue() == 1){
+                    trainController.emergency_brake = true;
+                } else{
+                    trainController.emergency_brake = false;
+                }
+            }
+        });
 
         Label onLabel = new Label();
         onLabel.setText("ON");
