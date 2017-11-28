@@ -1,16 +1,18 @@
-package TrackModel;
+package TrackModel.Models;
 
 public class Switch extends Block {
     private boolean switchState;
     private Block switchZero;
     private Block switchOne;
+    private Block switchBase;
 
-    public Switch(int number, LineType lineType, BlockType infra, int size, double speedLimit, Block previousBlock, Block switchZero, Block switchOne, boolean underground)
+    public Switch(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, Iterable<Integer> connectedBlocks, int elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit, boolean switchState, Block switchZero, Block switchOne, Block switchBase)
     {
-        super(number, lineType, infra, size, speedLimit, previousBlock, switchZero, underground);
+        super(id, line, blockType, beacon, coefficientFriction, connectedBlocks, elevation, grade, isBidirectional, isUnderground, length, speedLimit);
         this.switchState = false;
         this.switchZero = switchZero;
         this.switchOne = switchOne;
+        this.switchBase = switchBase;
     }
 
     //<editor-fold desc="Getters">
@@ -30,6 +32,10 @@ public class Switch extends Block {
         return switchOne;
     }
 
+    public Block getSwitchBase() {
+        return switchBase;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Setters">
@@ -37,7 +43,6 @@ public class Switch extends Block {
     public void setSwitchState(boolean newSwitchState)
     {
         this.switchState = newSwitchState;
-        this.setNextBlock(newSwitchState ? switchOne : switchZero);
     }
 
     //</editor-fold>
