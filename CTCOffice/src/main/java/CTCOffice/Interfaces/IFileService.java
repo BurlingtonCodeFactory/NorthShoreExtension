@@ -1,11 +1,14 @@
 package CTCOffice.Interfaces;
 
-import CTCOffice.Models.Block;
-import CTCOffice.Models.Schedule;
 
+import CTCOffice.Models.Schedule;
+import TrackModel.Models.Block;
+
+import java.io.BufferedReader;
 import java.util.List;
 
 public interface IFileService {
-    List<Schedule> parseSchedule(String schedule);
-    Block parseBlock(String trackLayout);
+    boolean parsePresetScenario(BufferedReader bufferedReader);
+    List<Block> parseTrackLayout(BufferedReader bufferedReader);
+    List<Schedule> parseTrainSchedule(BufferedReader bufferedReader);
 }

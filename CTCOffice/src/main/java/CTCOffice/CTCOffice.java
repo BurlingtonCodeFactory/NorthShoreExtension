@@ -39,11 +39,11 @@ public class CTCOffice extends Application {
         IFileService fileService = injector.getInstance(IFileService.class);
         Repository repository = injector.getInstance(Repository.class);
 
-        String line;
+        /*String line;
         while ((line = bufferedReader.readLine()) != null) {
-            Block block = fileService.parseBlock(line);
+            Block block = fileService.parseBlock2(line);
             repository.addBlock(block);
-        }
+        }*/
 
         fxmlLoader.load();
 
