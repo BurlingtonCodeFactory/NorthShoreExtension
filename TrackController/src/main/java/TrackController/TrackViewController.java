@@ -1,5 +1,6 @@
 package TrackController;
 
+import TrackModel.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -94,22 +95,23 @@ public class TrackViewController {
     private void initialize()
     {
         List<String> controllersList = new ArrayList<String>();
-        for (TrackController controller:Main.trackControllers) {
+        for (TrackController controller:Main.controllerManager.greenControllers) {
             controllersList.add(controller.name);
         }
         controllersView.addAll(controllersList);
         controllerList.setItems(controllersView);
 
-        lineColumn.setCellValueFactory(new PropertyValueFactory<Block,Line>("line"));
+        lineColumn.setCellValueFactory(new PropertyValueFactory<Block, Line>("line"));
         numberColumn.setCellValueFactory(new PropertyValueFactory<Block,Integer>("number"));
-        infrastructureColumn.setCellValueFactory(new PropertyValueFactory<Block,BlockType>("infrastructure"));
+        infrastructureColumn.setCellValueFactory(new PropertyValueFactory<Block, BlockType>("infrastructure"));
 
     }
 
     @FXML public void controllerSelected(MouseEvent arg0)
     {
+
         String controllerName = controllerList.getSelectionModel().getSelectedItem();
-        TrackController selectedController = Main.trackControllers.get(0);
+        TrackController selectedController = Main.controllerManager.greenControllers.get(0);
 
         blockList.getItems().clear();
         ObservableList<Block> controllerBlocks = FXCollections.observableArrayList();
@@ -134,76 +136,86 @@ public class TrackViewController {
         plcNames.addAll(plcFileNames);
         plcList.setItems(plcNames);
 
+
     }
 
     @FXML public void blockSelected(MouseEvent arg0)
     {
+
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
-        blockNumber.setText(String.valueOf(blockSelected.number));
-        blockLine.setText(blockSelected.line.toString());
-        blockInfrastructure.setText(blockSelected.infrastructure.toString());
-        blockSize.setText(String.valueOf(blockSelected.size)+" feet");
-        blockSpeed.setText(String.valueOf(blockSelected.speed)+"mph");
-        if(blockSelected.authority != null)
+        blockNumber.setText(String.valueOf(blockSelected.getNumber()));
+        blockLine.setText(blockSelected.getLineType().toString());
+        blockInfrastructure.setText(blockSelected.getInfrastructure().toString());
+        blockSize.setText(String.valueOf(blockSelected.getSize())+" feet");
+        blockSpeed.setText(String.valueOf(blockSelected.getSpeed())+"mph");
+        if(blockSelected.getAuthority() != null)
         {
-            blockAuthority.setText(String.valueOf(blockSelected.authority.size()) +
-                    (blockSelected.authority.size() == 1 ? " block" : " blocks" ));
+            blockAuthority.setText(String.valueOf(blockSelected.getAuthority().size()) +
+                    (blockSelected.getAuthority().size() == 1 ? " block" : " blocks" ));
         }
         else
         {
             blockAuthority.setText("0 blocks");
         }
-        blockLights.setText(blockSelected.lightGreen ? "Green" : "Red");
-        blockHeater.setText(blockSelected.heaterOn ? "On" : "Off");
-        blockRailBroken.setText(blockSelected.failure ? "Yes" : "No");  //TODO: change back to railBroken
-        blockTrackCircuit.setText(blockSelected.circuitFailure ? "Failed" : "Good");
-        blockPowerFailure.setText(blockSelected.powerFailure ? "Yes" : "No");
-        blockOccupancy.setText(blockSelected.trainPresent ? "Train" : "Free");
+        blockLights.setText(blockSelected.getLightGreen() ? "Green" : "Red");
+        blockHeater.setText(blockSelected.isHeaterOn() ? "On" : "Off");
+        blockRailBroken.setText(blockSelected.isFailed() ? "Yes" : "No");  //TODO: change back to railBroken
+        blockTrackCircuit.setText(blockSelected.isCircuitFailed() ? "Failed" : "Good");
+        blockPowerFailure.setText(blockSelected.isPowerFailed() ? "Yes" : "No");
+        blockOccupancy.setText(blockSelected.isTrainPresent() ? "Train" : "Free");
 
-        if(blockSelected.infrastructure == BlockType.SWITCH)
+        if(blockSelected.getInfrastructure() == BlockType.SWITCH)
         {
-            blockSwitchPosition.setText(blockSelected.switchState ?
-                    String.valueOf(blockSelected.switchOne.number):
-                    String.valueOf(blockSelected.switchZero.number));
+            Switch switchBlock = (Switch) blockSelected;
+            blockSwitchPosition.setText(switchBlock.getSwitchState() ?
+                    String.valueOf(switchBlock.getSwitchOne().getNumber()):
+                    String.valueOf(switchBlock.getSwitchZero().getNumber()));
         }
         else
         {
             blockSwitchPosition.setText("N/A");
         }
 
-        if(blockSelected.infrastructure == BlockType.CROSSING)
+        if(blockSelected.getInfrastructure() == BlockType.CROSSING)
         {
-            blockCrossingBar.setText(blockSelected.crossingOn == true ? "On" : "Off");
+            Crossing crossingBlock = (Crossing) blockSelected;
+            blockCrossingBar.setText(crossingBlock.isCrossingOn() == true ? "On" : "Off");
         }
         else
         {
             blockCrossingBar.setText("N/A");
         }
+
     }
 
     @FXML public void switchOccupancy(MouseEvent arg0)
     {
+
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
-        blockSelected.trainPresent = !blockSelected.trainPresent;
-        blockOccupancy.setText(blockSelected.trainPresent ? "Train" : "Free");
+        blockSelected.setTrainPresent(!blockSelected.isTrainPresent());
+        blockOccupancy.setText(blockSelected.isTrainPresent() ? "Train" : "Free");
 
         //List<Block> testAuthority = new ArrayList<>();
         //testAuthority.add(blockSelected.rightNeighbor);
 
-        Main.trackControllers.get(0).evaluateBlocks();
+        Main.controllerManager.handleEvent();
+
     }
 
     @FXML public void switchFailure(MouseEvent arg0)
     {
+        /*
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
         blockSelected.failure = !blockSelected.failure;
         blockRailBroken.setText(blockSelected.failure ? "Yes" : "No");
 
         Main.trackControllers.get(0).evaluateBlocks();
+        */
     }
 
     @FXML public void switchAuthority(MouseEvent arg0)
     {
+        /*
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
         if(blockSelected.speed == 0)
         {
@@ -220,14 +232,16 @@ public class TrackViewController {
             blockSelected.suggestedSpeed = 0;
             blockSelected.suggestedAuthority = new ArrayList<>();
         }
-        Main.trackControllers.get(0).evaluateBlocks();
+        //Main.trackControllers.get(0).evaluateBlocks();
         blockSpeed.setText(String.valueOf(blockSelected.speed)+"mph");
         blockAuthority.setText(String.valueOf(blockSelected.authority.size()) +
                 (blockSelected.authority.size() == 1 ? " block" : " blocks" ));
+                */
     }
 
     @FXML public void plcSelected(MouseEvent arg0)
     {
+
         String plcName = plcList.getSelectionModel().getSelectedItem();
         String plcString = "";
         try {
@@ -240,15 +254,19 @@ public class TrackViewController {
             System.out.println("File not found");
         }
         plcContents.setText(plcString);
+
     }
 
     @FXML public void plcActivated(MouseEvent arg0)
     {
+        /*
         String plcName = plcList.getSelectionModel().getSelectedItem();
         String controllerName = controllerList.getSelectionModel().getSelectedItem();
         TrackController selectedController = Main.trackControllers.get(0);
-        selectedController.plc = new PLC(plcName);
-        Main.trackControllers.get(0).evaluateBlocks();
+        //selectedController.plc = new PLC(plcName);
+        //Main.trackControllers.get(0).evaluateBlocks();
+        */
+
     }
 
 }

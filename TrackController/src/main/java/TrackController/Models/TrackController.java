@@ -1,7 +1,9 @@
 package TrackController.Models;
 
 import TrackController.PLC.PLC;
-import TrackController.Models.*;
+import TrackModel.LineType;
+import TrackController.ITrackModelForTC;
+import TrackModel.Block;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,7 @@ public class TrackController {
     public int id;
     public String name;
     public List<Block> blocks;
+    public LineType line;
     public PLC plc;
     public List<String> plcFileNames;
 
@@ -28,6 +31,7 @@ public class TrackController {
     {
        return blocks.add(block);
     }
+
 
     public void evaluateBlocks()
     {
