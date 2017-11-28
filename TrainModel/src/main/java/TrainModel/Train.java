@@ -27,12 +27,14 @@ public class Train extends Application{
     //Initialize constructor properties
     int cars, ID;
     int previousBlock, currentBlock;
-    boolean setupPID;
+    TrainController trainController;
+    boolean PIDSetupbypass;
     ITrackModelForTrainModel track;
+    Line line;
 
     //Initialize other train properties
     private double g = 9.8;
-    private double coeffFriction = 0.57;
+    private double coeffFriction = 0.001;
     private double gradeForce = 0, frictionForce = 0, brakingForce = 0, powerForce = 0, staticForce = 0, dynamicForce = 0, netForce = 0;
     private double power, grade, mass;
     private double velocity = 0, speed = 0;
@@ -41,24 +43,23 @@ public class Train extends Application{
     private double previousTimestamp, deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
 
-    public Train(int previousBlock, int currentBlock, int cars, boolean setupPID, int ID, ITrackModelForTrainModel track)
+    public Train(int previousBlock, int currentBlock, int cars, TrainController trainController, boolean PIDSetupbypass, int ID, ITrackModelForTrainModel track, Line line)
     {
         //Assign values to fields
         this.previousBlock = previousBlock;
         this.currentBlock = currentBlock;
         this.cars = cars;
-        this.setupPID = setupPID;
+        this.trainController = trainController;
+        this.PIDSetupbypass = PIDSetupbypass;
         this.ID = ID;
         this.track = track;
+        this.line = line;
 
         //Calculate Initial Train Mass
         mass = cars * 37096;
 
-        //Initialize associated Train Controller
-        TrainController trainController = new TrainController(setupPID);    //TODO: Fix this
-
         //Initialize block length tracking
-        totalBlockLength = track.getBlockByID(currentBlock).getLength();
+        totalBlockLength = track.getBlockByID(currentBlock, line).getLength();
 
         //Open and Initialize Train UI
         try
@@ -115,21 +116,29 @@ public class Train extends Application{
 
         while(totalDisplacement > totalBlockLength)         //This loop iterates as long as the trains displacement has surpassed the given displacement for this block
         {
-            trainController.nextBlock();
-
             //Get next block and add its length to total block length
-            int temp = track.getNextBlock(previousBlock, currentBlock); //TODO: what does this return, block or ID?
-            totalBlockLength = totalBlockLength + temp.getLength();
+            int temp = trainController.nextBlock(previousBlock, currentBlock);
+            totalBlockLength = totalBlockLength + track.getLengthByID(temp, line);
+
+            //Update Occupancy of (now) previous block to false
+            track.setOccupancy(currentBlock, false, line);
 
             //Update current and previous blocks
             previousBlock = currentBlock;
             currentBlock = temp;
         }
-        track.setOccupancy(currentBlock);
+        track.setOccupancy(currentBlock,true, line); //Update occupancy of current block to true
+
+        //Check if train has just driven into yard
+        if(!(previousBlock == -1) && (currentBlock == 0))
+        {
+            delete();
+        }
+
 
         //Get physical data from track
-        coeffFriction = track.getFriction(); //TODO: these methods need to take a block ID, talk to Andrew
-        grade = track.getGrade();
+        coeffFriction = track.getFrictionByID(currentBlock, line); //TODO: these methods need to take a block ID, talk to Andrew
+        grade = track.getGradeByID(currentBlock, line);
 
         //Get input data from train controller
         power = trainController.getPower();
@@ -156,11 +165,12 @@ public class Train extends Application{
         velocity = velocity  + (((previousAcceleration + acceleration) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
         speed = Math.abs(velocity);
 
-        //Relay data to Train Controller //TODO: do these methods take blocks?
+        //Relay data to Train Controller
         trainController.updateVelocity(velocity);
-        trainController.setBeacon(track.getBeacon());
-        trainController.setAuthority(track.getAuthority());
-        trainControlelr.setSpeed(track.getSpeed()); //TODO: Get correct method for train controller
+        trainController.setBeacon(track.getBeaconByID(currentBlock, line));
+        trainController.setAuthority(track.getAuthorityByID(currentBlock, line));
+        trainController.setSetpointVelocity(track.getSpeedByID(currentBlock, line));
+        trainController.setUnderground(track.getUndergroundByID(currentBlock, line));
 
         //Other train processes
         if(trainController.getLights())
@@ -178,9 +188,9 @@ public class Train extends Application{
 
         }
 
-        if(cabinTemp != trainController.getCabinTemp()) //TODO: notify chris, this should be changed to an int!
+        if(cabinTemp != trainController.getCabinTemp()) //TODO: change to double
         {
-            cabinTemp = Integer.signum(cabinTemp - trainController.getCabinTemp());
+            cabinTemp = cabinTemp + Integer.signum(cabinTemp - trainController.getCabinTemp());
         }
 
         RIS = trainController.getRIS();
@@ -228,11 +238,6 @@ public class Train extends Application{
         //Relay throughput to CTC
     }
 
-    public void nextBlock()
-    {
-
-    }
-
     public double calculateAcceleration()
     {
         //Calculate forces
@@ -261,7 +266,7 @@ public class Train extends Application{
         }
         else if(velocity == 0)
         {
-            if(dynamicForce > staticForce)              //Acceleration
+            if(dynamicForce > staticForce)              //Acceleration from stop
             {
                 netForce = dynamicForce - staticForce;
             }
@@ -285,37 +290,14 @@ public class Train extends Application{
 
     //Setters//////////////////////////////////////////////////
 
-    public void setSuggestedSpeed(double suggestedSpeed1)
-    {
-
-    }
-
-    public void setAuthority(double authority)
-    {
-
-    }
-
-    public void setBeacon(int beacon)
-    {
-
-    }
-
     public void setEmergencyBrake()
     {
         if(brakeFailure == false)
         {
             brakingAcceleration = 2.73;
         }
-    }
 
-    public void setCurrentSpeed(double currentSpeed)
-    {
-
-    }
-
-    public void setUnderground(boolean underground)
-    {
-
+        trainController.setEmergencyBrake();
     }
 
     public void setEngineFailure()

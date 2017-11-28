@@ -10,16 +10,22 @@ public class TrainModel{
     //Initialize array of trains
     private ArrayList<Train> trains;
 
+    //Initialize associated train controller manager
+    private ControllerManager controllerManager;
+
     //Initialize ID
     private int ID;
 
     public TrainModel(ITrackModelForTrainModel track)
     {
         //Assign track
-        this.track = track; //TODO: NEED TO WRITE INTERFACE!!!
+        this.track = track;
+
+        //Assign train controller manager
+        this.controllerManager = new ControllerManager();
 
         //Create trains ArrayList
-        trains = new ArrayList<Train>(25);
+        trains = new ArrayList<Train>(30);
 
         //ID of trains will begin at 1
         ID = 1;
@@ -27,10 +33,13 @@ public class TrainModel{
 
     }
 
-    public int createTrain(int previousBlock, int currentBlock, int cars, boolean setupPID) //This constructor should probably take a track
+    public int createTrain(int previousBlock, int currentBlock, int cars, boolean PIDSetupBypass, Line line) //This constructor should probably take a track
     {
-        //Create Train
-        Train train = new Train(previousBlock, currentBlock, cars, setupPID, ID, track);
+        //Create train controller
+        TrainController trainController = new TrainController(PIDSetupBypass, previousBlock, currentBlock, ID, ITrackModelForTrainController tcTrack);
+
+        //Create train
+        Train train = new Train(previousBlock, currentBlock, cars, trainController, PIDSetupBypass, ID, track, line);
 
         //Add train to trains
         trains.add(train);
