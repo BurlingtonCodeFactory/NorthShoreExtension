@@ -9,7 +9,7 @@ public class Switch extends Block {
     private int switchOne;
     private int switchBase;
 
-    public Switch(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, int elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit, int switchZero, int switchOne, int switchBase)
+    public Switch(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit, int switchZero, int switchOne, int switchBase)
     {
         super(id, line, blockType, beacon, coefficientFriction, connectedBlocks, elevation, grade, isBidirectional, isUnderground, length, speedLimit);
         this.switchState = false;

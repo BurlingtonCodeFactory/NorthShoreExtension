@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Crossing extends Block{
     private boolean isCrossingOn;
 
-    public Crossing(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, int elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit)
+    public Crossing(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit)
     {
         super(id, line, blockType, beacon, coefficientFriction, connectedBlocks, elevation, grade, isBidirectional, isUnderground, length, speedLimit);
         this.isCrossingOn = false;

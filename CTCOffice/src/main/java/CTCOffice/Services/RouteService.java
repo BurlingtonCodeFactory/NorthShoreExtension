@@ -1,23 +1,23 @@
 package CTCOffice.Services;
 
 import CTCOffice.Interfaces.IRouteService;
-import CTCOffice.Models.Block;
-import CTCOffice.Models.Repository;
+import TrackModel.Interfaces.ITrackModelForCTCOffice;
+import TrackModel.Models.Block;
 import com.google.inject.Inject;
 
 import java.util.*;
 
 public class RouteService implements IRouteService {
 
-    private Repository repository;
+    private ITrackModelForCTCOffice repository;
 
     @Inject
-    public RouteService(Repository repository) {
+    public RouteService(ITrackModelForCTCOffice repository) {
         this.repository = repository;
     }
 
     @Override
-    public List<Block> getShortestPath(Block previousBlock, Block currentBlock, Block destination, List<Block> blocks) {
+    public List<Block> getShortestPath(Block previousBlock, Block currentBlock, Block destination) {
         Map<Block, Integer> distance = new HashMap<>();
         Map<Block, Block> previous = new HashMap<>();
         Queue<Block> queue = new LinkedList<>();
@@ -37,8 +37,8 @@ public class RouteService implements IRouteService {
 
             queue.remove(u);
 
-            for (int neighborId : u.getTravelTo()) {
-                if (firstTime && previousBlock != null && previousBlock.getBlockId() == neighborId) {
+            for (int neighborId : u.getConnectedBlocks()) {
+                if (firstTime && previousBlock != null && previousBlock.getId() == neighborId) {
                     continue;
                 }
 
@@ -51,6 +51,11 @@ public class RouteService implements IRouteService {
             }
         }
 
+        return null;
+    }
+
+    @Override
+    public List<Block> getShortestPathWithMidpoint(Block previousBlock, Block currentBlock, Block midpoint, Block destination) {
         return null;
     }
 

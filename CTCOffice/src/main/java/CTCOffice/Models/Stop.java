@@ -1,5 +1,6 @@
 package CTCOffice.Models;
 
+import TrackModel.Models.Block;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 

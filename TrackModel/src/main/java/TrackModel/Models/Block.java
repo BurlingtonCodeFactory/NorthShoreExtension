@@ -15,7 +15,7 @@ public class Block {
     private List<Block> commandedAuthority;
     private double commandedSpeed;
     private List<Integer> connectedBlocks;
-    private int elevation;
+    private double elevation;
     private boolean failed;
     private double grade;
     private boolean heaterOn;
@@ -33,7 +33,7 @@ public class Block {
     private boolean underMaintenance;
 
 
-    public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, int elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit){
+    public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit){
         this.id = id;
         this.line = line;
         this.blockType = blockType;
@@ -99,7 +99,7 @@ public class Block {
         return connectedBlocks;
     }
 
-    public int getElevation() {
+    public double getElevation() {
         return elevation;
     }
 

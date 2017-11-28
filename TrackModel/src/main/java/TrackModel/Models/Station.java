@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Station extends Block {
     private String stationName;
 
-    public Station(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, int elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit, String stationName) {
+    public Station(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit, String stationName) {
         super(id, line, blockType, beacon, coefficientFriction, connectedBlocks, elevation, grade, isBidirectional, isUnderground, length, speedLimit);
         this.stationName = stationName;
     }
