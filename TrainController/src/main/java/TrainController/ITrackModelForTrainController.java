@@ -1,10 +1,10 @@
 package com.company;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface ITrackModelForTrainController {
 
-    public List getTrack();
+    public ArrayList getTrack();
 
 
 }

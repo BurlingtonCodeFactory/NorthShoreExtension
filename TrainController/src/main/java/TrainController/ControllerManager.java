@@ -66,6 +66,10 @@ public class ControllerManager extends Application {
 
     }
 
+    public ControllerManager(){
+
+    }
+
     public void addGauges() {
         commanded_velocity_gauge = GaugeBuilder.create()
                 .title("Commanded Velocity")
@@ -128,6 +132,10 @@ public class ControllerManager extends Application {
 
             checkInput(controller);
         }
+        
+        init(trains);
+
+
     }
 
     public void checkInput(TrainController controller) {
