@@ -2,6 +2,7 @@ package TrackModel;
 
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Interfaces.ITrackModelForTrackController;
+import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Models.*;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Map;
 // This class acts as a repository for information about the state
 // of the track. It should be treated as a singleton in order to
 // maintain data consistency in the system.
-public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController {
+public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController, ITrackModelForTrainController {
     private Map<Integer, Block> blocks; // TODO: utilize a dynamic array instead, need the O(1) lookup using integer, map is overkill
     private List<Block> redLine;
     private List<Block> greenLine;

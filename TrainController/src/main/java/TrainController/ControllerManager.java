@@ -1,4 +1,4 @@
-package com.company;
+package TrainController;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
@@ -221,7 +221,7 @@ public class ControllerManager extends Application {
 
     public void addTrain(TrainController train) {
 
-        int rows = group_grid.getRowCount();
+        int rows = getRowCount(group_grid);
 
 
         train_select.getItems().add(train.name);
@@ -234,6 +234,20 @@ public class ControllerManager extends Application {
         group_grid.add(pane, 0, rows - 1);
 
 
+    }
+
+    private int getRowCount(GridPane pane) {
+        int numRows = pane.getRowConstraints().size();
+        for (int i = 0; i < pane.getChildren().size(); i++) {
+            Node child = pane.getChildren().get(i);
+            if (child.isManaged()) {
+                Integer rowIndex = GridPane.getRowIndex(child);
+                if(rowIndex != null){
+                    numRows = Math.max(numRows,rowIndex+1);
+                }
+            }
+        }
+        return numRows;
     }
 }
 

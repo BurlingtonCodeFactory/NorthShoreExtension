@@ -1,4 +1,4 @@
-package com.company;
+package TrainController;
 
 
 import eu.hansolo.medusa.Gauge;
@@ -35,7 +35,7 @@ public class Train_display {
     GridPane pane;
 
 
-    public Train_display( TrainController trainController){
+    public Train_display(TrainController trainController) {
         pane = new GridPane();
 
         setConst(pane, 1,6);
