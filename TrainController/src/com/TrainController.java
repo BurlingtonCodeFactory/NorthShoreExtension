@@ -11,7 +11,7 @@ public class TrainController {
 
     double prevAcceleration;
     double acceleration;
-    ArrayList<Block> track;
+    ArrayList<SkinnyBlock> track;
     Double current_velocity;
 
     Double commanded_velocity;
@@ -40,7 +40,7 @@ public class TrainController {
     double kp;
     PID pid;
     Double cabinTemp;
-    String [] stations = new String[226];
+    String [] stations = new String[228];
     boolean departing;
     String nextStation;
 
@@ -52,14 +52,14 @@ public class TrainController {
     double speed;
     int beacon;
 
-    Block greenYard;
-    Block redYard;
+    SkinnyBlock greenYard;
+    SkinnyBlock redYard;
     String RIS;
     boolean arriving;
     int searchBlock;
     String name;
     int ID;
-    Block currentBlock;
+    SkinnyBlock currentBlock;
 
 
 
@@ -68,7 +68,7 @@ public class TrainController {
 
         this.ID = ID;
 
-        track = trackInterface.getTrack();
+        ArrayList trackInput = trackInterface.getTrack();
 
 
         this.name = "Train Controller " + Integer.toString(ID);
@@ -93,9 +93,9 @@ public class TrainController {
         input_velocity  = 0.0;
         authority =0.0;
 
-        Block yard = new Block(0.0, 0.0, null, true, 0);
+        SkinnyBlock yard = new SkinnyBlock(0.0, 0.0, null, true, 0);
         greenYard = yard;
-        Block block = yard;
+        SkinnyBlock block = yard;
         this.speedLimit = Double.MAX_VALUE;
         this.cabinTemp = 67.0;
 
@@ -123,8 +123,9 @@ public class TrainController {
         stations[88] = "Poplar";
         stations[96] = "Castle Shannon";
 
-        track = new ArrayList<Block>();
-        for (int i =0; i<stations.length;i++){
+        track = new ArrayList<SkinnyBlock>();
+        track.add(0, yard);
+        for (int i =1; i<stations.length;i++){
 
             if(stations[i] != null){
                 block = addBlock(block, true, i, 0.0, 0.0 );
@@ -200,7 +201,7 @@ public class TrainController {
         if(departing){
             RIS = "Next station is " + nextStation;
         }
-        Block block;
+        SkinnyBlock block;
         if(track.get(current).getPrev().ID == previous) {
              block = track.get(current).getNext();
         } else {
@@ -242,7 +243,7 @@ public class TrainController {
             stationTwo = stationTwo >> 1;
 
             int id = -1;
-            Block block = greenYard;
+            SkinnyBlock block = greenYard;
             while (id != stationOne){
                 block = block.next;
                 id = block.getID();
@@ -286,8 +287,8 @@ public class TrainController {
 
 
 
-    public Block addBlock(Block block, boolean station, int blockID, double speedLimit, double blockLength){
-        Block newBlock = new Block(blockLength, speedLimit,  block, station, blockID);
+    public SkinnyBlock addBlock(Block block, boolean station, int blockID, double speedLimit, double blockLength){
+        SkinnyBlock newBlock = new SkinnyBlock(blockLength, speedLimit,  block, station, blockID);
 
         block.next= newBlock;
         return newBlock;
@@ -580,12 +581,12 @@ public class TrainController {
 
 }
 
-class Block{
+class SkinnyBlock{
 
     boolean station;
     int block;
-    Block previous;
-    Block next;
+    SkinnyBlock previous;
+    SkinnyBlock next;
     int ID;
     double speedLimit;
     double length;
@@ -593,7 +594,7 @@ class Block{
 
 
 
-    public Block(double length, double speed,  Block prev, boolean station, int id){
+    public SkinnyBlock(double length, double speed,  SkinnyBlock prev, boolean station, int id){
 
         this.length = length;
         this.speedLimit = speed;
@@ -604,7 +605,7 @@ class Block{
 
     }
 
-    public void addNext(Block next){
+    public void addNext(SkinnyBlock next){
         this.next = next;
     }
 
@@ -614,11 +615,11 @@ class Block{
         return this.ID;
     }
 
-    public Block getNext(){
+    public SkinnyBlock getNext(){
         return  this.next;
     }
 
-    public double getDistToStation(int stationBlock, Block block){
+    public double getDistToStation(int stationBlock, SkinnyBlock block){
         double dist = block.length;
 
         while(block.getID() != stationBlock){
@@ -633,7 +634,7 @@ class Block{
 
 
 
-    public Block getPrev(){
+    public SkinnyBlock getPrev(){
         return this.previous;
     }
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 // This class acts as a repository for information about the state
 // of the track. It should be treated as a singleton in order to
 // maintain data consistency in the system.
-public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController {
+public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController, ITrackModelForTrainController {
     private Map<Integer, Block> blocks; // TODO: utilize a dynamic array instead, need the O(1) lookup using integer, map is overkill
     private List<Block> redLine;
     private List<Block> greenLine;
@@ -55,5 +55,12 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     @Override
     public List<Block> getBlocks() {
         return new ArrayList<>(blocks.values());
+    }
+
+    public ArrayList<Block> getTrack(){
+        ArrayList<Block> track = new ArrayList<Block>;
+        track.add(greenLine);
+        track.add(redLine);
+        return track;
     }
 }
