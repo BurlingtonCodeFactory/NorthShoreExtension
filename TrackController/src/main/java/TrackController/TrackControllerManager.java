@@ -21,8 +21,8 @@ public class TrackControllerManager {
 
     public TrackControllerManager() //TODO: Inject Track Model and create controllers
     {
+        track = TrackControllerModule.injector.getInstance(ITrackModelForTrackController.class);
         greenControllers = new ArrayList<TrackController>();
-        track = new TrackModel();
         int id = 1;
         int blockid = 0;
         for (int limit : GREENCONTROLLERBLOCKS) {

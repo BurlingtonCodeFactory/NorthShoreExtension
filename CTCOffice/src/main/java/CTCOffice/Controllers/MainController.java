@@ -7,6 +7,7 @@ import CTCOffice.Models.Train;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
+import TrainModel.Interfaces.ITrainModelForCTCOffice;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,8 +29,8 @@ import java.util.stream.Stream;
 
 public class MainController {
     private final ITrackModelForCTCOffice trackModel;
-    private final ITrainRepository trainRepository;
-    private final IRouteService routeService;
+    //private final ITrainRepository trainRepository;
+    //private final IRouteService routeService;
 
     @FXML
     public ChoiceBox<String> multiplier;
@@ -95,13 +96,18 @@ public class MainController {
     public Button trainStopButton;
 
     @Inject
-    public MainController(ITrackModelForCTCOffice trackModel, ITrainRepository trainRepository, IRouteService routeService) {
+    public MainController(ITrackModelForCTCOffice trackModel, ITrainModelForCTCOffice trainModel/*, ITrainRepository trainRepository, IRouteService routeService*/) {
         this.trackModel = trackModel;
-        this.trainRepository = trainRepository;
-        this.routeService = routeService;
+        trainModel.createTrain(-1,0,2, true, Line.GREEN);
+        System.out.println("Here Main Controller CTC");
+        //this.trainRepository = trainRepository;
+        //this.routeService = routeService;
     }
 
+    @FXML
     public void initialize() {
+        System.out.println("Here in ctc init");
+      /*
         multiplier.setItems(FXCollections.observableArrayList("1", "2", "5", "10", "100"));
         multiplier.getSelectionModel().selectFirst();
 
@@ -132,10 +138,10 @@ public class MainController {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 Block block = blockName.getItems().get(newValue.intValue());
 
-                /*blockOccupied.textProperty().bind(block.getIsOccupied().asString());
+                *//*blockOccupied.textProperty().bind(block.getIsOccupied().asString());
                 blockSpeedLimit.textProperty().setValue(Integer.toString(block.getSpeedLimit()));
                 blockMaintenance.textProperty().bind(block.getUnderMaintenance().asString());
-                blockBeacon.setDisable(block.getStation() == null);*/
+                blockBeacon.setDisable(block.getStation() == null);*//*
             }
         });
 
@@ -214,7 +220,7 @@ public class MainController {
                     }
                 };
             }
-        });
+        });*/
     }
 
     public void blockMaintenanceButton(ActionEvent e) {
@@ -270,9 +276,9 @@ public class MainController {
     public void trainAuthoritySet(ActionEvent e) {
         Train train = trainIdentifier.getValue();
 
-        List<Block> authority = routeService.getShortestPath(train.getPreviousLocation(), train.getCurrentLocation().getValue(), trainAuthoritySelect.getSelectionModel().getSelectedItem());
+        //List<Block> authority = routeService.getShortestPath(train.getPreviousLocation(), train.getCurrentLocation().getValue(), trainAuthoritySelect.getSelectionModel().getSelectedItem());
 
-        train.setCommandedAuthority(authority);
+        //train.setCommandedAuthority(authority);
     }
 
     public void trainStopAdd(ActionEvent e) {
@@ -286,7 +292,7 @@ public class MainController {
     }
 
     private Parent loadItemFxml(Stop stop, Train train) {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../../../../resources/main/fxml/StopView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("./build/resources/main/fxml/StopView.fxml"));
 
         try {
 

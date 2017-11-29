@@ -3,6 +3,6 @@ apply plugin: "application"
 mainClassName = "CTCOffice.CTCOffice"
 
 dependencies {
-    compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
     compile project(':TrackModel')
+    compile project(':TrainModel')
 }

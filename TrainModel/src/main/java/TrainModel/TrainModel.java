@@ -5,10 +5,15 @@ import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Line;
 import TrainController.ControllerManager;
 import TrainController.TrainController;
+import TrainModel.Interfaces.ITrainModelForCTCOffice;
+import javafx.stage.Stage;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.*;
 
-public class TrainModel{
+@Singleton
+public class TrainModel implements ITrainModelForCTCOffice{
 
     //Initialize Track Model Interface
     ITrackModelForTrainModel track; //TODO: Fix this
@@ -24,6 +29,7 @@ public class TrainModel{
     //Initialize ID
     private int ID;
 
+    @Inject
     public TrainModel(ITrackModelForTrainModel track, ITrackModelForTrainController trackModelForTrainController)
     {
         //Assign track
@@ -48,6 +54,10 @@ public class TrainModel{
 
         //Create train
         Train train = new Train(previousBlock, currentBlock, cars, trainController, PIDSetupBypass, ID, track, line);
+
+        System.out.println("Here Train Model Create");
+        TrainGUI gui = new TrainGUI(train);
+        gui.start(new Stage());
 
         //Add train to trains
         trains.add(train);

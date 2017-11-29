@@ -102,6 +102,7 @@ public class TrackViewController {
     @FXML
     private void initialize()
     {
+        System.out.println("Here in TRack Controller init");
         List<String> controllersList = new ArrayList<String>();
         for (TrackController controller: manager.greenControllers) {
             controllersList.add(controller.name);
@@ -253,7 +254,7 @@ public class TrackViewController {
         String plcName = plcList.getSelectionModel().getSelectedItem();
         String plcString = "";
         try {
-            Scanner scanner = new Scanner(new File("./TrackController/build/resources/main/plc/" + plcName));
+            Scanner scanner = new Scanner(new File("./build/resources/main/" + plcName));
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }

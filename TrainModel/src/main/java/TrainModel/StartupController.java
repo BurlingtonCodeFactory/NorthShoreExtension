@@ -20,7 +20,7 @@ public class StartupController extends Application
 //
 //    }
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("TrainUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../../../../../System/src/main/resources/fxml/TrainUI.fxml"));
         primaryStage.setTitle("Train Model");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

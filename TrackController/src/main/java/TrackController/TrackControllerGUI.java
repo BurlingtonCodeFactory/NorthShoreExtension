@@ -31,6 +31,7 @@
  */
 package TrackController;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,7 +57,7 @@ public class TrackControllerGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(TrackControllerGUI.class.getResource("../../resources/fxml/TrackController.fxml"));
+            FXMLLoader loader = new FXMLLoader(new File("./build/resources/main/fxml/TrackController.fxml").toURI().toURL());//System.class.getResource("./build/resources/main/fxml/TrackController.fxml"));
             TrackViewController controller = new TrackViewController(manager);
             loader.setController(controller);
             AnchorPane page = loader.load();

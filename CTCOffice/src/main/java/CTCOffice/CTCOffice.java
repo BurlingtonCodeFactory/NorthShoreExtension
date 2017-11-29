@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class CTCOffice extends Application {
     public static void main(String[] args) {
@@ -22,30 +23,27 @@ public class CTCOffice extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../../../resources/main/fxml/Main.fxml"));
+    public void start(Stage primaryStage) {
+        FXMLLoader fxmlLoader = null;
+        try
+        {
+            fxmlLoader = new FXMLLoader(new File("./build/resources/main/fxml/Main.fxml").toURI().toURL());
+        }
+        catch(Exception e)
+        {
 
-        Injector injector = Guice.createInjector(new CTCModule());
-        fxmlLoader.setControllerFactory(injector::getInstance);
+        }
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select track layout");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+        // Injector injector = Guice.createInjector(new CTCModule());
+        fxmlLoader.setControllerFactory(CTCModule.injector::getInstance);
 
-        File trackLayoutFile = fileChooser.showOpenDialog(primaryStage);
-        FileReader fileReader = new FileReader(trackLayoutFile);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        try {
+            fxmlLoader.load();
+        }
+        catch (IOException e)
+        {
 
-        IFileService fileService = injector.getInstance(IFileService.class);
-        ITrackModelForCTCOffice trackModel = injector.getInstance(TrackModel.class);
-
-        /*String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            Block block = fileService.parseBlock2(line);
-            repository.addBlock(block);
-        }*/
-
-        fxmlLoader.load();
+        }
 
         Parent root = fxmlLoader.getRoot();
 
