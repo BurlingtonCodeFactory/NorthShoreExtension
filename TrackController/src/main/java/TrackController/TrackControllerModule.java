@@ -1,20 +1,24 @@
 package TrackController;
 
 
+import com.google.inject.Injector;
 import javafx.application.Application;
+import javafx.stage.Stage;
 
 public class TrackControllerModule {
-    //private static TrackControllerManager manager;
-    private static TrackControllerGUI gui;
+    protected static Injector injector;
 
-    public TrackControllerModule()
+    public TrackControllerModule(Injector injector)
     {
-        //manager = new TrackControllerManager();
-        //gui = new TrackControllerGUI(manager);
+        this.injector = injector;
     }
 
-    public static void main(String[] args)
+    public void launch()
     {
-        Application.launch(TrackControllerGUI.class);
+
+        System.out.println("Here TC");
+        TrackControllerGUI gui = new TrackControllerGUI();
+        gui.start(new Stage());
     }
+
 }

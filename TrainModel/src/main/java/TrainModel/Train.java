@@ -6,6 +6,8 @@ import TrainController.TrainController;
 import javafx.application.Application;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,20 +16,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.lang.Math;
 
-public class Train extends Application{
+public class Train {
 
     //All values are are calculated within the program using SI units. Returned values will be converted to U.S customary units.
-
-    //Initialize JavaFX UI Fields
-    @FXML
-    public TextField POWER;
-    public Circle BRAKE_INDICATOR;
-    public Pane SPEED_GAUGE_PANE;
-    public Pane ACCELERATION_GAUGE_PANE;
-    public Gauge speedGauge;
-    public Gauge accelerationGauge;
 
     //Initialize constructor properties
     int cars, ID;
@@ -41,10 +36,13 @@ public class Train extends Application{
     private double g = 9.8;
     private double coeffFriction = 0.001;
     private double gradeForce = 0, frictionForce = 0, brakingForce = 0, powerForce = 0, staticForce = 0, dynamicForce = 0, netForce = 0;
-    private double power, grade, mass;
-    private double velocity = 0, speed = 0;
+    private SimpleDoubleProperty powerProperty;
+    private SimpleDoubleProperty speedProperty;
+    private SimpleDoubleProperty accelerationProperty;
+    private double grade, mass;
+    private double velocity = 0;
     private double  displacement = 0, totalDisplacement = 0, totalBlockLength = 0;
-    private double acceleration = 0, previousAcceleration = 0, brakingAcceleration = 0;
+    private double previousAcceleration = 0, brakingAcceleration = 0;
     private double previousTimestamp, deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
     private double cabinTemp = 67;
@@ -61,6 +59,11 @@ public class Train extends Application{
         this.ID = ID;
         this.track = track;
         this.line = line;
+        this.powerProperty = new SimpleDoubleProperty();
+        this.speedProperty = new SimpleDoubleProperty();
+        this.accelerationProperty = new SimpleDoubleProperty();
+        speedProperty.set(0);
+        accelerationProperty.set(0);
 
         //Calculate Initial Train Mass
         mass = cars * 37096;
@@ -68,47 +71,8 @@ public class Train extends Application{
         //Initialize block length tracking
         totalBlockLength = track.getLengthByID(currentBlock, line);
 
-        //Open and Initialize Train UI
-        try
-        {
-            //Open UI
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrainUI.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Train " + ID);
-            stage.setScene(new Scene(root1));
-            stage.show();
-
-            //Set up gauges
-            speedGauge = GaugeBuilder.create()
-                    .title("Speed Gauge")
-                    .subTitle("")
-                    .unit("mph")
-                    .build();
-
-            SPEED_GAUGE_PANE.getChildren().add(speedGauge);
-
-            accelerationGauge = GaugeBuilder.create()
-                    .title("Acceleration Gauge")
-                    .subTitle("")
-                    .unit("mph/s")
-                    .build();
-            accelerationGauge.setMinValue(-15.0);
-            accelerationGauge.setMaxValue(15.0);
-
-            ACCELERATION_GAUGE_PANE.getChildren().add(accelerationGauge);
-        }
-        catch(Exception e)
-        {
-        }
-
         //Get Initial timestamp (wall-clock time)
         previousTimestamp = System.currentTimeMillis();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
     }
 
     public void update()
@@ -148,7 +112,7 @@ public class Train extends Application{
         grade = track.getGradeByID(currentBlock, line);
 
         //Get input data from train controller
-        power = trainController.getPower();
+        setPower(trainController.getPower());
 
         if(trainController.getServiceBrake())
         {
@@ -165,12 +129,12 @@ public class Train extends Application{
 
         //Calculate new acceleration
         double temp = calculateAcceleration();
-        previousAcceleration = acceleration;
-        acceleration = temp;
+        previousAcceleration = getAcceleration();
+        setAcceleration(temp);
 
         //Calculate new velocity and speed
-        velocity = velocity  + (((previousAcceleration + acceleration) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
-        speed = Math.abs(velocity);
+        velocity = velocity  + (((previousAcceleration + getAcceleration()) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
+        setSpeed(Math.abs(velocity));
 
         //Relay data to Train Controller
         trainController.updateVelocity(velocity);
@@ -202,31 +166,6 @@ public class Train extends Application{
 
         RIS = trainController.getRIS();
 
-        //Update UI, try catch here because they were acting weird
-        try
-        {
-            speedGauge.setValue(speed * 2.23694); // Multiply by constant to convert m/s to mph
-        }
-        catch(Exception e)
-        {
-            System.out.println("Exception in set speed gauge");
-        }
-        try
-        {
-            accelerationGauge.setValue(acceleration * 2.23694); // Multiply by constant to convert m/s^2 to mph^2
-        }
-        catch(Exception e)
-        {
-            System.out.println("Exception in set acceleration gauge");
-        }
-        try
-        {
-            POWER.setText(Double.toString(power / 1000)); //Divide by 1000 to display power in kW
-        }
-        catch(Exception e)
-        {
-            System.out.println("Exception in set power");
-        }
     }
 
     public boolean delete() //TODO: How to implement?
@@ -251,7 +190,7 @@ public class Train extends Application{
         frictionForce = mass * g * coeffFriction * Math.cos(Math.toRadians(grade)); // We've got to convert this to degrees
         brakingForce = brakingAcceleration * mass;
         gradeForce = -(mass * g * Math.sin(Math.toRadians(grade))); //Negative here as a positive grade will reduce forward force
-        powerForce = Math.sqrt((power * mass * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
+        powerForce = Math.sqrt((getPower() * mass * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
 
         staticForce = frictionForce + brakingForce;
         dynamicForce = powerForce + gradeForce;
@@ -291,8 +230,8 @@ public class Train extends Application{
             }
         }
 
-        acceleration = netForce / mass;
-        return acceleration;
+        setAcceleration(netForce / mass);
+        return getAcceleration();
     }
 
     //Setters//////////////////////////////////////////////////
@@ -309,7 +248,7 @@ public class Train extends Application{
 
     public void setEngineFailure()
     {
-        power = 0;
+        setPower(0);
     }
 
     public void setSignalPickupFailure()
@@ -321,6 +260,12 @@ public class Train extends Application{
     {
         brakeFailure = true;
     }
+
+    public void setPower(double power){ powerProperty.set(power);}
+
+    public void setSpeed(double speed){ speedProperty.set(speed);}
+
+    public void setAcceleration(double acceleration){ accelerationProperty.set(acceleration);}
 
 
     //Getters//////////////////////////////////////////////////
@@ -337,12 +282,25 @@ public class Train extends Application{
 
     public double getAcceleration()
     {
-        return acceleration;
+        return accelerationProperty.doubleValue();
     }
 
     public double getPower()
     {
-        return power;
+        return powerProperty.doubleValue();
     }
 
+    public SimpleDoubleProperty getPowerProperty() {
+        return powerProperty;
+    }
+
+    public double getSpeed(){ return speedProperty.doubleValue(); }
+
+    public SimpleDoubleProperty getSpeedProperty() {
+        return speedProperty;
+    }
+
+    public SimpleDoubleProperty getAccelerationProperty() {
+        return accelerationProperty;
+    }
 }
