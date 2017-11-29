@@ -1,4 +1,4 @@
-package TrainController;
+package com.company;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
@@ -66,8 +66,6 @@ public class ControllerManager extends Application {
 
     }
 
-
-
     public void addGauges() {
         commanded_velocity_gauge = GaugeBuilder.create()
                 .title("Commanded Velocity")
@@ -130,10 +128,6 @@ public class ControllerManager extends Application {
 
             checkInput(controller);
         }
-        
-        init(trains);
-
-
     }
 
     public void checkInput(TrainController controller) {
@@ -205,7 +199,7 @@ public class ControllerManager extends Application {
 
 
             group_grid.add(pane, 0, i);
-
+            System.out.println("flash");
 
 
         }
@@ -219,7 +213,7 @@ public class ControllerManager extends Application {
 
     public void addTrain(TrainController train) {
 
-        int rows = getRowCount(group_grid);
+        int rows = group_grid.getRowCount();
 
 
         train_select.getItems().add(train.name);
@@ -232,20 +226,6 @@ public class ControllerManager extends Application {
         group_grid.add(pane, 0, rows - 1);
 
 
-    }
-
-    private int getRowCount(GridPane pane) {
-        int numRows = pane.getRowConstraints().size();
-        for (int i = 0; i < pane.getChildren().size(); i++) {
-            Node child = pane.getChildren().get(i);
-            if (child.isManaged()) {
-                Integer rowIndex = GridPane.getRowIndex(child);
-                if(rowIndex != null){
-                    numRows = Math.max(numRows,rowIndex+1);
-                }
-            }
-        }
-        return numRows;
     }
 }
 
