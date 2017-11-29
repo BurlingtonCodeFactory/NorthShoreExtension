@@ -1,39 +1,39 @@
 package TrainController;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class TrainControllerManager {
 
-    ArrayList<TrainController> trains;
-    ArrayList<String>train_names;
-    LaunchGUI launch = new LaunchGUI();
+    private ArrayList<TrainController> trainControllers;
+    private ArrayList<String> trainNames;
+    private LaunchGUI launch;
 
-    public TrainControllerManager() throws Exception{
+    public TrainControllerManager() {
+        trainControllers = new ArrayList<TrainController>();
+        trainNames = new ArrayList<>();
+        launch = new LaunchGUI(trainControllers, trainNames);
+    }
 
-        launch.start(new Stage(), trains, train_names);
+    public void launch() {
+        try {
+            launch.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void addTrainController(TrainController train){
-        trains.add(train);
-        train_names.add(train.name);
-        launch.update(trains, train_names);
+        trainControllers.add(train);
+        trainNames.add(train.name);
+        launch.update(trainControllers, trainNames);
     }
 
     public void deleteTrainController(TrainController train){
         int index = train.ID;
-        trains.remove(index);
-        train_names.remove(index);
-        launch.update(trains, train_names);
+        trainControllers.remove(index);
+        trainNames.remove(index);
+        launch.update(trainControllers, trainNames);
     }
-
-
-
 }
