@@ -6,80 +6,133 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Train {
-    private int identifier;
+    private int id;
     private Line line;
-    private ObjectProperty<Block> currentLocation = new SimpleObjectProperty<>();
-    private Block previousLocation;
-    private IntegerProperty commandedSpeed = new SimpleIntegerProperty();
-    private ListProperty<Block> commandedAuthority = new SimpleListProperty<>();
-    private ListProperty<Stop> stops = new SimpleListProperty<>();
+    private Block previousBlock;
+    private Block currentBlock;
+    private int suggestedSpeed;
+    private List<Block> suggestedAuthority;
+    private List<Stop> schedule;
 
-    public int getIdentifier() {
-        return identifier;
+    private ObjectProperty<Block> previousBlockProperty;
+    private ObjectProperty<Block> currentBlockProperty;
+    private IntegerProperty suggestedSpeedProperty;
+    private ListProperty<Block> suggestedAuthorityProperty;
+    private ListProperty<Stop> scheduleProperty;
+
+    public Train(int id, Line line, Block previousBlock, Block currentBlock) {
+        this.id = id;
+        this.line = line;
+        this.previousBlockProperty = new SimpleObjectProperty<>();
+        this.currentBlockProperty = new SimpleObjectProperty<>();
+        this.suggestedSpeedProperty = new SimpleIntegerProperty();
+        this.suggestedAuthorityProperty = new SimpleListProperty<>();
+        this.scheduleProperty = new SimpleListProperty<>();
+
+        setPreviousBlock(previousBlock);
+        setCurrentBlock(currentBlock);
+        setSuggestedSpeed(0);
+        setSuggestedAuthority(new ArrayList<>());
+        setSchedule(new ArrayList<>());
+    }
+
+    //<editor-fold desc="Getters">
+
+    public int getId() {
+        return id;
     }
 
     public Line getLine() {
         return line;
     }
 
-    public ObjectProperty<Block> getCurrentLocation() {
-        return currentLocation;
+    public Block getPreviousBlock() {
+        return previousBlock;
     }
 
-    public void setCurrentLocation(Block currentLocation) {
-        this.currentLocation.setValue(currentLocation);
+    public ObjectProperty<Block> getPreviousBlockProperty() {
+        return previousBlockProperty;
     }
 
-    public Block getPreviousLocation() {
-        return previousLocation;
+    public Block getCurrentBlock() {
+        return currentBlock;
     }
 
-    public void setPreviousLocation(Block previousLocation) {
-        this.previousLocation = previousLocation;
+    public ObjectProperty<Block> getCurrentBlockProperty() {
+        return currentBlockProperty;
     }
 
-    public IntegerProperty getCommandedSpeed() {
-        return commandedSpeed;
+    public int getSuggestedSpeed() {
+        return suggestedSpeed;
     }
 
-    public void setCommandedSpeed(int commandedSpeed) {
-        this.commandedSpeed.setValue(commandedSpeed);
+    public IntegerProperty getSuggestedSpeedProperty() {
+        return suggestedSpeedProperty;
     }
 
-    public ListProperty<Block> getCommandedAuthority() {
-        return commandedAuthority;
+    public List<Block> getSuggestedAuthority() {
+        return suggestedAuthority;
     }
 
-    public void setCommandedAuthority(List<Block> commandedAuthority) {
-        this.commandedAuthority.setValue(FXCollections.observableArrayList(commandedAuthority));
+    public ListProperty<Block> getSuggestedAuthorityProperty() {
+        return suggestedAuthorityProperty;
     }
 
-    public Train(int identifier, Line line) {
-        this.identifier = identifier;
-        this.line = line;
+    public List<Stop> getSchedule() {
+        return schedule;
     }
 
-    public ObservableList<Stop> getStops() {
-        return stops.getValue();
+    public ObservableList<Stop> getScheduleProperty() {
+        return scheduleProperty;
     }
 
-    public void setStops(List<Stop> stops) {
-        this.stops.setValue(FXCollections.observableArrayList(stops));
+    //</editor-fold>
+
+    //<editor-fold desc="Setters">
+
+    public void setPreviousBlock(Block previousBlock) {
+        this.previousBlock = previousBlock;
+        this.previousBlockProperty.setValue(previousBlock);
     }
+
+    public void setCurrentBlock(Block currentBlock) {
+        this.currentBlock = currentBlock;
+        this.currentBlockProperty.setValue(currentBlock);
+    }
+
+    public void setSuggestedSpeed(int suggestedSpeed) {
+        this.suggestedSpeed = suggestedSpeed;
+        this.suggestedSpeedProperty.setValue(suggestedSpeed);
+    }
+
+    public void setSuggestedAuthority(List<Block> suggestedAuthority) {
+        this.suggestedAuthority = suggestedAuthority;
+        this.suggestedAuthorityProperty.setValue(FXCollections.observableArrayList(suggestedAuthority));
+    }
+
+    public void setSchedule(List<Stop> schedule) {
+        this.schedule = schedule;
+        this.scheduleProperty.setValue(FXCollections.observableArrayList(schedule));
+    }
+
+    //</editor-fold>
 
     public void addStop(Stop stop) {
-        stops.getValue().add(stop);
+        scheduleProperty.getValue().add(stop);
+        schedule.add(stop);
     }
 
     public void removeStop(Stop stop) {
-        stops.remove(stop);
+        scheduleProperty.getValue().remove(stop);
+        schedule.remove(stop);
     }
 
     @Override
     public String toString() {
-        return line + "-" + identifier;
+        return line + "-" + id;
     }
 }

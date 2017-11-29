@@ -1,40 +1,29 @@
 package CTCOffice;
 
-import CTCOffice.Interfaces.IFileService;
-import TrackModel.Interfaces.ITrackModelForCTCOffice;
-import TrackModel.TrackModel;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class CTCOffice extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader fxmlLoader = null;
+        FXMLLoader fxmlLoader;
         try
         {
             fxmlLoader = new FXMLLoader(new File("./build/resources/main/fxml/Main.fxml").toURI().toURL());
         }
-        catch(Exception e)
+        catch(MalformedURLException e)
         {
-
+            System.out.println("CTCOffice - .fxml malformed URL.");
+            return;
         }
 
-        // Injector injector = Guice.createInjector(new CTCModule());
         fxmlLoader.setControllerFactory(CTCModule.injector::getInstance);
 
         try {
@@ -42,7 +31,9 @@ public class CTCOffice extends Application {
         }
         catch (IOException e)
         {
-
+            System.out.println("Could not load CTCOffice fxml.");
+            e.printStackTrace();
+            return;
         }
 
         Parent root = fxmlLoader.getRoot();

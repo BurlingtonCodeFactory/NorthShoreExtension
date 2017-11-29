@@ -266,4 +266,9 @@ public class Block {
     public int hashCode() {
         return Objects.hash(id, line, blockType, beacon, circuitFailed, coefficientFriction, commandedAuthority, commandedSpeed, connectedBlocks, elevation, failed, grade, heaterOn, isBidirectional, isOccupied, isUnderground, length, lightGreen, powerFailed, railBroken, speedLimit, suggestedAuthority, suggestedSpeed, suggestMaintenance, underMaintenance);
     }
+
+    @Override
+    public String toString() {
+        return blockType == BlockType.STATION ? ((Station)this).getStationName() : Integer.toString(getId());
+    }
 }

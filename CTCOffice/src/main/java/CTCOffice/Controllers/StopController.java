@@ -2,6 +2,7 @@ package CTCOffice.Controllers;
 
 import CTCOffice.Models.Stop;
 import CTCOffice.Models.Train;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,11 +27,13 @@ public class StopController {
     }
 
     public void initialize() {
-        contentLabel.textProperty().bind(stop.getBlock().asString());
+        contentLabel.setText(stop.getBlock().toString());
         deleteButton.visibleProperty().bind(root.hoverProperty());
+
+        deleteButton.setOnAction(this::delete);
     }
 
-    public void delete() {
+    public void delete(ActionEvent e) {
         train.removeStop(stop); // TODO: Figure out weird bug were something tries to delete other trains stop
     }
 }

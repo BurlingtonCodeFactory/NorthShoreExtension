@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface ITrackModelForCTCOffice {
     void addBlock(Block block);
-    Block getBlock(int id);
+    Block getBlock(Line line, int id);
     List<Block> getBlocks(Line line);
-    List<Block> getBlocks();
 }
