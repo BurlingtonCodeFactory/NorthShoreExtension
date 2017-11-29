@@ -306,6 +306,6 @@ public class Block {
 
     @Override
     public String toString() {
-        return blockType == BlockType.STATION ? ((Station) this).getStationName() : Integer.toString(getId());
+        return blockType == BlockType.STATION ? ((Station)this).getStationName() : Integer.toString(getId());
     }
 }

@@ -42,7 +42,7 @@ public class RouteService implements IRouteService {
                     continue;
                 }
 
-                Block neighbor = repository.getBlock(neighborId);
+                Block neighbor = repository.getBlock(currentBlock.getLine(), neighborId);
                 if (!distance.containsKey(neighbor)) {
                     distance.put(neighbor, distance.get(u) + 1);
                     previous.put(neighbor, u);

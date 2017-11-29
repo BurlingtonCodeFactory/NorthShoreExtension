@@ -1,6 +1,9 @@
 package CTCOffice.Models;
 
 import CTCOffice.Interfaces.ITrainRepository;
+import TrackModel.Models.Block;
+import TrackModel.Models.BlockType;
+import TrackModel.Models.Line;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -9,27 +12,50 @@ import java.util.List;
 
 @Singleton
 public class TrainRepository implements ITrainRepository {
-    private HashMap<Integer, Train> trains = new HashMap<>();
+    private HashMap<Integer, Train> redTrains;
+    private HashMap<Integer, Train> greenTrains;
 
-    public List<Train> getTrains() {
-        return new ArrayList<>(trains.values());
-    }
-
-    public Train getTrain(int trainId) {
-        return trains.get(trainId);
+    public TrainRepository() {
+        this.redTrains = new HashMap<>();
+        this.greenTrains = new HashMap<>();
+        greenTrains.put(1, new Train(1, Line.GREEN, new Block(2, Line.GREEN, BlockType.STANDARD, 0, 0, new ArrayList<>(), 0, 0, false, false, 0, 0), new Block(3, Line.GREEN, BlockType.STANDARD, 0, 0, new ArrayList<>(), 0, 0, false, false, 0, 0)));
     }
 
     @Override
-    public Schedule getTrainSchedule(int id) {
-        return null;
+    public List<Train> getTrains(Line line) {
+        return line == Line.GREEN ? new ArrayList<>(greenTrains.values()) : new ArrayList<>(redTrains.values());
     }
 
+    @Override
+    public Train getTrain(Line line, int trainId) {
+        return line == Line.GREEN ? greenTrains.get(trainId) : redTrains.get(trainId);
+    }
+
+    @Override
+    public List<Stop> getTrainSchedule(Line line, int id) {
+        return getTrain(line, id).getSchedule();
+    }
+
+    @Override
     public void addTrain(Train train) {
-        trains.put(train.getIdentifier(), train);
+        if (train.getLine() == Line.GREEN) {
+            greenTrains.put(train.getId(), train);
+        }
+        else {
+            redTrains.put(train.getId(), train);
+        }
     }
 
     @Override
-    public Train removeTrain(int id) {
-        return null;
+    public Train removeTrain(Line line, int id) {
+        Train train;
+        if (line == Line.GREEN) {
+            train = greenTrains.remove(id);
+        }
+        else {
+            train = redTrains.remove(id);
+        }
+
+        return train;
     }
 }
