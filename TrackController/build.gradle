@@ -1,3 +1,7 @@
 apply plugin: "application"
 
 mainClassName = "TrackController.Main"
+
+dependencies {
+    compile project(':TrackModel')
+}

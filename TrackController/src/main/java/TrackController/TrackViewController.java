@@ -1,6 +1,7 @@
 package TrackController;
 
 import TrackModel.*;
+import TrackModel.Models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -91,19 +92,26 @@ public class TrackViewController {
     @FXML
     TableColumn infrastructureColumn;
 
+    private final TrackControllerManager manager;
+
+    public TrackViewController(TrackControllerManager manager)
+    {
+        this.manager = manager;
+    }
+
     @FXML
     private void initialize()
     {
         List<String> controllersList = new ArrayList<String>();
-        for (TrackController controller:Main.controllerManager.greenControllers) {
+        for (TrackController controller: manager.greenControllers) {
             controllersList.add(controller.name);
         }
         controllersView.addAll(controllersList);
         controllerList.setItems(controllersView);
 
         lineColumn.setCellValueFactory(new PropertyValueFactory<Block, Line>("line"));
-        numberColumn.setCellValueFactory(new PropertyValueFactory<Block,Integer>("number"));
-        infrastructureColumn.setCellValueFactory(new PropertyValueFactory<Block, BlockType>("infrastructure"));
+        numberColumn.setCellValueFactory(new PropertyValueFactory<Block,Integer>("id"));
+        infrastructureColumn.setCellValueFactory(new PropertyValueFactory<Block, BlockType>("BlockType"));
 
     }
 
@@ -111,7 +119,7 @@ public class TrackViewController {
     {
 
         String controllerName = controllerList.getSelectionModel().getSelectedItem();
-        TrackController selectedController = Main.controllerManager.greenControllers.get(0);
+        TrackController selectedController = manager.greenControllers.get(0);
 
         blockList.getItems().clear();
         ObservableList<Block> controllerBlocks = FXCollections.observableArrayList();
@@ -143,40 +151,40 @@ public class TrackViewController {
     {
 
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
-        blockNumber.setText(String.valueOf(blockSelected.getNumber()));
-        blockLine.setText(blockSelected.getLineType().toString());
-        blockInfrastructure.setText(blockSelected.getInfrastructure().toString());
-        blockSize.setText(String.valueOf(blockSelected.getSize())+" feet");
-        blockSpeed.setText(String.valueOf(blockSelected.getSpeed())+"mph");
-        if(blockSelected.getAuthority() != null)
+        blockNumber.setText(String.valueOf(blockSelected.getId()));
+        blockLine.setText(blockSelected.getLine().toString());
+        blockInfrastructure.setText(blockSelected.getBlockType().toString());
+        blockSize.setText(String.valueOf(blockSelected.getLength())+" feet");
+        blockSpeed.setText(String.valueOf(blockSelected.getCommandedSpeed())+"mph");
+        if(blockSelected.getCommandedAuthority() != null)
         {
-            blockAuthority.setText(String.valueOf(blockSelected.getAuthority().size()) +
-                    (blockSelected.getAuthority().size() == 1 ? " block" : " blocks" ));
+            blockAuthority.setText(String.valueOf(blockSelected.getCommandedAuthority().size()) +
+                    (blockSelected.getCommandedAuthority().size() == 1 ? " block" : " blocks" ));
         }
         else
         {
             blockAuthority.setText("0 blocks");
         }
         blockLights.setText(blockSelected.getLightGreen() ? "Green" : "Red");
-        blockHeater.setText(blockSelected.isHeaterOn() ? "On" : "Off");
-        blockRailBroken.setText(blockSelected.isFailed() ? "Yes" : "No");  //TODO: change back to railBroken
-        blockTrackCircuit.setText(blockSelected.isCircuitFailed() ? "Failed" : "Good");
-        blockPowerFailure.setText(blockSelected.isPowerFailed() ? "Yes" : "No");
-        blockOccupancy.setText(blockSelected.isTrainPresent() ? "Train" : "Free");
+        blockHeater.setText(blockSelected.getHeaterOn() ? "On" : "Off");
+        blockRailBroken.setText(blockSelected.getFailed() ? "Yes" : "No");  //TODO: change back to railBroken
+        blockTrackCircuit.setText(blockSelected.getCircuitFailed() ? "Failed" : "Good");
+        blockPowerFailure.setText(blockSelected.getPowerFailed() ? "Yes" : "No");
+        blockOccupancy.setText(blockSelected.getIsOccupied() ? "Train" : "Free");
 
-        if(blockSelected.getInfrastructure() == BlockType.SWITCH)
+        if(blockSelected.getBlockType() == BlockType.SWITCH)
         {
             Switch switchBlock = (Switch) blockSelected;
             blockSwitchPosition.setText(switchBlock.getSwitchState() ?
-                    String.valueOf(switchBlock.getSwitchOne().getNumber()):
-                    String.valueOf(switchBlock.getSwitchZero().getNumber()));
+                    String.valueOf(switchBlock.getSwitchOne()):
+                    String.valueOf(switchBlock.getSwitchZero()));
         }
         else
         {
             blockSwitchPosition.setText("N/A");
         }
 
-        if(blockSelected.getInfrastructure() == BlockType.CROSSING)
+        if(blockSelected.getBlockType() == BlockType.CROSSING)
         {
             Crossing crossingBlock = (Crossing) blockSelected;
             blockCrossingBar.setText(crossingBlock.isCrossingOn() == true ? "On" : "Off");
@@ -192,13 +200,13 @@ public class TrackViewController {
     {
 
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
-        blockSelected.setTrainPresent(!blockSelected.isTrainPresent());
-        blockOccupancy.setText(blockSelected.isTrainPresent() ? "Train" : "Free");
+        blockSelected.setIsOccupied(!blockSelected.getIsOccupied());
+        blockOccupancy.setText(blockSelected.getIsOccupied() ? "Train" : "Free");
 
         //List<Block> testAuthority = new ArrayList<>();
         //testAuthority.add(blockSelected.rightNeighbor);
 
-        Main.controllerManager.handleEvent();
+        manager.handleEvent();
 
     }
 
@@ -245,7 +253,7 @@ public class TrackViewController {
         String plcName = plcList.getSelectionModel().getSelectedItem();
         String plcString = "";
         try {
-            Scanner scanner = new Scanner(new File("./build/resources/main/plc/" + plcName));
+            Scanner scanner = new Scanner(new File("./TrackController/build/resources/main/plc/" + plcName));
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }

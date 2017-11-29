@@ -1,5 +1,8 @@
 package TrainModel;
 
+import TrackModel.Interfaces.ITrackModelForTrainModel;
+import TrackModel.Models.Line;
+
 import java.util.*;
 
 public class TrainModel{

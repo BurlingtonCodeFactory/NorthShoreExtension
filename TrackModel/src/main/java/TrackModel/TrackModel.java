@@ -4,6 +4,7 @@ import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
+import TrackModel.Interfaces.ITrackModelForTrackController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Map;
 // This class acts as a repository for information about the state
 // of the track. It should be treated as a singleton in order to
 // maintain data consistency in the system.
-public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrainModel {
+public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrainModel, ITrackModelForTrackController {
     private Map<Integer, Block> blocks; // TODO: utilize a dynamic array instead, need the O(1) lookup using integer, map is overkill
     private List<Block> redLine;
     private List<Block> greenLine;
@@ -46,6 +47,9 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrainM
     }
 
     @Override
+    public Block getBlock(Line line, int id) { return line == Line.GREEN ? greenLine.get(id) : redLine.get(id); }
+
+    @Override
     public List<Block> getBlocks(Line line) {
         return line == Line.GREEN ? greenLine : redLine;
     }
@@ -72,7 +76,13 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrainM
 
     public double getAuthorityByID(int ID, Line line)
     {
-        return getBlock(line, ID).getCommandedAuthority();
+        double authority = 0;
+        for(Block block : getBlock(line, ID).getCommandedAuthority())
+        {
+            authority += block.getLength();
+        }
+
+        return authority;
     }
 
     public double getSpeedByID(int ID, Line line)

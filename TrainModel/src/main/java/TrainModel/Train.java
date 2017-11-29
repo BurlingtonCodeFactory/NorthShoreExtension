@@ -1,5 +1,7 @@
 package TrainModel;
 
+import TrackModel.Interfaces.ITrackModelForTrainModel;
+import TrackModel.Models.Line;
 import javafx.application.Application;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
