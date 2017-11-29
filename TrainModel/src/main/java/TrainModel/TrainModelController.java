@@ -86,7 +86,7 @@ public class TrainModelController extends Application {
 
     }
 
-    public void engineFailure()
+/*    public void engineFailure()
     {
         train.engineFailure();
         POWER.setText(Double.toString(train.getPower()));
@@ -106,6 +106,6 @@ public class TrainModelController extends Application {
     {
         train.activateEBrake();
         BRAKE_INDICATOR.setFill(Paint.valueOf("#f70e12"));
-    }
+    }*/
 }
 

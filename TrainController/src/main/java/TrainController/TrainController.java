@@ -415,6 +415,15 @@ public class TrainController {
         return RIS;
     }
 
+    public boolean getLeftDoors()
+    {
+        return  doorsOpenLeft;
+    }
+
+    public boolean getRightDoors()
+    {
+        return  doorsOpenRight;
+    }
 
     public void setSetpointVelocity(double vel){
         this.setpoint_velocity = vel;
