@@ -1,4 +1,4 @@
-package com.company;
+package TrainController;
 
 /*
 
@@ -58,34 +58,7 @@ public class Main extends Application{
 
         ArrayList<TrainController> trains = new ArrayList<TrainController>(0);
 
-
-
         ArrayList<String> train_names = new ArrayList<String>(0);
-
-        int chosenTrain = 1;
-
-        TrainController train_one = new TrainController(true, 0, 0, 1);
-        train_one.set_authority(1500.00);
-        train_one.calcSetpointVelocity(23.0);
-
-        trains.add(train_one);
-        train_names.add(train_one.name);
-
-        TrainController train_two = new TrainController(true, 0, 0, 2);
-        train_two.set_authority(500.0);
-        train_two.calcSetpointVelocity(30.0);
-
-        trains.add(train_two);
-        train_names.add(train_two.name);
-
-        TrainController train_three = new TrainController(true, 0, 0, 3);
-        train_three.set_authority(100.0);
-        train_three.calcSetpointVelocity(10.0);
-
-        trains.add(train_three);
-        train_names.add(train_three.name);
-
-        String currentTrain = train_names.get(chosenTrain);
 
         controller.addDAta(train_names);
 
