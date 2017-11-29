@@ -163,6 +163,11 @@ public class Block {
         return underMaintenance;
     }
 
+
+    public int getNextBlock() { return connectedBlocks.get(0); }
+
+    public int getPreviousBlock() { return id-1; }
+
     //</editor-fold>
 
     //<editor-fold desc="Setters">
