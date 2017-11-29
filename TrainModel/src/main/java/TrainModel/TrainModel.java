@@ -1,7 +1,10 @@
 package TrainModel;
 
+import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Line;
+import TrainController.ControllerManager;
+import TrainController.TrainController;
 
 import java.util.*;
 
@@ -9,6 +12,8 @@ public class TrainModel{
 
     //Initialize Track Model Interface
     ITrackModelForTrainModel track; //TODO: Fix this
+
+    ITrackModelForTrainController trackModelForTrainController;
 
     //Initialize array of trains
     private ArrayList<Train> trains;
@@ -19,7 +24,7 @@ public class TrainModel{
     //Initialize ID
     private int ID;
 
-    public TrainModel(ITrackModelForTrainModel track)
+    public TrainModel(ITrackModelForTrainModel track, ITrackModelForTrainController trackModelForTrainController)
     {
         //Assign track
         this.track = track;
@@ -33,13 +38,13 @@ public class TrainModel{
         //ID of trains will begin at 1
         ID = 1;
 
-
+        this.trackModelForTrainController = trackModelForTrainController;
     }
 
     public int createTrain(int previousBlock, int currentBlock, int cars, boolean PIDSetupBypass, Line line) //This constructor should probably take a track
     {
         //Create train controller
-        TrainController trainController = new TrainController(PIDSetupBypass, previousBlock, currentBlock, ID, ITrackModelForTrainController tcTrack);
+        TrainController trainController = new TrainController(PIDSetupBypass, previousBlock, currentBlock, ID, trackModelForTrainController, line);
 
         //Create train
         Train train = new Train(previousBlock, currentBlock, cars, trainController, PIDSetupBypass, ID, track, line);

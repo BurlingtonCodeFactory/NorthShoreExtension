@@ -2,6 +2,7 @@ package TrainModel;
 
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Line;
+import TrainController.TrainController;
 import javafx.application.Application;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
@@ -25,6 +26,8 @@ public class Train extends Application{
     public Circle BRAKE_INDICATOR;
     public Pane SPEED_GAUGE_PANE;
     public Pane ACCELERATION_GAUGE_PANE;
+    public Gauge speedGauge;
+    public Gauge accelerationGauge;
 
     //Initialize constructor properties
     int cars, ID;
@@ -44,6 +47,8 @@ public class Train extends Application{
     private double acceleration = 0, previousAcceleration = 0, brakingAcceleration = 0;
     private double previousTimestamp, deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
+    private double cabinTemp = 67;
+    private String RIS = "";
 
     public Train(int previousBlock, int currentBlock, int cars, TrainController trainController, boolean PIDSetupbypass, int ID, ITrackModelForTrainModel track, Line line)
     {
@@ -61,7 +66,7 @@ public class Train extends Application{
         mass = cars * 37096;
 
         //Initialize block length tracking
-        totalBlockLength = track.getBlockByID(currentBlock, line).getLength();
+        totalBlockLength = track.getLengthByID(currentBlock, line);
 
         //Open and Initialize Train UI
         try
@@ -75,7 +80,7 @@ public class Train extends Application{
             stage.show();
 
             //Set up gauges
-            Gauge speedGauge = GaugeBuilder.create()
+            speedGauge = GaugeBuilder.create()
                     .title("Speed Gauge")
                     .subTitle("")
                     .unit("mph")
@@ -83,7 +88,7 @@ public class Train extends Application{
 
             SPEED_GAUGE_PANE.getChildren().add(speedGauge);
 
-            Gauge accelerationGauge = GaugeBuilder.create()
+            accelerationGauge = GaugeBuilder.create()
                     .title("Acceleration Gauge")
                     .subTitle("")
                     .unit("mph/s")
@@ -190,9 +195,9 @@ public class Train extends Application{
 
         }
 
-        if(cabinTemp != trainController.getCabinTemp()) //TODO: change to double
+        if(cabinTemp != trainController.getCabinTemp()) //TODO: this
         {
-            cabinTemp = cabinTemp + Integer.signum(cabinTemp - trainController.getCabinTemp());
+
         }
 
         RIS = trainController.getRIS();

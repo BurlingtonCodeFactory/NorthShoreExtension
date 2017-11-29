@@ -39,12 +39,12 @@ public class StartupController extends Application
 //        {
 //
 //        }
-
-        int cars = Integer.parseInt(CARS.getText());
-        double power = Double.parseDouble(POWER.getText()) * 1000; //Multiplied by 1000 to convert from kW to W
-        double grade = Double.parseDouble(GRADE.getText());
-
-        Train train = new Train(cars, power, grade);
+//
+//        int cars = Integer.parseInt(CARS.getText());
+//        double power = Double.parseDouble(POWER.getText()) * 1000; //Multiplied by 1000 to convert from kW to W
+//        double grade = Double.parseDouble(GRADE.getText());
+//
+//        Train train = new Train(cars, power, grade);
 
 //        //Open Train Model UI
 //        try{
