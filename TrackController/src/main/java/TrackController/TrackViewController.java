@@ -8,8 +8,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -128,13 +130,23 @@ public class TrackViewController {
         blockList.setItems(controllerBlocks);
 
         String plcString = "";
+        File file;
+        if(System.getProperty("user.dir").endsWith("System"))
+        {
+            file = new File("./build/resources/main/" + selectedController.plc.filename);
+        }
+        else
+        {
+            file = new File("./TrackController/build/resources/main/" + selectedController.plc.filename);
+        }
         try {
-            Scanner scanner = new Scanner(new File("./build/resources/main/plc/" + selectedController.plc.filename));
+            Scanner scanner = new Scanner(file);
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }
         catch(FileNotFoundException e)
         {
+            e.printStackTrace();
             System.out.println("File not found");
         }
         plcContents.setText(plcString);
@@ -250,11 +262,21 @@ public class TrackViewController {
 
     @FXML public void plcSelected(MouseEvent arg0)
     {
-
         String plcName = plcList.getSelectionModel().getSelectedItem();
+        File file;
+        if(System.getProperty("user.dir").endsWith("System"))
+        {
+            file = new File("./build/resources/main/" + plcName);
+        }
+        else
+        {
+            file = new File("./TrackController/build/resources/main/" + plcName);
+        }
+
+
         String plcString = "";
         try {
-            Scanner scanner = new Scanner(new File("./build/resources/main/" + plcName));
+            Scanner scanner = new Scanner(file);
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }

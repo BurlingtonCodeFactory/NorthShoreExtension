@@ -163,8 +163,45 @@ public class Block {
         return underMaintenance;
     }
 
+    public String getCommandedAuthorityString(){
+        if(commandedAuthority.size() == 0)
+        {
+            return "";
+        }
 
-    public int getNextBlock() { return connectedBlocks.get(0); }
+        String authority = "";
+        for(Block block : commandedAuthority)
+        {
+            authority += block.getId()+",";
+        }
+        return authority.substring(0, authority.length()-1);
+    }
+
+    public String getSuggestedAuthorityString(){
+        if(suggestedAuthority.size() == 0)
+        {
+            return "";
+        }
+
+        String authority = "";
+        for(Block block : suggestedAuthority)
+        {
+            authority += block.getId()+",";
+        }
+        return authority.substring(0, authority.length()-1);
+    }
+
+
+    public int getNextBlock() {
+        int maxID = -1;
+        for (int block : connectedBlocks) {
+            if(block > maxID)
+            {
+                maxID = block;
+            }
+        }
+        return maxID;
+    }
 
     public int getPreviousBlock() { return id-1; }
 
