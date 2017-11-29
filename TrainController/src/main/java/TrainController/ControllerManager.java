@@ -66,9 +66,7 @@ public class ControllerManager extends Application {
 
     }
 
-    public ControllerManager(){
 
-    }
 
     public void addGauges() {
         commanded_velocity_gauge = GaugeBuilder.create()
