@@ -30,7 +30,15 @@ public class PLC {
         BufferedReader reader = null;
         try
         {
-            reader = new BufferedReader(new FileReader("./build/resources/main/" + file)); // TODO From Andrew; To Ryan; This path seems weird to me, I worry it's going to need to be different when we deploy?
+            if(System.getProperty("user.dir").endsWith("System"))
+            {
+                reader = new BufferedReader(new FileReader("./build/resources/main/" + file)); // TODO From Andrew; To Ryan; This path seems weird to me, I worry it's going to need to be different when we deploy?
+
+            }
+            else
+            {
+                reader = new BufferedReader(new FileReader("./TrackController/build/resources/main/" + file)); // TODO From Andrew; To Ryan; This path seems weird to me, I worry it's going to need to be different when we deploy?
+            }
             String inCommand = null;
             while ((inCommand = reader.readLine()) != null) {
                 PLCRule newRule = processLine(inCommand);

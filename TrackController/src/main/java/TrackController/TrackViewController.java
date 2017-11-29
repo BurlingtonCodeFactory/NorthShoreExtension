@@ -129,12 +129,13 @@ public class TrackViewController {
 
         String plcString = "";
         try {
-            Scanner scanner = new Scanner(new File("./build/resources/main/plc/" + selectedController.plc.filename));
+            Scanner scanner = new Scanner(new File("./TrackController/build/resources/main/" + selectedController.plc.filename));
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }
         catch(FileNotFoundException e)
         {
+            e.printStackTrace();
             System.out.println("File not found");
         }
         plcContents.setText(plcString);
