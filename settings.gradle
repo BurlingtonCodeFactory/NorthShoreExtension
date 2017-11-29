@@ -1,4 +1,5 @@
 rootProject.name = 'NorthShoreExtension'
 
 include ":CTCOffice", ":TrackController", ":TrainController", ":TrainModel", ":TrackModel"//, ":System"
+include 'System'
 
