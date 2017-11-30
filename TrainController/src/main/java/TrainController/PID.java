@@ -14,8 +14,8 @@ public class PID {
 
 
     public PID(){
-        kI = 9000.0;
-        kP=11250.0;
+        kI = 297.0;
+        kP=990.0;
         integral_last = 0.0;
         error_last=0.0;
     }
@@ -33,9 +33,9 @@ public class PID {
         this.kP = kp;
     }
 
-    public double getPower(Double vel_input, Double setpoint_vel, Double period ){
+    public double getPower(double vel_input, double setpoint_vel, double period ){
 
-        error = (setpoint_vel - vel_input)*.447307;
+        error = (setpoint_vel - vel_input);
 
         double errorSum = error + error_last;
 
@@ -56,6 +56,11 @@ public class PID {
         }
 
         error_last = error;
+
+        if(power_out<0)
+        {
+            power_out = 0;
+        }
 
 
         return power_out;

@@ -3,6 +3,7 @@ package TrackController;
 import TrackController.Models.TrackController;
 import TrackModel.Events.*;
 import TrackModel.Interfaces.ITrackModelForTrackController;
+import TrackModel.Models.Block;
 import TrackModel.Models.Line;
 import TrackModel.TrackModel;
 import javafx.application.Application;
@@ -10,6 +11,7 @@ import javafx.application.Application;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
     private ITrackModelForTrackController track;
     private final int[] REDCONTROLLERBLOCKS = {15};
     private final int[] GREENCONTROLLERBLOCKS = {150};
+    private final ArrayList<Integer> LOCKS = new ArrayList<>(Arrays.asList(29,76));
 
     public TrackControllerManager() //TODO: Inject Track Model and create controllers
     {
@@ -34,6 +37,10 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
             for (int i = blockid; i <= limit; i++)
             {
                 controller.addBlock(track.getBlock(Line.GREEN, i));
+                if(LOCKS.contains(i))
+                {
+                    track.getBlock(Line.GREEN, i).createLock();
+                }
                 blockid++;
             }
             id++;
@@ -56,7 +63,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
 
     public void occupancyChangeReceived(OccupancyChangeEvent event)
     {
-        System.out.println("Handling occupancy change in Track Controller");
+        System.out.println("Handling occupancy change in Track Controller ");
         runRules();
     }
 

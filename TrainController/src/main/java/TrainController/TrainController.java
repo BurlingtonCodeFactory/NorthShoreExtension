@@ -14,11 +14,11 @@ public class TrainController {
     double prevAcceleration;
     double acceleration;
     List<SkinnyBlock> track;
-    Double current_velocity;
+    double current_velocity;
 
-    Double commanded_velocity;
+    double commanded_velocity;
 
-    Double authority;
+    double authority;
     double previousTime;
 
     boolean auto;
@@ -31,26 +31,27 @@ public class TrainController {
 
     boolean lights;
 
-    Double power_out;
+    double power_out;
 
-    Double input_velocity;
+    double input_velocity;
+    double distInBlock;
 
-    Double setpoint_velocity;
+    double setpoint_velocity;
 
 
     int previousBlock;
     double kp;
     PID pid;
-    Double cabinTemp;
+    double cabinTemp;
     String [] stations = new String[226];
     boolean departing;
     String nextStation;
 
-    Double blockLength;
-    Double distToStation;
+    double blockLength;
+    double distToStation;
     boolean stopping;
-    Double speedLimit;
-    Double stoppingDistance;
+    double speedLimit;
+    double stoppingDistance;
     double speed;
     int beacon;
 
@@ -67,6 +68,7 @@ public class TrainController {
 
     public TrainController(boolean pidInputBypass, int previous, int current, int ID, ITrackModelForTrainController trackInterface, Line line){
 
+        System.out.println("Creating train controller "+ID);
 
         this.ID = ID;
 
@@ -94,7 +96,7 @@ public class TrainController {
 
         input_velocity  = 0.0;
         authority =0.0;
-
+        distInBlock=0.0;
         SkinnyBlock yard = new SkinnyBlock(0.0, 0.0, null, true, 0);
         greenYard = yard;
         SkinnyBlock skinnyBlock = yard;
@@ -167,8 +169,8 @@ public class TrainController {
                             null,
                         null);
                 String []ks = str.split(";");
-                Double kI = Double.parseDouble(ks[0]);
-                Double kP = Double.parseDouble(ks[1]);
+                double kI = Double.parseDouble(ks[0]);
+                double kP = Double.parseDouble(ks[1]);
                 pid = new PID(kI, kP);
             }
         }
@@ -191,31 +193,35 @@ public class TrainController {
 
     public void updateVelocity(double velocity){
         current_velocity = velocity;
+        setStoppingDistance();
+        checkStopping();
     }
 
     public void setUnderground(boolean underground){
         lights = underground;
     }
 
-    public int nextBlock(int previous, int current){
+    public void nextBlock(){
+
+        distInBlock=0.0;
 
         if(departing){
             RIS = "Next station is " + nextStation;
         }
-        SkinnyBlock skinnyBlock;
+        /*SkinnyBlock skinnyBlock;
         if(track.get(current).getPrev().ID == previous) {
              skinnyBlock = track.get(current).getNext();
         } else {
             skinnyBlock = track.get(current).getPrev();
         }
-        return skinnyBlock.ID;
+        return skinnyBlock.ID;*/
 
 
     }
 
 
 
-    public void set_power_out(Double power){
+    public void set_power_out(double power){
         this.power_out = power;
     }
 
@@ -296,7 +302,7 @@ public class TrainController {
 
     }
 
-    public void setAuthority(Double a){
+    public void setAuthority(double a){
 
         this.authority = a;
 
@@ -312,7 +318,7 @@ public class TrainController {
 
 
 
-    public Double get_power_out(double period){
+    public double getPower(double period){
         if (brake || emergency_brake)
         {
             power_out =0.0;
@@ -321,10 +327,15 @@ public class TrainController {
         {
             power_out = pid.getPower(current_velocity, setpoint_velocity, period);
         }
+        distInBlock += current_velocity*(period/1000);
+        System.out.println("Controller Velocity="+current_velocity +" Power="+getPower() + " Setpoint="+setpoint_velocity +" Distance="+distInBlock+" Brake="+brake);
+        System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
+
+
         return power_out;
     }
 
-    public void calcSetpointVelocity(Double v){
+    public void calcSetpointVelocity(double v){
 
         this.commanded_velocity = v;
 
@@ -347,7 +358,7 @@ public class TrainController {
 
 
 
-    public void update_velocity(Double v){
+    public void update_velocity(double v){
 
         this.current_velocity = v;
 
@@ -403,7 +414,7 @@ public class TrainController {
         return this.emergency_brake;
     }
 
-    public void setCabinTemp(Double temp){
+    public void setCabinTemp(double temp){
         this.cabinTemp = temp;
     }
 
@@ -435,16 +446,16 @@ public class TrainController {
 
     public void setStoppingDistance(){
 
-        Double stopTime  = this.current_velocity/9663.5648;
+        double stopTime  = this.current_velocity/1.2;
 
-        stoppingDistance = current_velocity * stopTime - 9663.5648 *.5 * Math.pow(stopTime,2);
+        stoppingDistance = current_velocity * stopTime - 1.2 *.5 * Math.pow(stopTime,2);
 
 
-
+        stoppingDistance += 10;
     }
 
     public void checkStopping(){
-        brake = (authority<= stoppingDistance);
+        brake = ((authority-distInBlock)<= stoppingDistance);
     }
 
     public void brakeTrain(double period){
@@ -470,7 +481,7 @@ public class TrainController {
         }else {
 
 
-        power_out = get_power_out(deltaTmillis);
+        power_out = getPower(deltaTmillis);
 
         //Calculate new velocity and speed
 
