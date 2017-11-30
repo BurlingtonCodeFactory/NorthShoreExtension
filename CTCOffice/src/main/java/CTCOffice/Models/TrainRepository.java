@@ -14,15 +14,27 @@ import java.util.List;
 public class TrainRepository implements ITrainRepository {
     private HashMap<Integer, Train> redTrains;
     private HashMap<Integer, Train> greenTrains;
+    private boolean mode;
 
     public TrainRepository() {
         this.redTrains = new HashMap<>();
         this.greenTrains = new HashMap<>();
+        this.mode = false;
     }
 
     @Override
     public List<Train> getTrains(Line line) {
         return line == Line.GREEN ? new ArrayList<>(greenTrains.values()) : new ArrayList<>(redTrains.values());
+    }
+
+    @Override
+    public boolean getMode() {
+        return mode;
+    }
+
+    @Override
+    public void setMode(boolean mode) {
+        this.mode = mode;
     }
 
     @Override

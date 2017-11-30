@@ -5,6 +5,10 @@ import CTCOffice.Interfaces.IRouteService;
 import CTCOffice.Interfaces.ITrainRepository;
 import CTCOffice.Models.Stop;
 import CTCOffice.Models.Train;
+import TrackModel.Events.ClockTickUpdateEvent;
+import TrackModel.Events.ClockTickUpdateListener;
+import TrackModel.Events.OccupancyChangeEvent;
+import TrackModel.Events.OccupancyChangeListener;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
@@ -22,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class MainController {
+public class MainController implements ClockTickUpdateListener, OccupancyChangeListener {
     @FXML
     public ChoiceBox<Integer> multiplier;
     @FXML
@@ -63,6 +67,10 @@ public class MainController {
     public Button trainAuthorityButton;
     @FXML
     public Button trainCreate;
+    @FXML
+    public Label currentTime;
+    @FXML
+    public CheckBox mode;
 
     private ITrackModelForCTCOffice trackModel;
     private ITrainRepository trainRepository;
@@ -89,6 +97,11 @@ public class MainController {
         );
         // Select initial multiplier value (1)
         multiplier.getSelectionModel().select(1);
+
+        // Set handler for mode change
+        mode.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> trainRepository.setMode(newValue)
+        );
 
         // Set blockLine options
         blockLine.setItems(FXCollections.observableArrayList(Line.values()));
@@ -247,6 +260,21 @@ public class MainController {
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
         train.addStop(new Stop(block));
+    }
+
+    @Override
+    public void clockTickUpdateReceived(ClockTickUpdateEvent event) {
+        currentTime.setText(Double.toString(((double) event.getSource()) / 1000));
+    }
+
+    @Override
+    public void occupancyChangeReceived(OccupancyChangeEvent event) {
+        Block changedBlock = (Block) event.getSource();
+        Block selectedBlock = blockName.getSelectionModel().getSelectedItem();
+
+        if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine()) {
+            blockOccupied.setText(Boolean.toString(changedBlock.getIsOccupied()));
+        }
     }
 
     private Parent loadItemFxml(Stop stop, Train train) {

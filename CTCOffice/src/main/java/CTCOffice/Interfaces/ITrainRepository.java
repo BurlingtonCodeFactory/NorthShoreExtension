@@ -12,4 +12,6 @@ public interface ITrainRepository {
     Train getTrain(Line line, int id);
     List<Stop> getTrainSchedule(Line line, int id);
     List<Train> getTrains(Line line);
+    boolean getMode();
+    void setMode(boolean mode);
 }

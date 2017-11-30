@@ -1,5 +1,8 @@
 package CTCOffice;
 
+import CTCOffice.Controllers.MainController;
+import TrackModel.Models.Block;
+import TrackModel.TrackModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +27,10 @@ public class CTCOffice extends Application {
             return;
         }
 
-        fxmlLoader.setControllerFactory(CTCModule.injector::getInstance);
+        MainController controller = CTCModule.injector.getInstance(MainController.class);
+        TrackModel.addClockTickUpdateListener(controller);
+        Block.addOccupancyChangeListener(controller);
+        fxmlLoader.setController(controller);
 
         try {
             fxmlLoader.load();
