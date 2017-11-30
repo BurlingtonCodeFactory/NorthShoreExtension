@@ -87,6 +87,7 @@ public class PLC {
     {
         return field.equals("occupied") ||
                 field.equals("switch") ||
+                field.equals("lock") ||
                 field.equals("failure") ||
                 field.equals("route");
     }
@@ -97,6 +98,8 @@ public class PLC {
                 field.equals("crossingOff") ||
                 field.equals("switchZero") ||
                 field.equals("switchOne") ||
+                field.equals("lock") ||
+                field.equals("unlock") ||
                 field.equals("continue") ||
                 field.equals("stop") ||
                 field.equals("heaterOn") ||
@@ -207,7 +210,6 @@ public class PLC {
         {
             int off = Integer.parseInt(offset);
             Block intendedBlock = getBlockByOffset(off, block);
-
             switch(field)
             {
                 case "occupied":
@@ -224,6 +226,12 @@ public class PLC {
                             performAction(action, block);
                             return;
                         }
+                    }
+                case "lock":
+                    if(intendedBlock.hasLock() && intendedBlock.getLock() == Boolean.parseBoolean(value))
+                    {
+                        System.out.println("Performing "+action+" on "+block.getId());
+                        performAction(action, block);
                     }
             }
 
@@ -252,14 +260,20 @@ public class PLC {
             switch(field)
             {
                 case "occupied":
-                    if(intendedBlock.getIsOccupied()) {
+                    if(intendedBlock.getIsOccupied() == Boolean.parseBoolean(value)) {
                         if (off == 1 || off == 0)
                         {
+                            System.out.println("Performing "+action+" on "+block.getId());
                             performAction(action, block);
                         }
                         else
                         {
-                            if (intendedBlock.getSuggestedAuthority().contains(track.getBlock(Line.GREEN, block.getSwitchOne()))) {
+                            if(action.equals("lock"))
+                            {
+                                System.out.println("Performing "+action+" on "+block.getId());
+                                performAction(action, block);
+                            }
+                            else if (intendedBlock.getSuggestedAuthority().contains(track.getBlock(Line.GREEN, block.getSwitchOne()))) {
                                 performAction("switchOne", block);
                             } else {
                                 performAction("switchZero", block);
@@ -297,6 +311,12 @@ public class PLC {
                     break;
                 case "switchOne":
                     block.setSwitchState(true);
+                    break;
+                case "lock":
+                    block.setLock(true);
+                    break;
+                case "unlock":
+                    block.setLock(false);
                     break;
             }
         }
@@ -387,7 +407,7 @@ public class PLC {
     public boolean evaluateBlock(Block block)
     {
         if(block.getSuggestedAuthority().size() == 0)
-            return true;
+            //return true;
 
         if(block instanceof Switch)
         {

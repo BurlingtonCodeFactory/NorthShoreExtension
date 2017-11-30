@@ -69,6 +69,7 @@ public class TrackControllerGUI extends Application {
                 loader = new FXMLLoader(new File("./TrackController/build/resources/main/fxml/TrackController.fxml").toURI().toURL());
             }
             TrackViewController controller = new TrackViewController(manager);
+            manager.addRefreshUIListener(controller);
             loader.setController(controller);
             AnchorPane page = loader.load();
             Scene scene = new Scene(page);
