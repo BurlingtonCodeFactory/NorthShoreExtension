@@ -1,8 +1,10 @@
 package System;
 
 import CTCOffice.CTCModule;
+import TrackController.TrackControllerManager;
 import TrackController.TrackControllerModule;
 import TrackModel.Models.Block;
+import TrackModel.Models.Line;
 import TrackModel.Services.FileService;
 import TrackModel.TrackModel;
 import TrainModel.TrainModel;
@@ -16,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NseMain extends Application {
@@ -47,6 +50,7 @@ public class NseMain extends Application {
 
         TrackModel trackModel = injector.getInstance(TrackModel.class);
 
+
         for (Block block : blocks) {
             trackModel.addBlock(block);
         }
@@ -58,5 +62,14 @@ public class NseMain extends Application {
         // Instantiate CTC
         CTCModule ctc = new CTCModule(injector);
         ctc.launch();
+
+        Block.addOccupancyChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
+
+
+        trackModel.getBlock(Line.GREEN, 1).setSuggestedSpeed(20);
+        trackModel.getBlock(Line.GREEN, 1).setSuggestedAuthority(new ArrayList<>());
+
     }
 }

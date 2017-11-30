@@ -51,9 +51,9 @@ public class TrackControllerGUI extends Application {
 
     private final TrackControllerManager manager;
 
-    public TrackControllerGUI()
+    public TrackControllerGUI(TrackControllerManager manager)
     {
-        this.manager =  new TrackControllerManager();
+        this.manager =  manager;
     }
 
     @Override

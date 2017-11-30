@@ -1,5 +1,7 @@
 package TrackModel;
 
+import TrackModel.Events.OccupancyChangeEvent;
+import TrackModel.Events.OccupancyChangeListener;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
@@ -20,6 +22,8 @@ import java.util.Map;
 public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController, ITrackModelForTrainController, ITrackModelForTrainModel {
     private Map<Integer, Block> redLine;
     private Map<Integer, Block> greenLine;
+
+    private List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
 
     public TrackModel() {
         redLine = new HashMap<>();
@@ -103,4 +107,5 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     {
         getBlock(line, ID).setIsOccupied(isOccupied);
     }
+
 }

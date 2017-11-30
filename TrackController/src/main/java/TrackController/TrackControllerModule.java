@@ -15,9 +15,8 @@ public class TrackControllerModule {
 
     public void launch()
     {
-
         System.out.println("Here TC");
-        TrackControllerGUI gui = new TrackControllerGUI();
+        TrackControllerGUI gui = new TrackControllerGUI(injector.getInstance(TrackControllerManager.class));
         gui.start(new Stage());
     }
 
