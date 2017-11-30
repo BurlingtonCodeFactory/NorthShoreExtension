@@ -57,18 +57,21 @@ public class Train {
         this.carsProperty = new SimpleIntegerProperty();
         this.powerProperty = new SimpleDoubleProperty();
         this.speedProperty = new SimpleDoubleProperty();
+        this.massProperty = new SimpleDoubleProperty();
         this.accelerationProperty = new SimpleDoubleProperty();
         this.cabinTempProperty = new SimpleDoubleProperty();
         this.leftDoorsProperty = new SimpleBooleanProperty();
         this.rightDoorsProperty = new SimpleBooleanProperty();
         this.lightsProperty = new SimpleBooleanProperty();
+        this.brakesProperty = new SimpleBooleanProperty();
+        this.RISProperty = new SimpleStringProperty();
         carsProperty.set(cars);
         speedProperty.set(0);
         accelerationProperty.set(0);
         cabinTempProperty.set(67);
 
         //Calculate Initial Train Mass
-        setMass(cars * 37096);
+        setMass(carsProperty.getValue() * 37096);
 
         //Initialize block length tracking
         totalBlockLength = track.getLengthByID(currentBlock, line);
