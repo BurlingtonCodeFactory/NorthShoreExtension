@@ -202,6 +202,10 @@ public class Train {
         frictionForce = getMass() * g * coeffFriction * Math.cos(Math.toRadians(grade)); // We've got to convert this to degrees
         brakingForce = brakingAcceleration * getMass();
         gradeForce = -(getMass() * g * Math.sin(Math.toRadians(grade))); //Negative here as a positive grade will reduce forward force
+        if(previousBlock > currentBlock) //Invert grade force if train is traveling in opposite direction on track
+        {
+            gradeForce = gradeForce * -1;
+        }
         powerForce = Math.sqrt((getPower() * getMass() * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
 
         staticForce = frictionForce + brakingForce;
@@ -274,15 +278,15 @@ public class Train {
         brakeFailure = true;
     }
 
-    public void setPower(double power){ powerProperty.set(power);}
+    public void setPower(double power){ powerProperty.setValue(power);}
 
-    public void setMass(double mass){massProperty.set(mass);}
+    public void setMass(double mass){massProperty.setValue(mass);}
 
-    public void setRIS(String RIS){RISProperty.set(RIS);}
+    public void setRIS(String RIS){RISProperty.setValue(RIS);}
 
-    public void setSpeed(double speed){ speedProperty.set(speed);}
+    public void setSpeed(double speed){ speedProperty.setValue(speed);}
 
-    public void setAcceleration(double acceleration){ accelerationProperty.set(acceleration);}
+    public void setAcceleration(double acceleration){ accelerationProperty.setValue(acceleration);}
 
     public void setBrake(boolean brakesOn){brakesProperty.setValue(brakesOn);}
 

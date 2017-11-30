@@ -58,7 +58,7 @@ public class CTCEventHandler implements OccupancyChangeListener {
                 );
 
                 List<Block> newSuggestedAuthority = new ArrayList<>(movedTrain.getSuggestedAuthority());
-                if (newSuggestedAuthority.size() > 0) {
+                if (newSuggestedAuthority.size() > 1) {
                     // There is still authority left, so remove the previous block and assign the updated authority to the train
                     newSuggestedAuthority.remove(0);
                     System.out.println("Still authority left, setting "+changedBlock.getId()+" to "+newSuggestedAuthority);
