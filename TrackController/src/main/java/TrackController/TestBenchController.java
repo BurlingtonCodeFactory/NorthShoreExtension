@@ -91,6 +91,16 @@ public class TestBenchController {
     @FXML
     Label blockFailure;
 
+    @FXML
+    Label blockConnectedBlocks;
+
+    @FXML
+    TextField suggestedAuthorityValue;
+
+    @FXML
+    TextField suggestedSpeedValue;
+
+
 
 
     private final TrackModel track;
@@ -111,13 +121,54 @@ public class TestBenchController {
         }
         blocksObservableList.addAll(blockList);
         blockListView.setItems(blocksObservableList);
+        blockListView.getItems().get(0);
 
     }
 
     public void blockSelected()
     {
         block = blockListView.getSelectionModel().getSelectedItem();
+        refreshUI();
+    }
 
+    public void occupancyChanged()
+    {
+        block.setIsOccupied(!block.getIsOccupied());
+        refreshUI();
+    }
+
+    public void failureChanged()
+    {
+        block.setFailed(!block.getFailed());
+        refreshUI();
+    }
+
+    public void setSuggestedSpeed()
+    {
+        double value = Double.parseDouble(suggestedSpeedValue.getText());
+        block.setSuggestedSpeed(value);
+        suggestedSpeedValue.setText("");
+        refreshUI();
+    }
+
+    public void setSuggestedAuthority()
+    {
+        List<Block> authority = new ArrayList<>();
+        String[] blockStrings = suggestedAuthorityValue.getText().trim().split(",");
+        for(String blockString : blockStrings)
+        {
+            if(blockString.trim().equals("")) {
+                break;
+            }
+            authority.add(track.getBlock(Line.GREEN, Integer.parseInt(blockString.trim())));
+        }
+        block.setSuggestedAuthority(authority);
+        suggestedAuthorityValue.setText("");
+        refreshUI();
+    }
+
+    public void refreshUI()
+    {
         blockOccupied.setText(String.valueOf(block.getIsOccupied()));
         blockSuggestedSpeed.setText(String.valueOf(block.getSuggestedSpeed()));
         blockSuggestedAuthority.setText(block.getSuggestedAuthorityString());
@@ -135,6 +186,7 @@ public class TestBenchController {
         blockCircuitFailed.setText(String.valueOf(block.getCircuitFailed()));
         blockSpeed.setText(String.valueOf(block.getCommandedSpeed()));
         blockAuthority.setText(String.valueOf(block.getCommandedAuthorityString()));
+        blockConnectedBlocks.setText(block.getConnectedBlocksString());
 
         if(block instanceof Crossing)
         {
@@ -161,12 +213,6 @@ public class TestBenchController {
             blockSwitchOne.setText("N/A");
             blockSwitchBase.setText("N/A");
         }
-
-    }
-
-    public void occupancyChanged()
-    {
-        //block.setIsOccupied(block.);
     }
 
 }
