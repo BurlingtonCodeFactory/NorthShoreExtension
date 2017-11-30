@@ -33,6 +33,7 @@ public class Block {
     private double suggestedSpeed;
     private boolean suggestMaintenance;
     private boolean underMaintenance;
+    private Boolean lock;
 
     private static List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
     private static List<SuggestedSpeedChangeListener> suggestedSpeedChangeListeners = new ArrayList<>();
@@ -65,6 +66,7 @@ public class Block {
         this.suggestedSpeed = 0;
         this.suggestMaintenance = false;
         this.underMaintenance = false;
+        this.lock = null;
     }
 
     //<editor-fold desc="Getters">
@@ -168,6 +170,8 @@ public class Block {
     public boolean getUnderMaintenance() {
         return underMaintenance;
     }
+
+    public Boolean getLock(){ return lock; }
 
     public String getCommandedAuthorityString(){
         if(commandedAuthority.size() == 0)
@@ -291,6 +295,11 @@ public class Block {
             this.underMaintenance = underMaintenance;
         }
 
+        public void setLock(boolean lock)
+        {
+            this.lock = lock;
+        }
+
         //</editor-fold>
 
     @Override
@@ -333,6 +342,16 @@ public class Block {
     @Override
     public String toString() {
         return blockType == BlockType.STATION ? ((Station)this).getStationName() : Integer.toString(getId());
+    }
+
+    public void createLock()
+    {
+        this.lock = new Boolean(false);
+    }
+
+    public boolean hasLock()
+    {
+        return this.lock != null;
     }
 
     // Events

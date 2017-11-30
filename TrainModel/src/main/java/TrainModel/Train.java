@@ -76,11 +76,7 @@ public class Train {
         //Initialize block length tracking
         totalBlockLength = track.getLengthByID(currentBlock, line);
 
-        //Get Initial timestamp (wall-clock time)
-        previousTimestamp = System.currentTimeMillis();
-
-        System.out.println("Setting occupancy");
-        track.setOccupancy(1, true,Line.GREEN);
+        track.setOccupancy(currentBlock, true, line);
     }
 
     public void update(double elapsedTime)
@@ -95,17 +91,22 @@ public class Train {
         while(totalDisplacement > totalBlockLength)         //This loop iterates as long as the trains displacement has surpassed the given displacement for this block
         {
             //Get next block and add its length to total block length
-            int temp = trainController.nextBlock(previousBlock, currentBlock);
+            trainController.nextBlock();
+            int temp = track.getNextBlock(previousBlock, currentBlock, line);
+            if(temp == -2)
+            {
+                System.out.println("This is not okay");
+            }
             totalBlockLength = totalBlockLength + track.getLengthByID(temp, line);
 
             //Update Occupancy of (now) previous block to false
             track.setOccupancy(currentBlock, false, line);
+            track.setOccupancy(temp, true, line);
 
             //Update current and previous blocks
             previousBlock = currentBlock;
             currentBlock = temp;
         }
-        track.setOccupancy(currentBlock,true, line); //Update occupancy of current block to true
 
         //Check if train has just driven into yard
         if(!(previousBlock == -1) && (currentBlock == 0))
@@ -114,11 +115,11 @@ public class Train {
         }
 
         //Get physical data from track
-        coeffFriction = track.getFrictionByID(currentBlock, line); //TODO: these methods need to take a block ID, talk to Andrew
+        coeffFriction = track.getFrictionByID(currentBlock, line);
         grade = track.getGradeByID(currentBlock, line);
 
         //Get input data from train controller
-        setPower(trainController.getPower());
+        setPower(trainController.getPower(deltaTmillis));
 
         if(trainController.getServiceBrake())
         {
@@ -145,11 +146,13 @@ public class Train {
         velocity = velocity  + (((previousAcceleration + getAcceleration()) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
         setSpeed(Math.abs(velocity));
 
+        System.out.println("Train Velocity="+velocity +" Power="+getPower() +" Location="+currentBlock + " Distance="+(totalDisplacement-totalBlockLength));
+
         //Relay data to Train Controller
         trainController.updateVelocity(velocity);
         trainController.setBeacon(track.getBeaconByID(currentBlock, line));
         trainController.setAuthority(track.getAuthorityByID(currentBlock, line));
-        trainController.setSetpointVelocity(track.getSpeedByID(currentBlock, line));
+        trainController.calcSetpointVelocity(track.getSpeedByID(currentBlock, line));
         trainController.setUnderground(track.getUndergroundByID(currentBlock, line));
 
         //Other train processes
@@ -281,7 +284,7 @@ public class Train {
 
     public void setAcceleration(double acceleration){ accelerationProperty.set(acceleration);}
 
-    public void setBrake(boolean brakesOn){brakesProperty.set(brakesOn);}
+    public void setBrake(boolean brakesOn){brakesProperty.setValue(brakesOn);}
 
     //Getters//////////////////////////////////////////////////
 

@@ -6,8 +6,10 @@ import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Block;
+import TrackModel.Models.BlockType;
 import TrackModel.Models.Line;
 import TrackModel.Interfaces.ITrackModelForTrackController;
+import TrackModel.Models.Switch;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -104,7 +106,6 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
         {
             authority += block.getLength();
         }
-
         return authority;
     }
 
@@ -130,6 +131,34 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     public void setOccupancy(int ID, boolean isOccupied, Line line)
     {
         getBlock(line, ID).setIsOccupied(isOccupied);
+    }
+
+    public int getNextBlock(int previousBlock, int currentBlock, Line line)
+    {
+        Block block = getBlock(line, currentBlock);
+        if(block.getBlockType() == BlockType.SWITCH)
+        {
+            Switch switchBlock = (Switch) block;
+            if(switchBlock.getSwitchBase() == previousBlock)
+            {
+                return switchBlock.getSwitchState() ? switchBlock.getSwitchOne() : switchBlock.getSwitchZero();
+            }
+            else
+            {
+                return switchBlock.getSwitchBase();
+            }
+        }
+        else
+        {
+            for(int b : block.getConnectedBlocks())
+            {
+                if(b != previousBlock)
+                {
+                    return b;
+                }
+            }
+        }
+        return -2;
     }
 
 }

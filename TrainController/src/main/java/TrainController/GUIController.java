@@ -146,7 +146,7 @@ public class GUIController {
         if (index != -1) {
             TrainController controller = trainControllers.get(index);
 
-            String auth = Integer.toString(controller.authority.intValue());
+            String auth = Double.toString(controller.authority);
             authority_display.setText(auth);
 
             commanded_velocity_gauge.setValue(controller.setpoint_velocity);

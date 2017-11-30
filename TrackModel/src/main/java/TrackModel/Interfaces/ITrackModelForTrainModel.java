@@ -20,4 +20,6 @@ public interface ITrackModelForTrainModel {
 
     public void setOccupancy(int ID, boolean isOccupied, Line line);
 
+    public int getNextBlock(int previousBlock, int currentBlock, Line line);
+
 }

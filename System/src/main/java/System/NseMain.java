@@ -71,19 +71,39 @@ public class NseMain extends Application {
         Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
 
-        // control loop
-        while(true)
-        {
-            if(trackModel.getMultiplier() != 0)
-            {
-                trainModel.updateTrains();
-                TimeUnit.SECONDS.sleep((long) (1 / trackModel.getMultiplier()));
+        trackModel.setMultiplier(1);
+
+
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run(){
+                while(true)
+                {
+                    if(trackModel.getMultiplier() != 0)
+                    {
+                        trainModel.updateTrains(500);
+                        try {
+                            Thread.sleep((long)(1000 / trackModel.getMultiplier()));                 //1000 milliseconds is one second.
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    else
+                    {
+                        try {
+                            Thread.sleep((long)(1000));                 //1000 milliseconds is one second.
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
-            else
-            {
-                TimeUnit.SECONDS.sleep(1);
-            }
-        }
+
+        });
+
+        thread.start();
 
     }
 }
