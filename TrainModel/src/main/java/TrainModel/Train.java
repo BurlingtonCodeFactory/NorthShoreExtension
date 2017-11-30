@@ -73,6 +73,9 @@ public class Train {
 
         //Get Initial timestamp (wall-clock time)
         previousTimestamp = System.currentTimeMillis();
+
+        System.out.println("Setting occupancy");
+        track.setOccupancy(1, true,Line.GREEN);
     }
 
     public void update()

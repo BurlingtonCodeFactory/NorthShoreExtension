@@ -1,5 +1,7 @@
 package TrackModel.Models;
 
+import TrackModel.Events.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +33,11 @@ public class Block {
     private double suggestedSpeed;
     private boolean suggestMaintenance;
     private boolean underMaintenance;
+
+    private static List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
+    private static List<SuggestedSpeedChangeListener> suggestedSpeedChangeListeners = new ArrayList<>();
+    private static List<SuggestedAuthorityChangeListener> suggestedAuthorityChangeListeners = new ArrayList<>();
+
 
 
     public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit){
@@ -235,6 +242,7 @@ public class Block {
 
         public void setIsOccupied(boolean isOccupied) {
             this.isOccupied = isOccupied;
+            fireOccupancyChangeEvent(this);
         }
 
         public void setLightGreen(boolean lightGreen) {
@@ -251,10 +259,13 @@ public class Block {
 
         public void setSuggestedAuthority(List<Block> suggestedAuthority) {
             this.suggestedAuthority = suggestedAuthority;
+            fireSuggestedAuthorityChangeEvent(this);
+
         }
 
         public void setSuggestedSpeed(double suggestedSpeed) {
             this.suggestedSpeed = suggestedSpeed;
+            fireSuggestedSpeedChangeEvent(this);
         }
 
         public void setSuggestMaintenance(boolean suggestMaintenance) {
@@ -307,5 +318,67 @@ public class Block {
     @Override
     public String toString() {
         return blockType == BlockType.STATION ? ((Station)this).getStationName() : Integer.toString(getId());
+    }
+
+    // Events
+
+    // Occupancy Change
+    public static synchronized void addOccupancyChangeListener( OccupancyChangeListener l ) {
+        System.out.println("Adding occupancy change listener " + l.getClass());
+        occupancyChangeListeners.add( l );
+    }
+
+    public static synchronized void removeOccupancyChangeListener( OccupancyChangeListener l ) {
+        occupancyChangeListeners.remove( l );
+    }
+
+    private static synchronized void fireOccupancyChangeEvent(Object source)
+    {
+        OccupancyChangeEvent event = new OccupancyChangeEvent(source);
+        for(OccupancyChangeListener listener : occupancyChangeListeners)
+        {
+            System.out.println("Sending occupancy event to "+listener.getClass());
+            listener.occupancyChangeReceived(event);
+        }
+    }
+
+    // Suggested Speed Change
+    public static synchronized void addSuggestedSpeedChangeListener( SuggestedSpeedChangeListener l ) {
+        suggestedSpeedChangeListeners.add( l );
+    }
+
+    public static synchronized void removeSuggestedSpeedChangeListener( SuggestedSpeedChangeListener l ) {
+        suggestedSpeedChangeListeners.remove( l );
+    }
+
+    private static synchronized void fireSuggestedSpeedChangeEvent(Object source)
+    {
+        SuggestedSpeedChangeEvent event = new SuggestedSpeedChangeEvent(source);
+        for(SuggestedSpeedChangeListener listener : suggestedSpeedChangeListeners)
+        {
+            System.out.println("Sending speed event to "+listener.getClass());
+
+            listener.suggestedSpeedChangeReceived(event);
+        }
+    }
+
+    // Suggested Speed Change
+    public static synchronized void addSuggestedAuthorityChangeListener( SuggestedAuthorityChangeListener l ) {
+        suggestedAuthorityChangeListeners.add( l );
+    }
+
+    public static synchronized void removeSuggestedAuthorityChangeListener( SuggestedAuthorityChangeListener l ) {
+        suggestedAuthorityChangeListeners.remove( l );
+    }
+
+    private static synchronized void fireSuggestedAuthorityChangeEvent(Object source)
+    {
+        SuggestedAuthorityChangeEvent event = new SuggestedAuthorityChangeEvent(source);
+        for(SuggestedAuthorityChangeListener listener : suggestedAuthorityChangeListeners)
+        {
+            System.out.println("Sending authority event to "+listener.getClass());
+
+            listener.suggestedAuthorityChangeReceived(event);
+        }
     }
 }
