@@ -22,12 +22,36 @@ import java.util.Map;
 public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController, ITrackModelForTrainController, ITrackModelForTrainModel {
     private Map<Integer, Block> redLine;
     private Map<Integer, Block> greenLine;
+    private double time;
+    private double multiplier;
 
     private List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
 
     public TrackModel() {
         redLine = new HashMap<>();
         greenLine = new HashMap<>();
+        time = 0;
+        multiplier = 0;
+    }
+
+    public double getTime()
+    {
+        return time;
+    }
+
+    public void addInterval(double interval)
+    {
+        this.time += interval;
+    }
+
+    public double getMultiplier()
+    {
+        return multiplier;
+    }
+
+    public void setMultiplier(double multiplier)
+    {
+        this.multiplier = multiplier;
     }
 
     @Override

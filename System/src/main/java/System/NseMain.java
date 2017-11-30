@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class NseMain extends Application {
 
@@ -63,9 +64,26 @@ public class NseMain extends Application {
         CTCModule ctc = new CTCModule(injector);
         ctc.launch();
 
+        // Instantiate TrainModel
+        TrainModel trainModel = injector.getInstance(TrainModel.class);
+
         Block.addOccupancyChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
+
+        // control loop
+        while(true)
+        {
+            if(trackModel.getMultiplier() != 0)
+            {
+                trainModel.updateTrains();
+                TimeUnit.SECONDS.sleep((long) (1 / trackModel.getMultiplier()));
+            }
+            else
+            {
+                TimeUnit.SECONDS.sleep(1);
+            }
+        }
 
     }
 }
