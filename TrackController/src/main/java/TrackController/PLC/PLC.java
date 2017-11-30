@@ -311,11 +311,12 @@ public class PLC {
             for (Block b : authority) {
                 if(authority.indexOf(b) >= authority.size() - 3)
                 {
-                    return newAuthority;
+                    return authority;
                 }
                 Block occupancyBlock = authority.get(authority.indexOf(b) + 2);
                 Block switchBlock = authority.get(authority.indexOf(b) + 3);
-                if(!occupancyBlock.getIsOccupied() && (!switchBlock.hasLock() || (switchBlock.hasLock() && !switchBlock.getLock())))
+                if(!occupancyBlock.getIsOccupied() && (!switchBlock.hasLock() || (switchBlock.hasLock() && !switchBlock.getLock())
+                        || (switchBlock.hasLock() && switchBlock.getLock() && authority.contains(track.getBlock(Line.GREEN, ((Switch)switchBlock).getSwitchOne())))))
                 {
                     newAuthority.add(b);
                 }

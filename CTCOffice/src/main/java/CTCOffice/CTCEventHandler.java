@@ -28,7 +28,7 @@ public class CTCEventHandler implements OccupancyChangeListener {
         // Get block whose occupancy changed
         Block changedBlock = (Block) event.getSource();
         if (changedBlock == null) {
-            return;
+            throw new NullPointerException("This shouldn't happen");
         }
 
         if (!changedBlock.getIsOccupied()) {

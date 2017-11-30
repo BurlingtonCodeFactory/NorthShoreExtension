@@ -140,20 +140,22 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         // Set handler for trainIdentifier selection changes
         trainIdentifier.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    trainLocation.textProperty().bind(newValue.getCurrentBlockProperty().asString());
-                    trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().asString());
-                    trainAuthorityBlocks.textProperty().bind(newValue.getSuggestedAuthorityProperty().asString());
-                    trainStops.setItems(newValue.getScheduleProperty());
+                    if (newValue != null) {
+                        trainLocation.textProperty().bind(newValue.getCurrentBlockProperty().asString());
+                        trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().asString());
+                        trainAuthorityBlocks.textProperty().bind(newValue.getSuggestedAuthorityProperty().asString());
+                        trainStops.setItems(newValue.getScheduleProperty());
 
-                    trainStopButton.setDisable(false);
+                        trainStopButton.setDisable(false);
 
-                    if (newValue.getPreviousBlock() == null) {
-                        trainDispatch.setDisable(false);
-                        trainAuthorityButton.setDisable(true);
-                    }
-                    else {
-                        trainDispatch.setDisable(true);
-                        trainAuthorityButton.setDisable(false);
+                        if (newValue.getPreviousBlock() == null) {
+                            trainDispatch.setDisable(false);
+                            trainAuthorityButton.setDisable(true);
+                        }
+                        else {
+                            trainDispatch.setDisable(true);
+                            trainAuthorityButton.setDisable(false);
+                        }
                     }
                 }
         );
