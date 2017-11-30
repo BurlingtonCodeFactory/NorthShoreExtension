@@ -1,5 +1,7 @@
 package TrackModel;
 
+import TrackModel.Events.ClockTickUpdateEvent;
+import TrackModel.Events.ClockTickUpdateListener;
 import TrackModel.Events.OccupancyChangeEvent;
 import TrackModel.Events.OccupancyChangeListener;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
@@ -11,6 +13,7 @@ import TrackModel.Models.Line;
 import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.Models.Switch;
 import com.google.inject.Singleton;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +29,8 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     private Map<Integer, Block> greenLine;
     private double time;
     private double multiplier;
+
+    private static List<ClockTickUpdateListener> clockTickUpdateListeners = new ArrayList<>();
 
     private List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
 
@@ -44,6 +49,7 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     public void addInterval(double interval)
     {
         this.time += interval;
+        fireClockTickUpdateEvent(this.time);
     }
 
     public double getMultiplier()
@@ -161,4 +167,23 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
         return -2;
     }
 
+    public static synchronized void addClockTickUpdateListener(ClockTickUpdateListener listener) {
+        clockTickUpdateListeners.add(listener);
+    }
+
+    public static synchronized void removeClockTickUpdateListener(ClockTickUpdateListener listener) {
+        clockTickUpdateListeners.remove(listener);
+    }
+
+    private static synchronized void fireClockTickUpdateEvent(Object source)
+    {
+        ClockTickUpdateEvent event = new ClockTickUpdateEvent(source);
+        for(ClockTickUpdateListener listener : clockTickUpdateListeners)
+        {
+            //System.out.println("Sending clock tick event to "+listener.getClass());
+            Platform.runLater(
+                    () -> listener.clockTickUpdateReceived(event)
+            );
+        }
+    }
 }

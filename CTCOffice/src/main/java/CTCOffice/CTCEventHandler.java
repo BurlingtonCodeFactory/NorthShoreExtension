@@ -48,7 +48,7 @@ public class CTCEventHandler implements OccupancyChangeListener {
             // Block is now occupied - determine if a train moved into it
             Train movedTrain = findTrainThatMoved(changedBlock);
             if (movedTrain != null) {
-                System.out.println("Train "+movedTrain.getId() + "moved to "+changedBlock.getId());
+                System.out.println("Train "+movedTrain.getId() + " moved to "+changedBlock.getId());
                 // The train moved into a new block, update the previous and current blocks
                 Platform.runLater(
                         () -> {
@@ -57,8 +57,9 @@ public class CTCEventHandler implements OccupancyChangeListener {
                         }
                 );
 
+                // TODO: Is this redundant when we reroute all trains on occupancy change?
                 List<Block> newSuggestedAuthority = new ArrayList<>(movedTrain.getSuggestedAuthority());
-                if (newSuggestedAuthority.size() > 0) {
+                if (newSuggestedAuthority.size() > 1) {
                     // There is still authority left, so remove the previous block and assign the updated authority to the train
                     newSuggestedAuthority.remove(0);
                     System.out.println("Still authority left, setting "+changedBlock.getId()+" to "+newSuggestedAuthority);
@@ -77,6 +78,8 @@ public class CTCEventHandler implements OccupancyChangeListener {
                     System.out.println("Authority is empty - did the train go past its authority?, setting "+changedBlock.getId()+" to empty authority");
                 }
             }
+
+            //route all trains
         }
     }
 

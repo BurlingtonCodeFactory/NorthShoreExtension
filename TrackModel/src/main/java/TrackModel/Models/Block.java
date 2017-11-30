@@ -1,6 +1,7 @@
 package TrackModel.Models;
 
 import TrackModel.Events.*;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -338,7 +339,9 @@ public class Block {
         for(OccupancyChangeListener listener : occupancyChangeListeners)
         {
             //System.out.println("Sending occupancy event to "+listener.getClass());
-            listener.occupancyChangeReceived(event);
+            Platform.runLater(
+                    () -> listener.occupancyChangeReceived(event)
+            );
         }
     }
 
