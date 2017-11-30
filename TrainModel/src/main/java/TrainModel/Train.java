@@ -150,9 +150,9 @@ public class Train {
 
         //Relay data to Train Controller
         trainController.updateVelocity(velocity);
-        trainController.setBeacon(track.getBeaconByID(currentBlock, line));
         trainController.setAuthority(track.getAuthorityByID(currentBlock, line));
         trainController.calcSetpointVelocity(track.getSpeedByID(currentBlock, line));
+        trainController.setBeacon(track.getBeaconByID(currentBlock, line));
         trainController.setUnderground(track.getUndergroundByID(currentBlock, line));
 
         //Other train processes
