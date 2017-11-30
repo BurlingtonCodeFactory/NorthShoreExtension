@@ -197,6 +197,7 @@ public class MainController {
         train.setPreviousBlock(trackModel.getBlock(train.getLine(), 0));
 
         trainModel.createTrain(-1, 0, 2, true, train.getLine());
+        train.setSuggestedSpeed(train.getSuggestedSpeed());
 
         trainDispatch.setDisable(true);
         trainAuthorityButton.setDisable(false);

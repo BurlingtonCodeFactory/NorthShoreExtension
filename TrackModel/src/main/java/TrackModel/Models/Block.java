@@ -303,43 +303,6 @@ public class Block {
         //</editor-fold>
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Block block = (Block) o;
-        return id == block.id &&
-                beacon == block.beacon &&
-                circuitFailed == block.circuitFailed &&
-                Double.compare(block.coefficientFriction, coefficientFriction) == 0 &&
-                Double.compare(block.commandedSpeed, commandedSpeed) == 0 &&
-                elevation == block.elevation &&
-                failed == block.failed &&
-                Double.compare(block.grade, grade) == 0 &&
-                heaterOn == block.heaterOn &&
-                isBidirectional == block.isBidirectional &&
-                isOccupied == block.isOccupied &&
-                isUnderground == block.isUnderground &&
-                Double.compare(block.length, length) == 0 &&
-                lightGreen == block.lightGreen &&
-                powerFailed == block.powerFailed &&
-                railBroken == block.railBroken &&
-                Double.compare(block.speedLimit, speedLimit) == 0 &&
-                Double.compare(block.suggestedSpeed, suggestedSpeed) == 0 &&
-                suggestMaintenance == block.suggestMaintenance &&
-                underMaintenance == block.underMaintenance &&
-                line == block.line &&
-                blockType == block.blockType &&
-                Objects.equals(commandedAuthority, block.commandedAuthority) &&
-                Objects.equals(connectedBlocks, block.connectedBlocks) &&
-                Objects.equals(suggestedAuthority, block.suggestedAuthority);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, line, blockType, beacon, circuitFailed, coefficientFriction, commandedAuthority, commandedSpeed, connectedBlocks, elevation, failed, grade, heaterOn, isBidirectional, isOccupied, isUnderground, length, lightGreen, powerFailed, railBroken, speedLimit, suggestedAuthority, suggestedSpeed, suggestMaintenance, underMaintenance);
-    }
-
-    @Override
     public String toString() {
         return blockType == BlockType.STATION ? ((Station)this).getStationName() : Integer.toString(getId());
     }

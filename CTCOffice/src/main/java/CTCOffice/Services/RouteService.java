@@ -19,9 +19,9 @@ public class RouteService implements IRouteService {
 
     @Override
     public List<Block> getShortestPath(Block previousBlock, Block currentBlock, Block destination) {
-        System.out.println(previousBlock.getId());
-        System.out.println(currentBlock.getId());
-        System.out.println(destination.getId());
+        System.out.print("Previous "+previousBlock.getId());
+        System.out.print("Current "+currentBlock.getId());
+        System.out.println("Destination "+destination.getId());
 
 
         Map<Block, Integer> distance = new HashMap<>();
