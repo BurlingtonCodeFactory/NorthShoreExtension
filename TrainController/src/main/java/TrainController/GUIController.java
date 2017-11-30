@@ -66,7 +66,7 @@ public class GUIController {
 
     @FXML
     public void initialize() {
-        System.out.println("Here in chris's shitty shit!");
+       
         group_grid.setPrefWidth(1200);
         group_grid.setMaxWidth(group_grid.getPrefWidth());
         group_grid.setMinWidth(group_grid.getPrefWidth());

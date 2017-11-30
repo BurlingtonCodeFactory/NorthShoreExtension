@@ -358,11 +358,6 @@ public class TrainController {
 
 
 
-    public void update_velocity(double v){
-
-        this.current_velocity = v;
-
-    }
 
 
 
@@ -445,17 +440,24 @@ public class TrainController {
     }
 
     public void setStoppingDistance(){
+        if(!brake) {
+            stoppingDistance = Math.pow(current_velocity, 2) / 2.4;
+            stoppingDistance +=15;
+            stoppingDistance *=1.2;
 
-        double stopTime  = this.current_velocity/1.2;
-
-        stoppingDistance = current_velocity * stopTime - 1.2 *.5 * Math.pow(stopTime,2);
-
-
-        stoppingDistance += 10;
+        }
+;
     }
 
     public void checkStopping(){
-        brake = ((authority-distInBlock)<= stoppingDistance);
+        if(!brake) {
+            if(authority ==0 && distInBlock ==0 && current_velocity==0 ){
+
+            }else {
+                double travelDistance = current_velocity*1.5;
+                brake = ((authority - (distInBlock + travelDistance)) <= stoppingDistance);
+            }
+        }
     }
 
     public void brakeTrain(double period){
