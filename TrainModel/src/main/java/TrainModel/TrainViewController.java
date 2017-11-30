@@ -11,9 +11,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,6 +30,12 @@ public class TrainViewController  {
     //Initialize JavaFX UI Fields
     @FXML
     public TextField POWER;
+    @FXML
+    public TextField MASS;
+    @FXML
+    public TextField CARS;
+    @FXML
+    public Slider CABIN_TEMP;
     @FXML
     public Circle BRAKE_INDICATOR;
     @FXML
@@ -40,6 +50,12 @@ public class TrainViewController  {
     RadioButton SIGNAL_FAILURE;
     @FXML
     RadioButton BRAKE_FAILURE;
+    @FXML
+    Circle LIGHTS_INDICATOR;
+    @FXML
+    Rectangle LEFT_DOORS;
+    @FXML
+    Rectangle RIGHTS_DOORS;
 
     private Train train;
 
@@ -97,7 +113,56 @@ public class TrainViewController  {
 
         ACCELERATION_GAUGE_PANE.getChildren().add(accelerationGauge);
 
+        //Binding
         POWER.textProperty().bind(train.getPowerProperty().multiply(0.001).asString());
+        CABIN_TEMP.valueProperty().bind(train.getCabinTempProperty());
+        MASS.textProperty().bind(train.getMassProperty().asString());
+
+        train.getLightsProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
+                if(newValue)
+                {
+                    LIGHTS_INDICATOR.setFill(Color.YELLOW);
+                }
+                else
+                {
+                    LIGHTS_INDICATOR.setFill(Color.WHITE);
+                }
+            }
+        });
+
+        train.getLeftDoorsProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
+                if(newValue)
+                {
+                    LEFT_DOORS.setFill(Color.GREEN);
+                }
+                else
+                {
+                    LEFT_DOORS.setFill(Color.WHITE);
+                }
+            }
+        });
+
+        train.getRightDoorsProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
+                if(newValue)
+                {
+                    RIGHTS_DOORS.setFill(Color.GREEN);
+                }
+                else
+                {
+                    RIGHTS_DOORS.setFill(Color.WHITE);
+                }
+            }
+        });
+
         train.getSpeedProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {

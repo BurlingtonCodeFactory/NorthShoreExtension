@@ -113,7 +113,7 @@ public class TrainModel implements ITrainModelForCTCOffice{
         return false;
     }
 
-    public void updateTrains()
+    public void updateTrains(double elapsedTime)
     {
         //Get iterator for trains
         Iterator<Train> itTrains = trains.iterator();
@@ -121,7 +121,7 @@ public class TrainModel implements ITrainModelForCTCOffice{
         //Update each train iteratively
         while(itTrains.hasNext())
         {
-            itTrains.next().update();
+            itTrains.next().update(elapsedTime);
         }
     }
 

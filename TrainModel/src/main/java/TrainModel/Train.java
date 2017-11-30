@@ -3,21 +3,11 @@ package TrainModel;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Line;
 import TrainController.TrainController;
-import javafx.application.Application;
-import eu.hansolo.medusa.Gauge;
-import eu.hansolo.medusa.GaugeBuilder;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
-import java.io.File;
 import java.lang.Math;
 
 public class Train {
@@ -25,7 +15,7 @@ public class Train {
     //All values are are calculated within the program using SI units. Returned values will be converted to U.S customary units.
 
     //Initialize constructor properties
-    int cars, ID;
+    int ID;
     int previousBlock, currentBlock;
     TrainController trainController;
     boolean PIDSetupbypass;
@@ -33,40 +23,55 @@ public class Train {
     Line line;
 
     //Initialize other train properties
-    private double g = 9.8;
-    private double coeffFriction = 0.001;
-    private double gradeForce = 0, frictionForce = 0, brakingForce = 0, powerForce = 0, staticForce = 0, dynamicForce = 0, netForce = 0;
+    private SimpleIntegerProperty carsProperty;
     private SimpleDoubleProperty powerProperty;
     private SimpleDoubleProperty speedProperty;
     private SimpleDoubleProperty accelerationProperty;
-    private double grade, mass;
+    private SimpleDoubleProperty massProperty;
+    private SimpleDoubleProperty cabinTempProperty;
+    private SimpleStringProperty RISProperty;
+    private SimpleBooleanProperty lightsProperty;
+    private SimpleBooleanProperty leftDoorsProperty, rightDoorsProperty;
+    private SimpleBooleanProperty brakesProperty;
+
+    private double g = 9.8;
+    private double coeffFriction = 0.001;
+    private double gradeForce = 0, frictionForce = 0, brakingForce = 0, powerForce = 0, staticForce = 0, dynamicForce = 0, netForce = 0;
+    private double grade;
     private double velocity = 0;
     private double  displacement = 0, totalDisplacement = 0, totalBlockLength = 0;
     private double previousAcceleration = 0, brakingAcceleration = 0;
     private double previousTimestamp, deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
-    private double cabinTemp = 67;
-    private String RIS = "";
 
     public Train(int previousBlock, int currentBlock, int cars, TrainController trainController, boolean PIDSetupbypass, int ID, ITrackModelForTrainModel track, Line line)
     {
         //Assign values to fields
         this.previousBlock = previousBlock;
         this.currentBlock = currentBlock;
-        this.cars = cars;
         this.trainController = trainController;
         this.PIDSetupbypass = PIDSetupbypass;
         this.ID = ID;
         this.track = track;
         this.line = line;
+        this.carsProperty = new SimpleIntegerProperty();
         this.powerProperty = new SimpleDoubleProperty();
         this.speedProperty = new SimpleDoubleProperty();
+        this.massProperty = new SimpleDoubleProperty();
         this.accelerationProperty = new SimpleDoubleProperty();
+        this.cabinTempProperty = new SimpleDoubleProperty();
+        this.leftDoorsProperty = new SimpleBooleanProperty();
+        this.rightDoorsProperty = new SimpleBooleanProperty();
+        this.lightsProperty = new SimpleBooleanProperty();
+        this.brakesProperty = new SimpleBooleanProperty();
+        this.RISProperty = new SimpleStringProperty();
+        carsProperty.set(cars);
         speedProperty.set(0);
         accelerationProperty.set(0);
+        cabinTempProperty.set(67);
 
         //Calculate Initial Train Mass
-        mass = cars * 37096;
+        setMass(carsProperty.getValue() * 37096);
 
         //Initialize block length tracking
         totalBlockLength = track.getLengthByID(currentBlock, line);
@@ -78,11 +83,10 @@ public class Train {
         track.setOccupancy(1, true,Line.GREEN);
     }
 
-    public void update()
+    public void update(double elapsedTime)
     {
         //Calculate elapsed time since last update
-        deltaTmillis = System.currentTimeMillis() - previousTimestamp;      //TODO: How are we doing this
-        previousTimestamp = System.currentTimeMillis();
+        deltaTmillis = elapsedTime;
 
         //Calculate displacement, and track and report block changes
         displacement = velocity * deltaTmillis / 1000;
@@ -109,7 +113,6 @@ public class Train {
             delete();
         }
 
-
         //Get physical data from track
         coeffFriction = track.getFrictionByID(currentBlock, line); //TODO: these methods need to take a block ID, talk to Andrew
         grade = track.getGradeByID(currentBlock, line);
@@ -120,14 +123,17 @@ public class Train {
         if(trainController.getServiceBrake())
         {
             brakingAcceleration = 1.2;
+            setBrake(true);
         }
         if(trainController.getEmergencyBrake())
         {
             brakingAcceleration = 2.3;
+            setBrake(true);
         }
         else if (!(trainController.getServiceBrake() || trainController.getEmergencyBrake()))
         {
             brakingAcceleration = 0;
+            setBrake(false);
         }
 
         //Calculate new acceleration
@@ -162,12 +168,12 @@ public class Train {
 
         }
 
-        if(cabinTemp != trainController.getCabinTemp()) //TODO: this
+        if(getCabinTemp() != trainController.getCabinTemp()) //TODO: this
         {
 
         }
 
-        RIS = trainController.getRIS();
+        setRIS(trainController.getRIS());
 
     }
 
@@ -190,10 +196,10 @@ public class Train {
     public double calculateAcceleration()
     {
         //Calculate forces
-        frictionForce = mass * g * coeffFriction * Math.cos(Math.toRadians(grade)); // We've got to convert this to degrees
-        brakingForce = brakingAcceleration * mass;
-        gradeForce = -(mass * g * Math.sin(Math.toRadians(grade))); //Negative here as a positive grade will reduce forward force
-        powerForce = Math.sqrt((getPower() * mass * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
+        frictionForce = getMass() * g * coeffFriction * Math.cos(Math.toRadians(grade)); // We've got to convert this to degrees
+        brakingForce = brakingAcceleration * getMass();
+        gradeForce = -(getMass() * g * Math.sin(Math.toRadians(grade))); //Negative here as a positive grade will reduce forward force
+        powerForce = Math.sqrt((getPower() * getMass() * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
 
         staticForce = frictionForce + brakingForce;
         dynamicForce = powerForce + gradeForce;
@@ -233,7 +239,7 @@ public class Train {
             }
         }
 
-        setAcceleration(netForce / mass);
+        setAcceleration(netForce / getMass());
         return getAcceleration();
     }
 
@@ -244,6 +250,7 @@ public class Train {
         if(brakeFailure == false)
         {
             brakingAcceleration = 2.73;
+            setBrake(true);
         }
 
         trainController.setEmergencyBrake();
@@ -266,10 +273,15 @@ public class Train {
 
     public void setPower(double power){ powerProperty.set(power);}
 
+    public void setMass(double mass){massProperty.set(mass);}
+
+    public void setRIS(String RIS){RISProperty.set(RIS);}
+
     public void setSpeed(double speed){ speedProperty.set(speed);}
 
     public void setAcceleration(double acceleration){ accelerationProperty.set(acceleration);}
 
+    public void setBrake(boolean brakesOn){brakesProperty.set(brakesOn);}
 
     //Getters//////////////////////////////////////////////////
 
@@ -293,9 +305,25 @@ public class Train {
         return powerProperty.doubleValue();
     }
 
+    public double getMass(){return massProperty.doubleValue();}
+
+    public double getCabinTemp(){return cabinTempProperty.doubleValue();}
+
     public SimpleDoubleProperty getPowerProperty() {
         return powerProperty;
     }
+
+    public SimpleDoubleProperty getCabinTempProperty(){return cabinTempProperty;}
+
+    public SimpleDoubleProperty getMassProperty(){return massProperty;}
+
+    public SimpleIntegerProperty getCarsProperty(){return carsProperty;}
+
+    public SimpleBooleanProperty getLightsProperty(){return lightsProperty;}
+
+    public SimpleBooleanProperty getLeftDoorsProperty(){return leftDoorsProperty;}
+
+    public SimpleBooleanProperty getRightDoorsProperty(){return rightDoorsProperty;}
 
     public double getSpeed(){ return speedProperty.doubleValue(); }
 
