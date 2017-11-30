@@ -1,5 +1,6 @@
 package System;
 
+import CTCOffice.CTCEventHandler;
 import CTCOffice.CTCModule;
 import TrackController.TrackControllerManager;
 import TrackController.TrackControllerModule;
@@ -70,6 +71,8 @@ public class NseMain extends Application {
         Block.addOccupancyChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
+
+        Block.addOccupancyChangeListener(injector.getInstance(CTCEventHandler.class));
 
         trackModel.setMultiplier(1);
 
