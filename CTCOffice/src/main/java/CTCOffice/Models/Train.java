@@ -14,13 +14,13 @@ public class Train {
     private Line line;
     private Block previousBlock;
     private Block currentBlock;
-    private int suggestedSpeed;
+    private double suggestedSpeed;
     private List<Block> suggestedAuthority;
     private List<Stop> schedule;
 
     private ObjectProperty<Block> previousBlockProperty;
     private ObjectProperty<Block> currentBlockProperty;
-    private IntegerProperty suggestedSpeedProperty;
+    private DoubleProperty suggestedSpeedProperty;
     private ListProperty<Block> suggestedAuthorityProperty;
     private ListProperty<Stop> scheduleProperty;
 
@@ -29,7 +29,7 @@ public class Train {
         this.line = line;
         this.previousBlockProperty = new SimpleObjectProperty<>();
         this.currentBlockProperty = new SimpleObjectProperty<>();
-        this.suggestedSpeedProperty = new SimpleIntegerProperty();
+        this.suggestedSpeedProperty = new SimpleDoubleProperty();
         this.suggestedAuthorityProperty = new SimpleListProperty<>();
         this.scheduleProperty = new SimpleListProperty<>();
 
@@ -66,11 +66,11 @@ public class Train {
         return currentBlockProperty;
     }
 
-    public int getSuggestedSpeed() {
+    public double getSuggestedSpeed() {
         return suggestedSpeed;
     }
 
-    public IntegerProperty getSuggestedSpeedProperty() {
+    public DoubleProperty getSuggestedSpeedProperty() {
         return suggestedSpeedProperty;
     }
 
@@ -104,14 +104,32 @@ public class Train {
         this.currentBlockProperty.setValue(currentBlock);
     }
 
-    public void setSuggestedSpeed(int suggestedSpeed) {
+    public void setSuggestedSpeed(double suggestedSpeed) {
         this.suggestedSpeed = suggestedSpeed;
         this.suggestedSpeedProperty.setValue(suggestedSpeed);
+
+        currentBlock.setSuggestedSpeed(suggestedSpeed);
+
+        if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
+            Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
+            if (!nextBlock.getIsOccupied()) {
+                nextBlock.setSuggestedSpeed(suggestedSpeed);
+            }
+        }
     }
 
     public void setSuggestedAuthority(List<Block> suggestedAuthority) {
         this.suggestedAuthority = suggestedAuthority;
         this.suggestedAuthorityProperty.setValue(FXCollections.observableArrayList(suggestedAuthority));
+
+        currentBlock.setSuggestedAuthority(suggestedAuthority);
+
+        if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
+            Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
+            if (!nextBlock.getIsOccupied()) {
+                nextBlock.setSuggestedAuthority(suggestedAuthority);
+            }
+        }
     }
 
     public void setSchedule(List<Stop> schedule) {
