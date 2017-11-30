@@ -146,7 +146,7 @@ public class Train {
         velocity = velocity  + (((previousAcceleration + getAcceleration()) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
         setSpeed(Math.abs(velocity));
 
-        System.out.println("Train Velocity="+velocity +" Power="+getPower() +" Location="+currentBlock + " Distance="+(totalDisplacement-totalBlockLength));
+        //System.out.println("Train Velocity="+velocity +" Power="+getPower() +" Location="+currentBlock + " Distance="+(totalDisplacement-totalBlockLength));
 
         //Relay data to Train Controller
         trainController.updateVelocity(velocity);

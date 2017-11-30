@@ -43,6 +43,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
                 controller.addBlock(track.getBlock(Line.GREEN, i));
                 if(LOCKS.contains(i))
                 {
+                    System.out.println("Creating lock on "+i);
                     track.getBlock(Line.GREEN, i).createLock();
                 }
                 blockid++;
@@ -67,35 +68,35 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
 
     public void occupancyChangeReceived(OccupancyChangeEvent event)
     {
-        System.out.println("Handling occupancy change in Track Controller ");
+        //System.out.println("Handling occupancy change in Track Controller ");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     public void suggestedSpeedChangeReceived(SuggestedSpeedChangeEvent event)
     {
-        System.out.println("Handling speed change in Track Controller");
+        //System.out.println("Handling speed change in Track Controller");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     public void suggestedAuthorityChangeReceived(SuggestedAuthorityChangeEvent event)
     {
-        System.out.println("Handling authority change in Track Controller");
+        //System.out.println("Handling authority change in Track Controller");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     public void failureChangeReceived(FailureChangeEvent event)
     {
-        System.out.println("Handling failure change in Track Controller");
+        //System.out.println("Handling failure change in Track Controller");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     // Occupancy Change
     public static synchronized void addRefreshUIListener( RefreshUIListener l ) {
-        System.out.println("Adding refresh change listener " + l.getClass());
+        //System.out.println("Adding refresh change listener " + l.getClass());
         listeners.add( l );
     }
 
@@ -108,7 +109,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
         RefreshUIEvent event = new RefreshUIEvent(source);
         for(RefreshUIListener listener : listeners)
         {
-            System.out.println("Sending refresh event to "+listener.getClass());
+            //System.out.println("Sending refresh event to "+listener.getClass());
             Platform.runLater(()->listener.refreshUIReceived(event));
         }
     }
