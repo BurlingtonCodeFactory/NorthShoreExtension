@@ -92,6 +92,9 @@ public class TestBenchController {
     Label blockFailure;
 
     @FXML
+    Label blockLock;
+
+    @FXML
     Label blockConnectedBlocks;
 
     @FXML
@@ -145,7 +148,13 @@ public class TestBenchController {
 
     public void setSuggestedSpeed()
     {
-        double value = Double.parseDouble(suggestedSpeedValue.getText());
+        double value;
+        if(suggestedSpeedValue.getText().trim().equals("")) {
+            value = 0;
+        }
+        else {
+            value = Double.parseDouble(suggestedSpeedValue.getText());
+        }
         block.setSuggestedSpeed(value);
         suggestedSpeedValue.setText("");
         refreshUI();
@@ -187,6 +196,7 @@ public class TestBenchController {
         blockSpeed.setText(String.valueOf(block.getCommandedSpeed()));
         blockAuthority.setText(String.valueOf(block.getCommandedAuthorityString()));
         blockConnectedBlocks.setText(block.getConnectedBlocksString());
+        blockLock.setText(block.hasLock() ? String.valueOf(block.getLock()) : "No Lock");
 
         if(block instanceof Crossing)
         {

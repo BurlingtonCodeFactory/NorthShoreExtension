@@ -1,6 +1,7 @@
 package TrackController;
 
 import TrackModel.Models.Block;
+import TrackModel.Models.Line;
 import TrackModel.Services.FileService;
 import TrackModel.TrackModel;
 import com.google.inject.Guice;
@@ -12,6 +13,8 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main extends Application {

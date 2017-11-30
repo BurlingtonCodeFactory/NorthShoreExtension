@@ -1,5 +1,7 @@
 package TrackController;
 
+import TrackController.Events.RefreshUIEvent;
+import TrackController.Events.RefreshUIListener;
 import TrackModel.*;
 import TrackModel.Models.*;
 import javafx.collections.FXCollections;
@@ -23,7 +25,7 @@ import TrackController.PLC.PLC;
 
 import javax.sound.midi.Track;
 
-public class TrackViewController {
+public class TrackViewController implements RefreshUIListener{
 
     @FXML
     ListView<String> controllerList;
@@ -297,4 +299,9 @@ public class TrackViewController {
 
     }
 
+
+    @Override
+    public void refreshUIReceived(RefreshUIEvent event) {
+        refreshUI();
+    }
 }
