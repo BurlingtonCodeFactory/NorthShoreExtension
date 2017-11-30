@@ -79,8 +79,6 @@ public class NseMain extends Application {
         TrackControllerTestBench testBench = new TrackControllerTestBench(injector);
         testBench.launch();
 
-        trackModel.setMultiplier(30);
-
         Thread thread = new Thread(() -> {
             while(true)
             {

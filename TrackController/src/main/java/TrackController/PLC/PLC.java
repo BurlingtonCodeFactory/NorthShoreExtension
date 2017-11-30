@@ -205,7 +205,6 @@ public class PLC {
                         {
                             if(action.equals("lock") && block.hasLock())
                             {
-                                System.out.println(action+" "+block.getId());
                                 performAction(action, block);
                             }
                             else if (intendedBlock.getSuggestedAuthority().contains(track.getBlock(Line.GREEN, block.getSwitchOne()))) {
@@ -219,15 +218,10 @@ public class PLC {
                 case "lock":
                     if(block.hasLock() && block.getLock() == Boolean.parseBoolean(value))
                     {
-                        if(block.getId() == 29)
-                        {
-                            //System.out.println(block.getId() +" " +infrastructure + " " + offset + " " + field + " " + value + " " + action + " "+intendedBlock.getId());
-                        }
                         for(int i = 0; i < 3; i++)
                         {
                             intendedBlock = track.getBlock(Line.GREEN,intendedBlock.getPreviousBlock());
                             performAction(action, intendedBlock);
-                            System.out.print("Sending "+action+" to "+intendedBlock.getId());
                         }
                     }
                     break;
@@ -293,13 +287,11 @@ public class PLC {
                     block.setCommandedSpeed(block.getSuggestedSpeed());
                     block.setCommandedAuthority(sliceAuthority(block.getSuggestedAuthority()));
                     block.setLightGreen(true);
-                    //System.out.println(block.getId() + " " +block.getLightGreen());
                     break;
                 case "stop":
                     block.setCommandedSpeed(0);
                     block.setCommandedAuthority(new ArrayList<>());
                     block.setLightGreen(false);
-                    //System.out.println(block.getId() + " " +block.getLightGreen());
                     break;
             }
         }

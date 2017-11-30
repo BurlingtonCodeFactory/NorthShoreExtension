@@ -115,7 +115,7 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
                 (observable, oldValue, newValue) -> {
                     // TODO: this is not an observable! need to listen to UI update event from Occupancy changed handler (and others -> maintenance)
                     blockOccupied.setText(Boolean.toString(newValue.getIsOccupied()));
-                    blockSpeedLimit.setText(Double.toString(newValue.getSpeedLimit()));
+                    blockSpeedLimit.setText(String.format("%1$.2f", newValue.getSpeedLimit() * 2.23694));
                     blockMaintenance.setText(Boolean.toString(newValue.getUnderMaintenance()));
                     blockMaintenance.setDisable(false);
                 }
@@ -142,7 +142,7 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
                 (observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         trainLocation.textProperty().bind(newValue.getCurrentBlockProperty().asString());
-                        trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().asString());
+                        trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().multiply(2.23694).asString("%.2f"));
                         trainAuthorityBlocks.textProperty().bind(newValue.getSuggestedAuthorityProperty().asString());
                         trainStops.setItems(newValue.getScheduleProperty());
 
@@ -226,11 +226,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
         try {
-            double speed = Double.parseDouble(trainSpeedValue.textProperty().getValue());
-            System.out.println(speed);
+            double speed = Double.parseDouble(trainSpeedValue.textProperty().getValue())*0.44704;
             double speedLimit = train.getCurrentBlock().getSpeedLimit();
-            System.out.println(speedLimit);
-            System.out.println("1");
             if (speed > speedLimit) {
                 train.setSuggestedSpeed(speedLimit);
 
