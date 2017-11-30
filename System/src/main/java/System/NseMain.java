@@ -4,6 +4,7 @@ import CTCOffice.CTCEventHandler;
 import CTCOffice.CTCModule;
 import TrackController.TrackControllerManager;
 import TrackController.TrackControllerModule;
+import TrackController.TrackControllerTestBench;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
 import TrackModel.Services.FileService;
@@ -74,7 +75,11 @@ public class NseMain extends Application {
 
         Block.addOccupancyChangeListener(injector.getInstance(CTCEventHandler.class));
 
-        trackModel.setMultiplier(1);
+        //Instantiate Test Bench
+        TrackControllerTestBench testBench = new TrackControllerTestBench(injector);
+        testBench.launch();
+
+        trackModel.setMultiplier(30);
 
 
         Thread thread = new Thread(new Runnable() {

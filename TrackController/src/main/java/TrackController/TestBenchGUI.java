@@ -23,7 +23,15 @@ public class TestBenchGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(new File("./TrackController/build/resources/main/fxml/TestBench.fxml").toURI().toURL());//System.class.getResource("./build/resources/main/fxml/TrackController.fxml"));
+            FXMLLoader loader;
+            if(System.getProperty("user.dir").endsWith("System"))
+            {
+                loader = new FXMLLoader(new File("./build/resources/main/fxml/TestBench.fxml").toURI().toURL());
+            }
+            else
+            {
+                loader = new FXMLLoader(new File("./TrackController/build/resources/main/fxml/TestBench.fxml").toURI().toURL());
+            }
             TestBenchController controller = new TestBenchController(track);
             loader.setController(controller);
             AnchorPane page = loader.load();

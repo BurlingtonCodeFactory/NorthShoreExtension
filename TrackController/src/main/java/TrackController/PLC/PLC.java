@@ -227,12 +227,13 @@ public class PLC {
                             return;
                         }
                     }
+                    break;
                 case "lock":
                     if(intendedBlock.hasLock() && intendedBlock.getLock() == Boolean.parseBoolean(value))
                     {
-                        System.out.println("Performing "+action+" on "+block.getId());
                         performAction(action, block);
                     }
+                    break;
             }
 
         }
@@ -263,14 +264,13 @@ public class PLC {
                     if(intendedBlock.getIsOccupied() == Boolean.parseBoolean(value)) {
                         if (off == 1 || off == 0)
                         {
-                            System.out.println("Performing "+action+" on "+block.getId());
                             performAction(action, block);
                         }
                         else
                         {
-                            if(action.equals("lock"))
+                            if(action.equals("lock") && block.hasLock())
                             {
-                                System.out.println("Performing "+action+" on "+block.getId());
+                                System.out.println(action+" "+block.getId());
                                 performAction(action, block);
                             }
                             else if (intendedBlock.getSuggestedAuthority().contains(track.getBlock(Line.GREEN, block.getSwitchOne()))) {

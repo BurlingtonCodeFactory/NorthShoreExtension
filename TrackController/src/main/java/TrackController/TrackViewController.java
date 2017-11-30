@@ -118,6 +118,8 @@ public class TrackViewController implements RefreshUIListener{
         numberColumn.setCellValueFactory(new PropertyValueFactory<Block,Integer>("id"));
         infrastructureColumn.setCellValueFactory(new PropertyValueFactory<Block, BlockType>("BlockType"));
 
+        controllerSelected(null);
+
     }
 
     @FXML public void controllerSelected(MouseEvent arg0)
@@ -130,6 +132,7 @@ public class TrackViewController implements RefreshUIListener{
         ObservableList<Block> controllerBlocks = FXCollections.observableArrayList();
         controllerBlocks.addAll(selectedController.blocks);
         blockList.setItems(controllerBlocks);
+        blockSelected = blockList.getItems().get(0);
 
         String plcString = "";
         File file;

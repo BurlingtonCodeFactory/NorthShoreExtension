@@ -450,15 +450,14 @@ public class TrainController {
     }
 
     public void checkStopping(){
-        if(!brake) {
-            if(authority ==0 && distInBlock ==0 && current_velocity==0 ){
+        if(authority ==0 && distInBlock ==0 && current_velocity==0 ){
 
-            }else {
-                double travelDistance = current_velocity*1.5;
-                brake = ((authority - (distInBlock + travelDistance)) <= stoppingDistance);
-            }
+        }else {
+            double travelDistance = current_velocity*1.5;
+            brake = ((authority - (distInBlock + travelDistance)) <= stoppingDistance);
         }
     }
+
 
     public void brakeTrain(double period){
         current_velocity = current_velocity + (-1.2 *period);

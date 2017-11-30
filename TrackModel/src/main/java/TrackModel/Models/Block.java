@@ -297,7 +297,10 @@ public class Block {
 
         public void setLock(boolean lock)
         {
-            this.lock = lock;
+            if(this.lock != null)
+            {
+                this.lock = lock;
+            }
         }
 
         //</editor-fold>
@@ -321,7 +324,7 @@ public class Block {
 
     // Occupancy Change
     public static synchronized void addOccupancyChangeListener( OccupancyChangeListener l ) {
-        System.out.println("Adding occupancy change listener " + l.getClass());
+        //System.out.println("Adding occupancy change listener " + l.getClass());
         occupancyChangeListeners.add( l );
     }
 
@@ -334,7 +337,7 @@ public class Block {
         OccupancyChangeEvent event = new OccupancyChangeEvent(source);
         for(OccupancyChangeListener listener : occupancyChangeListeners)
         {
-            System.out.println("Sending occupancy event to "+listener.getClass());
+            //System.out.println("Sending occupancy event to "+listener.getClass());
             listener.occupancyChangeReceived(event);
         }
     }
@@ -353,7 +356,7 @@ public class Block {
         SuggestedSpeedChangeEvent event = new SuggestedSpeedChangeEvent(source);
         for(SuggestedSpeedChangeListener listener : suggestedSpeedChangeListeners)
         {
-            System.out.println("Sending speed event to "+listener.getClass());
+            //System.out.println("Sending speed event to "+listener.getClass());
 
             listener.suggestedSpeedChangeReceived(event);
         }
@@ -373,7 +376,7 @@ public class Block {
         SuggestedAuthorityChangeEvent event = new SuggestedAuthorityChangeEvent(source);
         for(SuggestedAuthorityChangeListener listener : suggestedAuthorityChangeListeners)
         {
-            System.out.println("Sending authority event to "+listener.getClass());
+            //System.out.println("Sending authority event to "+listener.getClass());
 
             listener.suggestedAuthorityChangeReceived(event);
         }
@@ -393,7 +396,7 @@ public class Block {
         FailureChangeEvent event = new FailureChangeEvent(source);
         for(FailureChangeListener listener : failureChangeListeners)
         {
-            System.out.println("Sending failure event to "+listener.getClass());
+            //System.out.println("Sending failure event to "+listener.getClass());
 
             listener.failureChangeReceived(event);
         }
