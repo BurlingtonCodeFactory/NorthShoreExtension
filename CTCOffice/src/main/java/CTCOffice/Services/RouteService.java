@@ -1,6 +1,7 @@
 package CTCOffice.Services;
 
 import CTCOffice.Interfaces.IRouteService;
+import CTCOffice.Models.Train;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Models.Block;
 import com.google.inject.Inject;
@@ -18,6 +19,11 @@ public class RouteService implements IRouteService {
 
     @Override
     public List<Block> getShortestPath(Block previousBlock, Block currentBlock, Block destination) {
+        System.out.println(previousBlock.getId());
+        System.out.println(currentBlock.getId());
+        System.out.println(destination.getId());
+
+
         Map<Block, Integer> distance = new HashMap<>();
         Map<Block, Block> previous = new HashMap<>();
         Queue<Block> queue = new LinkedList<>();
@@ -50,6 +56,8 @@ public class RouteService implements IRouteService {
                 }
             }
         }
+
+        System.out.println("Route returned as null, couldn't find path");
 
         return null;
     }

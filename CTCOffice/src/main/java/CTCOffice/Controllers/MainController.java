@@ -20,6 +20,7 @@ import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class MainController {
     @FXML
@@ -52,6 +53,16 @@ public class MainController {
     public ChoiceBox<Block> trainStopBlock;
     @FXML
     public Button trainStopButton;
+    @FXML
+    public Button trainSpeedButton;
+    @FXML
+    public TextField trainSpeedValue;
+    @FXML
+    public Button trainDispatch;
+    @FXML
+    public Button trainAuthorityButton;
+    @FXML
+    public Button trainCreate;
 
     private ITrackModelForCTCOffice trackModel;
     private ITrainRepository trainRepository;
@@ -104,6 +115,8 @@ public class MainController {
                     trainIdentifier.setItems(FXCollections.observableArrayList(trainRepository.getTrains(newValue)));
                     trainStopBlock.setItems(FXCollections.observableArrayList(trackModel.getBlocks(newValue)));
                     trainAuthoritySelect.setItems(FXCollections.observableArrayList(trackModel.getBlocks(newValue)));
+
+                    trainCreate.setDisable(false);
                 }
         );
 
@@ -116,6 +129,15 @@ public class MainController {
                     trainStops.setItems(newValue.getScheduleProperty());
 
                     trainStopButton.setDisable(false);
+
+                    if (newValue.getPreviousBlock() == null) {
+                        trainDispatch.setDisable(false);
+                        trainAuthorityButton.setDisable(true);
+                    }
+                    else {
+                        trainDispatch.setDisable(true);
+                        trainAuthorityButton.setDisable(false);
+                    }
                 }
         );
 
@@ -143,6 +165,10 @@ public class MainController {
         });
 
         trainStopButton.setOnAction(this::trainStopAdd);
+        trainSpeedButton.setOnAction(this::trainSpeedSet);
+        trainAuthorityButton.setOnAction(this::trainAuthoritySet);
+        trainDispatch.setOnAction(this::trainDispatchButton);
+        trainCreate.setOnAction(this::trainCreateButton);
     }
 
     public void blockMaintenanceButton(ActionEvent e) {
@@ -156,19 +182,59 @@ public class MainController {
     }
 
     public void trainCreateButton(ActionEvent e) {
+        Line currentLine = trainLine.getSelectionModel().getSelectedItem();
+        int newIdentifier = trainRepository.getTrains(currentLine).size() + 1;
+        Train train = new Train(newIdentifier, currentLine, null, trackModel.getBlock(currentLine, 0));
 
+        trainRepository.addTrain(train);
+
+        trainIdentifier.setItems(FXCollections.observableArrayList(trainRepository.getTrains(currentLine)));
+        trainIdentifier.getSelectionModel().select(train);
     }
 
     public void trainDispatchButton(ActionEvent e) {
+        Train train = trainIdentifier.getSelectionModel().getSelectedItem();
+        train.setPreviousBlock(trackModel.getBlock(train.getLine(), 0));
 
+        trainModel.createTrain(-1, 0, 2, true, train.getLine());
+
+        trainDispatch.setDisable(true);
+        trainAuthorityButton.setDisable(false);
     }
 
     public void trainSpeedSet(ActionEvent e) {
+        Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
+        try {
+            double speed = Double.parseDouble(trainSpeedValue.textProperty().getValue());
+            System.out.println(speed);
+            double speedLimit = train.getCurrentBlock().getSpeedLimit();
+            System.out.println(speedLimit);
+            System.out.println("1");
+            if (speed > speedLimit) {
+                train.setSuggestedSpeed(speedLimit);
+
+            }
+            else if (speed < 0) {
+                train.setSuggestedSpeed(0);
+            }
+            else {
+                train.setSuggestedSpeed(speed); // TODO: set suggestedSpeed on trackModel.block corresponding to train location, etc
+            }
+        }
+        catch (NumberFormatException exception) {
+            trainSpeedValue.textProperty().setValue("Double speed only");
+        }
     }
 
     public void trainAuthoritySet(ActionEvent e) {
+        Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
+        List<Block> authority = routeService.getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), trainAuthoritySelect.getSelectionModel().getSelectedItem());
+
+        if (authority != null) {
+            train.setSuggestedAuthority(authority); // TODO: set suggestedAuthority on trackModel.block corresponding to train location, etc
+        }
     }
 
     public void trainStopAdd(ActionEvent e) {

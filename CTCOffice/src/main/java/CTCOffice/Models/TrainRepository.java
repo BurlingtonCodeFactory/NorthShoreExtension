@@ -18,7 +18,6 @@ public class TrainRepository implements ITrainRepository {
     public TrainRepository() {
         this.redTrains = new HashMap<>();
         this.greenTrains = new HashMap<>();
-        greenTrains.put(1, new Train(1, Line.GREEN, new Block(2, Line.GREEN, BlockType.STANDARD, 0, 0, new ArrayList<>(), 0, 0, false, false, 0, 0), new Block(3, Line.GREEN, BlockType.STANDARD, 0, 0, new ArrayList<>(), 0, 0, false, false, 0, 0)));
     }
 
     @Override
