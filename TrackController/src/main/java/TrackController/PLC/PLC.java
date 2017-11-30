@@ -3,6 +3,7 @@ package TrackController.PLC;
 
 import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.Models.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -140,72 +141,6 @@ public class PLC {
             action = command[4];
         }
 
-        public boolean evaluateRule(Block block)
-        {
-            if(this.infrastructure == BlockType.STANDARD || this.infrastructure == block.getBlockType())
-            {
-                Block tempBlock =  null;
-                try
-                {
-                    int off = Integer.parseInt(offset);
-                    tempBlock = getBlockByOffset(off, block);
-                }
-                catch(NumberFormatException e)
-                {
-                    if(offset.equals("L"))
-                    {
-                        //tempBlock = block.switchZero;
-                    }
-                    else
-                    {
-                        //tempBlock = block.switchOne;
-                    }
-                }
-                final Block intendedBlock = tempBlock;
-                /*
-                if(intendedBlock == null)
-                {
-                    return true;
-                }
-                */
-                /*
-                switch(field)
-                {
-                    case "occupied":
-                        if(intendedBlock.isTrainPresent() == Boolean.parseBoolean(value))
-                        {
-                            performAction(action, block);
-                        }
-                        break;
-                    case "switch":
-                        if(intendedBlock.switchState == (value.equals(1) == true))
-                        {
-                            performAction(action, block);
-                        }
-                        break;
-                    case "failure":
-                        if(intendedBlock.isFailed() == Boolean.parseBoolean(value))
-                        {
-                            performAction(action, block);
-                        }
-                        break;
-                    case "route":
-                        if(intendedBlock.getSuggestedAuthority().contains(block.switchZero))
-                        {
-                            performAction("switchZero", block);
-                        }
-                        else if(intendedBlock.getSuggestedAuthority().contains(block.switchOne))
-                        {
-                            performAction("switchOne", block);
-                        }
-                        break;
-                }
-                */
-            }
-
-            return true;
-        }
-
         public void evaluateStandardRule(Block block)
         {
             int off = Integer.parseInt(offset);
@@ -270,7 +205,6 @@ public class PLC {
                         {
                             if(action.equals("lock") && block.hasLock())
                             {
-                                System.out.println(action+" "+block.getId());
                                 performAction(action, block);
                             }
                             else if (intendedBlock.getSuggestedAuthority().contains(track.getBlock(Line.GREEN, block.getSwitchOne()))) {
@@ -278,6 +212,16 @@ public class PLC {
                             } else {
                                 performAction("switchZero", block);
                             }
+                        }
+                    }
+                    break;
+                case "lock":
+                    if(block.hasLock() && block.getLock() == Boolean.parseBoolean(value))
+                    {
+                        for(int i = 0; i < 3; i++)
+                        {
+                            intendedBlock = track.getBlock(Line.GREEN,intendedBlock.getPreviousBlock());
+                            performAction(action, intendedBlock);
                         }
                     }
                     break;
@@ -341,7 +285,7 @@ public class PLC {
             {
                 case "continue":
                     block.setCommandedSpeed(block.getSuggestedSpeed());
-                    block.setCommandedAuthority(block.getSuggestedAuthority());
+                    block.setCommandedAuthority(sliceAuthority(block.getSuggestedAuthority()));
                     block.setLightGreen(true);
                     break;
                 case "stop":
@@ -349,39 +293,31 @@ public class PLC {
                     block.setCommandedAuthority(new ArrayList<>());
                     block.setLightGreen(false);
                     break;
-                /*
-                case "crossingOn":
-                    block.set = true;
-                    break;
-                case "crossingOff":
-                    block.crossingOn = false;
-                    break;
-                case "switchZero":
-                    block.switchState = false;
-                    //block.rightNeighbor = block.switchZero;
-                    break;
-                case "switchOne":
-                    block.switchState = true;
-                    //block.rightNeighbor = block.switchOne;
-                    break;
-                case "continue":
-                    block.speed = block.suggestedSpeed;
-                    block.authority = block.suggestedAuthority;
-                    block.lightGreen = true;
-                    break;
-                case "stop":
-                    block.speed = 0;
-                    block.authority = new ArrayList<>();
-                    block.lightGreen = false;
-                    break;
-                case "heaterOn":
-                    block.heaterOn = true;
-                    break;
-                case "heaterOff":
-                    block.heaterOn = false;
-                    break;
-                    */
             }
+        }
+
+        private List<Block> sliceAuthority(List<Block> authority)
+        {
+
+            List<Block> newAuthority = new ArrayList<>();
+            for (Block b : authority) {
+                if(authority.indexOf(b) >= authority.size() - 3)
+                {
+                    return authority;
+                }
+                Block occupancyBlock = authority.get(authority.indexOf(b) + 2);
+                Block switchBlock = authority.get(authority.indexOf(b) + 3);
+                if(!occupancyBlock.getIsOccupied() && (!switchBlock.hasLock() || (switchBlock.hasLock() && !switchBlock.getLock())
+                        || (switchBlock.hasLock() && switchBlock.getLock() && authority.contains(track.getBlock(Line.GREEN, ((Switch)switchBlock).getSwitchOne())))))
+                {
+                    newAuthority.add(b);
+                }
+                else
+                {
+                    return newAuthority;
+                }
+            }
+            return newAuthority;
         }
 
         public Block getBlockByOffset(int offset, Block base)
@@ -406,8 +342,8 @@ public class PLC {
 
     public boolean evaluateBlock(Block block)
     {
-        if(block.getSuggestedAuthority().size() == 0)
-            //return true;
+        if(block.getSuggestedAuthority().size() == 0 && block.getBlockType() != BlockType.SWITCH)
+            return true;
 
         if(block instanceof Switch)
         {

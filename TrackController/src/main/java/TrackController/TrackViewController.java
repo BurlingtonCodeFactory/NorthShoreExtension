@@ -178,7 +178,7 @@ public class TrackViewController implements RefreshUIListener{
         blockLine.setText(blockSelected.getLine().toString());
         blockInfrastructure.setText(blockSelected.getBlockType().toString());
         blockSize.setText(String.valueOf(blockSelected.getLength())+" feet");
-        blockSpeed.setText(String.valueOf(blockSelected.getCommandedSpeed())+"mph");
+        blockSpeed.setText(String.valueOf(blockSelected.getCommandedSpeed()*2.23694)+"mph");
         if(blockSelected.getCommandedAuthority() != null)
         {
             blockAuthority.setText(String.valueOf(blockSelected.getCommandedAuthority().size()) +
