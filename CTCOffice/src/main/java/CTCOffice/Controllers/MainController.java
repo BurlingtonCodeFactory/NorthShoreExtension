@@ -82,9 +82,13 @@ public class MainController {
     @FXML
     public void initialize() {
         // Set multiplier options
-        multiplier.setItems(FXCollections.observableArrayList(1, 2, 5, 10, 100));
+        multiplier.setItems(FXCollections.observableArrayList(0, 1, 2, 5, 10, 20, 50, 100));
+        // Set handler for multiplier selection changes
+        multiplier.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> trackModel.setMultiplier(newValue)
+        );
         // Select initial multiplier value (1)
-        multiplier.getSelectionModel().selectFirst();
+        multiplier.getSelectionModel().select(1);
 
         // Set blockLine options
         blockLine.setItems(FXCollections.observableArrayList(Line.values()));
