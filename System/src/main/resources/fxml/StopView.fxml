@@ -10,7 +10,7 @@
     <StackPane alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
         <HBox fx:id="contentBox">
             <Label fx:id="contentLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" HBox.hgrow="ALWAYS" />
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="X" visible="false">
+            <Button fx:id="deleteButton" mnemonicParsing="false" text="X" visible="false">
             </Button>
         </HBox>
         <TextField fx:id="contentInput" promptText="What needs to be done?" visible="false" />

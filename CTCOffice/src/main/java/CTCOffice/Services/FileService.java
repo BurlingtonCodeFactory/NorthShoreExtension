@@ -1,13 +1,9 @@
 package CTCOffice.Services;
 
-import CTCOffice.CTCOffice;
 import CTCOffice.Interfaces.IFileService;
-import CTCOffice.Models.Schedule;
-import TrackModel.Models.*;
+import CTCOffice.Models.Stop;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FileService implements IFileService {
@@ -16,7 +12,7 @@ public class FileService implements IFileService {
         return false;
     }
     
-    public List<Schedule> parseTrainSchedule(BufferedReader bufferedReader) {
+    public List<Stop> parseTrainSchedule(BufferedReader bufferedReader) {
         return null;
     }
 }

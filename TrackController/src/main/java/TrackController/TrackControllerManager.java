@@ -1,16 +1,20 @@
 package TrackController;
 
 import TrackController.Models.TrackController;
+import TrackModel.Events.*;
 import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.Models.Line;
 import TrackModel.TrackModel;
 import javafx.application.Application;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TrackControllerManager {
+@Singleton
+public class TrackControllerManager implements OccupancyChangeListener, SuggestedSpeedChangeListener, SuggestedAuthorityChangeListener, FailureChangeListener {
     public List<TrackController> redControllers;
     public List<TrackController> greenControllers;
     private HashMap<Integer, TrackController> redMapping;
@@ -35,14 +39,42 @@ public class TrackControllerManager {
             id++;
             greenControllers.add(controller);
         }
-        //TrackControllerGUI gui = new TrackControllerGUI();
     }
 
-    public boolean handleEvent()
+    private void runRules()
     {
         for (TrackController controller : greenControllers) {
             controller.evaluateBlocks();
         }
-        return true;
+    }
+
+
+    public void handleEvent()
+    {
+       runRules();
+    }
+
+    public void occupancyChangeReceived(OccupancyChangeEvent event)
+    {
+        System.out.println("Handling occupancy change in Track Controller");
+        runRules();
+    }
+
+    public void suggestedSpeedChangeReceived(SuggestedSpeedChangeEvent event)
+    {
+        System.out.println("Handling speed change in Track Controller");
+        runRules();
+    }
+
+    public void suggestedAuthorityChangeReceived(SuggestedAuthorityChangeEvent event)
+    {
+        System.out.println("Handling authority change in Track Controller");
+        runRules();
+    }
+
+    public void failureChangeReceived(FailureChangeEvent event)
+    {
+        System.out.println("Handling failure change in Track Controller");
+        runRules();
     }
 }

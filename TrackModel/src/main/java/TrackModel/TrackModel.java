@@ -1,5 +1,7 @@
 package TrackModel;
 
+import TrackModel.Events.OccupancyChangeEvent;
+import TrackModel.Events.OccupancyChangeListener;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
@@ -18,14 +20,14 @@ import java.util.Map;
 // maintain data consistency in the system.
 @Singleton
 public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController, ITrackModelForTrainController, ITrackModelForTrainModel {
-    private Map<Integer, Block> blocks; // TODO: utilize a dynamic array instead, need the O(1) lookup using integer, map is overkill
-    private List<Block> redLine;
-    private List<Block> greenLine;
+    private Map<Integer, Block> redLine;
+    private Map<Integer, Block> greenLine;
+
+    private List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
 
     public TrackModel() {
-        blocks = new HashMap<>();
-        redLine = new ArrayList<>();
-        greenLine = new ArrayList<>();
+        redLine = new HashMap<>();
+        greenLine = new HashMap<>();
     }
 
     @Override
@@ -34,49 +36,43 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
             throw new IllegalArgumentException("Cannot add null block.");
         }
 
-        blocks.put(block.getId(), block);
-
         if (block.getLine() == Line.GREEN) {
-            greenLine.add(block);
+            greenLine.put(block.getId(), block);
         }
         else {
-            redLine.add(block);
+            redLine.put(block.getId(), block);
         }
     }
 
     @Override
-    public Block getBlock(int id) {
-        return blocks.get(id);
+    public Block getBlock(Line line, int id) {
+        return line == Line.GREEN ? greenLine.get(id) : redLine.get(id);
     }
-
-    @Override
-    public Block getBlock(Line line, int id) { return line == Line.GREEN ? greenLine.get(id) : redLine.get(id); }
 
     @Override
     public List<Block> getBlocks(Line line) {
-        return line == Line.GREEN ? greenLine : redLine;
+        return line == Line.GREEN ? new ArrayList<>(greenLine.values()) : new ArrayList<>(redLine.values());
     }
 
     @Override
-    public List<Block> getBlocks() {
-        return new ArrayList<>(blocks.values());
-    }
-
     public double getLengthByID(int ID, Line line)
     {
         return getBlock(line, ID).getLength();
     }
 
+    @Override
     public double getGradeByID(int ID, Line line)
     {
         return getBlock(line, ID).getGrade();
     }
 
+    @Override
     public double getFrictionByID(int ID, Line line)
     {
         return getBlock(line, ID).getCoefficientFriction();
     }
 
+    @Override
     public double getAuthorityByID(int ID, Line line)
     {
         double authority = 0;
@@ -88,23 +84,28 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
         return authority;
     }
 
+    @Override
     public double getSpeedByID(int ID, Line line)
     {
         return getBlock(line, ID).getCommandedSpeed();
     }
 
+    @Override
     public int getBeaconByID(int ID, Line line)
     {
         return getBlock(line, ID).getBeacon();
     }
 
+    @Override
     public boolean getUndergroundByID(int ID, Line line)
     {
         return getBlock(line, ID).getIsUnderground();
     }
 
+    @Override
     public void setOccupancy(int ID, boolean isOccupied, Line line)
     {
         getBlock(line, ID).setIsOccupied(isOccupied);
     }
+
 }

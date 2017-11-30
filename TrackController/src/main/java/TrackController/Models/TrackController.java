@@ -24,7 +24,6 @@ public class TrackController {
         this.plc = new PLC(plcFilename, track);
         this.plcFileNames = new ArrayList<>();
         this.plcFileNames.add(plcFilename);
-        this.plcFileNames.add("controller2.PLC");
     }
 
     public boolean addBlock(Block block)

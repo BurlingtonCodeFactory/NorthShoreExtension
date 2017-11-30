@@ -8,8 +8,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -38,8 +40,6 @@ public class TrackViewController {
     ObservableList<String> controllersView = FXCollections.observableArrayList();
     ObservableList<Block> blocksView = FXCollections.observableArrayList();
 
-    @FXML
-    ListView<String> block;
 
     @FXML
     Label blockNumber;
@@ -94,6 +94,8 @@ public class TrackViewController {
 
     private final TrackControllerManager manager;
 
+    private Block blockSelected;
+
     public TrackViewController(TrackControllerManager manager)
     {
         this.manager = manager;
@@ -128,13 +130,23 @@ public class TrackViewController {
         blockList.setItems(controllerBlocks);
 
         String plcString = "";
+        File file;
+        if(System.getProperty("user.dir").endsWith("System"))
+        {
+            file = new File("./build/resources/main/" + selectedController.plc.filename);
+        }
+        else
+        {
+            file = new File("./TrackController/build/resources/main/" + selectedController.plc.filename);
+        }
         try {
-            Scanner scanner = new Scanner(new File("./build/resources/main/plc/" + selectedController.plc.filename));
+            Scanner scanner = new Scanner(file);
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }
         catch(FileNotFoundException e)
         {
+            e.printStackTrace();
             System.out.println("File not found");
         }
         plcContents.setText(plcString);
@@ -145,13 +157,18 @@ public class TrackViewController {
         plcNames.addAll(plcFileNames);
         plcList.setItems(plcNames);
 
-
+        blockSelected = blockList.getItems().get(0);
     }
 
     @FXML public void blockSelected(MouseEvent arg0)
     {
+        blockSelected = blockList.getSelectionModel().getSelectedItem();
+        refreshUI();
+    }
 
-        Block blockSelected = blockList.getSelectionModel().getSelectedItem();
+    @FXML
+    public void refreshUI()
+    {
         blockNumber.setText(String.valueOf(blockSelected.getId()));
         blockLine.setText(blockSelected.getLine().toString());
         blockInfrastructure.setText(blockSelected.getBlockType().toString());
@@ -200,14 +217,6 @@ public class TrackViewController {
     @FXML public void switchOccupancy(MouseEvent arg0)
     {
 
-        Block blockSelected = blockList.getSelectionModel().getSelectedItem();
-        blockSelected.setIsOccupied(!blockSelected.getIsOccupied());
-        blockOccupancy.setText(blockSelected.getIsOccupied() ? "Train" : "Free");
-
-        //List<Block> testAuthority = new ArrayList<>();
-        //testAuthority.add(blockSelected.rightNeighbor);
-
-        manager.handleEvent();
 
     }
 
@@ -250,11 +259,21 @@ public class TrackViewController {
 
     @FXML public void plcSelected(MouseEvent arg0)
     {
-
         String plcName = plcList.getSelectionModel().getSelectedItem();
+        File file;
+        if(System.getProperty("user.dir").endsWith("System"))
+        {
+            file = new File("./build/resources/main/" + plcName);
+        }
+        else
+        {
+            file = new File("./TrackController/build/resources/main/" + plcName);
+        }
+
+
         String plcString = "";
         try {
-            Scanner scanner = new Scanner(new File("./build/resources/main/" + plcName));
+            Scanner scanner = new Scanner(file);
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }

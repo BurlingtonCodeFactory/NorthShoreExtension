@@ -1,7 +1,7 @@
 standard 1 occupied false continue
 standard 1 occupied true stop
-standard 0 failed false continue
-standard 0 failed true stop
+standard 0 failure false continue
+standard 0 failure true stop
 crossing 1 occupied false crossingOff
 crossing -1 occupied false crossingOff
 crossing 1 occupied true crossingOn

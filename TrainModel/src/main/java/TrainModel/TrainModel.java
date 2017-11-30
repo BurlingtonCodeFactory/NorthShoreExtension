@@ -3,13 +3,14 @@ package TrainModel;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Line;
-import TrainController.ControllerManager;
 import TrainController.TrainController;
+import TrainController.TrainControllerManager;
 import TrainModel.Interfaces.ITrainModelForCTCOffice;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.*;
 
 @Singleton
@@ -24,7 +25,7 @@ public class TrainModel implements ITrainModelForCTCOffice{
     private ArrayList<Train> trains;
 
     //Initialize associated train controller manager
-    private ControllerManager controllerManager;
+    private TrainControllerManager controllerManager;
 
     //Initialize ID
     private int ID;
@@ -36,7 +37,7 @@ public class TrainModel implements ITrainModelForCTCOffice{
         this.track = track;
 
         //Assign train controller manager
-        this.controllerManager = new ControllerManager();
+        this.controllerManager = new TrainControllerManager();
 
         //Create trains ArrayList
         trains = new ArrayList<Train>(30);
@@ -45,6 +46,8 @@ public class TrainModel implements ITrainModelForCTCOffice{
         ID = 1;
 
         this.trackModelForTrainController = trackModelForTrainController;
+
+        controllerManager.launch();
     }
 
     public int createTrain(int previousBlock, int currentBlock, int cars, boolean PIDSetupBypass, Line line) //This constructor should probably take a track

@@ -24,8 +24,8 @@ public class TrackModelTests {
         trackModel.addBlock(blockAtIndex2);
 
         // Assert
-        assertEquals(blockAtIndex3, trackModel.getBlock(3));
-        assertEquals(blockAtIndex2, trackModel.getBlock(2));
+        assertEquals(blockAtIndex3, trackModel.getBlock(blockAtIndex3.getLine(), 3));
+        assertEquals(blockAtIndex2, trackModel.getBlock(blockAtIndex2.getLine(), 2));
     }
 
     @Test(expected = IllegalArgumentException.class)

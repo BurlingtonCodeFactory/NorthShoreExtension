@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CTCOffice.Controllers.MainController">
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.152" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CTCOffice.Controllers.MainController">
   <columnConstraints>
     <ColumnConstraints />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -104,7 +104,7 @@
             <Label text="Speed Limit" GridPane.rowIndex="4" />
             <Label fx:id="blockSpeedLimit" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Under Maintenance" GridPane.rowIndex="5" />
-            <Button fx:id="blockMaintenance" mnemonicParsing="false" onAction="#blockMaintenanceButton" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button fx:id="blockMaintenance" disable="true" mnemonicParsing="false" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label text="Beacon" GridPane.rowIndex="6" />
             <Button fx:id="blockBeacon" mnemonicParsing="false" text="Set Beacon" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
@@ -138,28 +138,28 @@
                   </Label>
                </children>
             </HBox>
-            <Button fx:id="trainCreate" disable="true" mnemonicParsing="false" onAction="#trainCreateButton" text="Create Train" GridPane.rowIndex="1" />
-            <Button fx:id="trainDispatch" disable="true" mnemonicParsing="false" onAction="#trainDispatchButton" text="Dispatch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="trainCreate" disable="true" mnemonicParsing="false" text="Create Train" GridPane.rowIndex="1" />
+            <Button fx:id="trainDispatch" disable="true" mnemonicParsing="false" text="Dispatch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Line" GridPane.rowIndex="2" />
             <ChoiceBox fx:id="trainLine" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Identifier" GridPane.rowIndex="3" />
             <ChoiceBox fx:id="trainIdentifier" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Location" GridPane.rowIndex="4" />
             <Label fx:id="trainLocation" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Commanded Speed" GridPane.rowIndex="5" />
+            <Label text="Suggested Speed" GridPane.rowIndex="5" />
             <Label fx:id="trainSpeed" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
                   <TextField fx:id="trainSpeedValue" />
-                  <Button fx:id="trainSpeedButton" minWidth="40.0" mnemonicParsing="false" onAction="#trainSpeedSet" text="Set" />
+                  <Button fx:id="trainSpeedButton" minWidth="40.0" mnemonicParsing="false" text="Set" />
                </children>
             </HBox>
-            <Label text="Commanded Authority" GridPane.rowIndex="7" />
+            <Label text="Suggested Authority" GridPane.rowIndex="7" />
             <Label fx:id="trainAuthorityBlocks" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <children>
                   <ChoiceBox fx:id="trainAuthoritySelect" />
-                  <Button fx:id="trainAuthorityButton" disable="true" minWidth="40.0" mnemonicParsing="false" onAction="#trainAuthoritySet" text="Set" />
+                  <Button fx:id="trainAuthorityButton" disable="true" minWidth="40.0" mnemonicParsing="false" text="Set" />
                </children>
             </HBox>
             <Label text="Schedule" GridPane.rowIndex="9" />
@@ -167,7 +167,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
                <children>
                   <ChoiceBox fx:id="trainStopBlock" />
-                  <Button fx:id="trainStopButton" disable="true" minWidth="40.0" mnemonicParsing="false" onAction="#trainStopAdd" text="Add" />
+                  <Button fx:id="trainStopButton" disable="true" minWidth="40.0" mnemonicParsing="false" text="Add" />
                </children>
             </HBox>
          </children>

@@ -30,7 +30,15 @@ public class PLC {
         BufferedReader reader = null;
         try
         {
-            reader = new BufferedReader(new FileReader("./build/resources/main/" + file)); // TODO From Andrew; To Ryan; This path seems weird to me, I worry it's going to need to be different when we deploy?
+            if(System.getProperty("user.dir").endsWith("System"))
+            {
+                reader = new BufferedReader(new FileReader("./build/resources/main/" + file)); // TODO From Andrew; To Ryan; This path seems weird to me, I worry it's going to need to be different when we deploy?
+
+            }
+            else
+            {
+                reader = new BufferedReader(new FileReader("./TrackController/build/resources/main/" + file)); // TODO From Andrew; To Ryan; This path seems weird to me, I worry it's going to need to be different when we deploy?
+            }
             String inCommand = null;
             while ((inCommand = reader.readLine()) != null) {
                 PLCRule newRule = processLine(inCommand);
@@ -208,6 +216,15 @@ public class PLC {
                         performAction(action, block);
                     }
                     break;
+                case "failure":
+                    for(int num : block.getConnectedBlocks())
+                    {
+                        if(track.getBlock(block.getLine(),num).getFailed() == Boolean.parseBoolean(value))
+                        {
+                            performAction(action, block);
+                            return;
+                        }
+                    }
             }
 
         }
@@ -369,6 +386,9 @@ public class PLC {
 
     public boolean evaluateBlock(Block block)
     {
+        if(block.getSuggestedAuthority().size() == 0)
+            return true;
+
         if(block instanceof Switch)
         {
             for (PLCRule rule : switchRules) {

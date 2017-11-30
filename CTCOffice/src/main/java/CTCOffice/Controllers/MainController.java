@@ -1,5 +1,6 @@
 package CTCOffice.Controllers;
 
+import CTCOffice.Interfaces.IFileService;
 import CTCOffice.Interfaces.IRouteService;
 import CTCOffice.Interfaces.ITrainRepository;
 import CTCOffice.Models.Stop;
@@ -8,10 +9,8 @@ import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
 import TrainModel.Interfaces.ITrainModelForCTCOffice;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.google.inject.Inject;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,187 +18,130 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 
-import javax.inject.Inject;
+import java.io.File;
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MainController {
-    private final ITrackModelForCTCOffice trackModel;
-    //private final ITrainRepository trainRepository;
-    //private final IRouteService routeService;
-
     @FXML
-    public ChoiceBox<String> multiplier;
-
+    public ChoiceBox<Integer> multiplier;
     @FXML
-    public ChoiceBox<String> blockLine;
-
+    public ChoiceBox<Line> blockLine;
     @FXML
     public ChoiceBox<Block> blockName;
-
     @FXML
     public Label blockOccupied;
-
     @FXML
     public Label blockSpeedLimit;
-
     @FXML
     public Button blockMaintenance;
-
     @FXML
-    public Button blockBeacon;
-
+    public ChoiceBox<Line> trainLine;
+    @FXML
+    public ChoiceBox<Train> trainIdentifier;
+    @FXML
+    public Label trainLocation;
+    @FXML
+    public Label trainSpeed;
+    @FXML
+    public Label trainAuthorityBlocks;
+    @FXML
+    public ListView<Stop> trainStops;
+    @FXML
+    public ChoiceBox<Block> trainAuthoritySelect;
+    @FXML
+    public ChoiceBox<Block> trainStopBlock;
+    @FXML
+    public Button trainStopButton;
+    @FXML
+    public Button trainSpeedButton;
+    @FXML
+    public TextField trainSpeedValue;
+    @FXML
+    public Button trainDispatch;
+    @FXML
+    public Button trainAuthorityButton;
     @FXML
     public Button trainCreate;
 
-    @FXML
-    public Button trainDispatch;
-
-    @FXML
-    public ChoiceBox<String> trainLine;
-
-    @FXML
-    public ChoiceBox<Train> trainIdentifier;
-
-    @FXML
-    public Label trainLocation;
-
-    @FXML
-    public Label trainSpeed;
-
-    @FXML
-    public TextField trainSpeedValue;
-
-    @FXML
-    public Button trainSpeedButton;
-
-    @FXML
-    public Label trainAuthorityBlocks;
-
-    @FXML
-    public ChoiceBox<Block> trainAuthoritySelect;
-
-    @FXML
-    public Button trainAuthorityButton;
-
-    @FXML
-    public ListView<Stop> trainStops;
-
-    @FXML
-    public ChoiceBox<Block> trainStopBlock;
-
-    @FXML
-    public Button trainStopButton;
+    private ITrackModelForCTCOffice trackModel;
+    private ITrainRepository trainRepository;
+    private ITrainModelForCTCOffice trainModel;
+    private IRouteService routeService;
+    private IFileService fileService;
 
     @Inject
-    public MainController(ITrackModelForCTCOffice trackModel, ITrainModelForCTCOffice trainModel/*, ITrainRepository trainRepository, IRouteService routeService*/) {
+    public MainController(ITrackModelForCTCOffice trackModel, ITrainRepository trainRepository, ITrainModelForCTCOffice trainModel, IRouteService routeService, IFileService fileService) {
         this.trackModel = trackModel;
-        trainModel.createTrain(-1,0,2, true, Line.GREEN);
-        System.out.println("Here Main Controller CTC");
-        //this.trainRepository = trainRepository;
-        //this.routeService = routeService;
+        this.trainRepository = trainRepository;
+        this.trainModel = trainModel;
+        this.routeService = routeService;
+        this.fileService = fileService;
     }
 
     @FXML
     public void initialize() {
-        System.out.println("Here in ctc init");
-      /*
-        multiplier.setItems(FXCollections.observableArrayList("1", "2", "5", "10", "100"));
+        // Set multiplier options
+        multiplier.setItems(FXCollections.observableArrayList(1, 2, 5, 10, 100));
+        // Select initial multiplier value (1)
         multiplier.getSelectionModel().selectFirst();
 
-        List<String> lines = Stream.of(Line.values())
-                .map(Line::name)
-                .collect(Collectors.toList());
+        // Set blockLine options
+        blockLine.setItems(FXCollections.observableArrayList(Line.values()));
+        // Set handler for blockLine selection changes
+        blockLine.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> blockName.setItems(FXCollections.observableArrayList(trackModel.getBlocks(newValue)))
+        );
 
-        ObservableList<String> observableLines = FXCollections.observableArrayList(lines);
-        blockLine.setItems(observableLines);
-        //blockLine.getSelectionModel().selectFirst();
+        // Set handler for blockName selection changes
+        blockName.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    // TODO: this is not an observable! need to listen to UI update event from Occupancy changed handler (and others -> maintenance)
+                    blockOccupied.setText(Boolean.toString(newValue.getIsOccupied()));
+                    blockSpeedLimit.setText(Double.toString(newValue.getSpeedLimit()));
+                    blockMaintenance.setText(Boolean.toString(newValue.getUnderMaintenance()));
+                    blockMaintenance.setDisable(false);
+                }
+        );
 
-        blockLine.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                // TODO: This shouldn't be done each time as blocks are static after launch
-                List<Block> blocks = new ArrayList<>();
-                for (Block block : trackModel.getBlocks()) {
-                    if (block.getLine().equals(lines.get(newValue.intValue())) || block.getLine().equals("Yard")) { // Assuming the Yard is connected to all lines
-                        blocks.add(block);
+        // Set onAction handler for blockMaintenance
+        blockMaintenance.setOnAction(this::blockMaintenanceButton);
+
+        // Set trainLine options
+        trainLine.setItems(FXCollections.observableArrayList(Line.values()));
+        // Set handler for trainLine selection changes
+        trainLine.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    trainIdentifier.setItems(FXCollections.observableArrayList(trainRepository.getTrains(newValue)));
+                    trainStopBlock.setItems(FXCollections.observableArrayList(trackModel.getBlocks(newValue)));
+                    trainAuthoritySelect.setItems(FXCollections.observableArrayList(trackModel.getBlocks(newValue)));
+
+                    trainCreate.setDisable(false);
+                }
+        );
+
+        // Set handler for trainIdentifier selection changes
+        trainIdentifier.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    trainLocation.textProperty().bind(newValue.getCurrentBlockProperty().asString());
+                    trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().asString());
+                    trainAuthorityBlocks.textProperty().bind(newValue.getSuggestedAuthorityProperty().asString());
+                    trainStops.setItems(newValue.getScheduleProperty());
+
+                    trainStopButton.setDisable(false);
+
+                    if (newValue.getPreviousBlock() == null) {
+                        trainDispatch.setDisable(false);
+                        trainAuthorityButton.setDisable(true);
+                    }
+                    else {
+                        trainDispatch.setDisable(true);
+                        trainAuthorityButton.setDisable(false);
                     }
                 }
-                blockName.setItems(FXCollections.observableArrayList(blocks));
-            }
-        });
+        );
 
-        blockName.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                Block block = blockName.getItems().get(newValue.intValue());
-
-                *//*blockOccupied.textProperty().bind(block.getIsOccupied().asString());
-                blockSpeedLimit.textProperty().setValue(Integer.toString(block.getSpeedLimit()));
-                blockMaintenance.textProperty().bind(block.getUnderMaintenance().asString());
-                blockBeacon.setDisable(block.getStation() == null);*//*
-            }
-        });
-
-        trainLine.setItems(observableLines);
-
-        trainLine.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                List<Train> trains = new ArrayList<>();
-                for (Train train : trainRepository.getTrains()) {
-                    if (train.getLine().equals(lines.get(newValue.intValue()))) {
-                        trains.add(train);
-                    }
-                }
-                trainIdentifier.setItems(FXCollections.observableArrayList(trains));
-
-                trainCreate.setDisable(false);
-
-                List<Block> blocks = new ArrayList<>();
-                for (Block block : trackModel.getBlocks()) {
-                    if (block.getLine().equals(lines.get(newValue.intValue())) || block.getLine().equals("Yard")) {
-                        blocks.add(block);
-                    }
-                }
-
-                ObservableList<Block> observableBlocks = FXCollections.observableArrayList(blocks);
-                trainAuthoritySelect.setItems(observableBlocks);
-                trainStopBlock.setItems(observableBlocks);
-            }
-        });
-
-        trainIdentifier.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue.intValue() < 0) {
-                    return;
-                }
-
-                Train train = trainIdentifier.getItems().get(newValue.intValue());
-
-                trainLocation.textProperty().bind(train.getCurrentLocation().asString());
-                trainSpeed.textProperty().bind(train.getCommandedSpeed().asString());
-                trainAuthorityBlocks.textProperty().bind(train.getCommandedAuthority().asString());
-
-                if (train.getCurrentLocation().getValue() == null) {
-                    trainDispatch.setDisable(false);
-                    trainAuthorityButton.setDisable(true);
-                }
-                else {
-                    trainDispatch.setDisable(true);
-                    trainAuthorityButton.setDisable(false);
-                }
-
-                trainStopButton.setDisable(false);
-                trainStops.setItems(train.getStops());
-            }
-        });
-
+        // Set cell factory for trainStops
         trainStops.setCellFactory(new Callback<ListView<Stop>, ListCell<Stop>>() {
             @Override
             public ListCell<Stop> call(ListView<Stop> param) {
@@ -220,90 +162,102 @@ public class MainController {
                     }
                 };
             }
-        });*/
+        });
+
+        trainStopButton.setOnAction(this::trainStopAdd);
+        trainSpeedButton.setOnAction(this::trainSpeedSet);
+        trainAuthorityButton.setOnAction(this::trainAuthoritySet);
+        trainDispatch.setOnAction(this::trainDispatchButton);
+        trainCreate.setOnAction(this::trainCreateButton);
     }
 
     public void blockMaintenanceButton(ActionEvent e) {
-        Block block = blockName.getValue();
-        //block.setSuggestMaintenance(!block.getUnderMaintenance().getValue());
+        Block block = blockName.getSelectionModel().selectedItemProperty().getValue();
+
+        if (block == null) {
+            return;
+        }
+
+        block.setSuggestMaintenance(!block.getUnderMaintenance()); // TODO: need UnderMaintenanceChangeEvent, when TC changes value it fires, pick that up and refresh blockMaintenance text
     }
 
     public void trainCreateButton(ActionEvent e) {
-        /*int newIdentifier = trainRepository.getTrains().size() + 1;
-        Train newTrain = new Train(newIdentifier, trainLine.getValue());
-        newTrain.setStops(new ArrayList<>());
+        Line currentLine = trainLine.getSelectionModel().getSelectedItem();
+        int newIdentifier = trainRepository.getTrains(currentLine).size() + 1;
+        Train train = new Train(newIdentifier, currentLine, null, trackModel.getBlock(currentLine, 0));
 
-        trainRepository.addTrain(newTrain);
+        trainRepository.addTrain(train);
 
-        List<Train> trains = new ArrayList<>();
-        for (Train train : trainRepository.getTrains()) {
-            if (train.getLine().equals(trainLine.getValue())) {
-                trains.add(train);
-            }
-        }
-        trainIdentifier.setItems(FXCollections.observableArrayList(trains));
-
-        trainIdentifier.getSelectionModel().select(newTrain);*/
+        trainIdentifier.setItems(FXCollections.observableArrayList(trainRepository.getTrains(currentLine)));
+        trainIdentifier.getSelectionModel().select(train);
     }
 
     public void trainDispatchButton(ActionEvent e) {
-        Train train = trainIdentifier.getValue();
+        Train train = trainIdentifier.getSelectionModel().getSelectedItem();
+        train.setPreviousBlock(trackModel.getBlock(train.getLine(), 0));
 
-        List<Block> blocks = trackModel.getBlocks();
-        Block yard = null;
-        for (Block block : blocks) {
-            /*if (block.getStation() != null && block.getStation().equals("Yard")) {
-                yard = block;
-            }*/
-        }
+        trainModel.createTrain(-1, 0, 2, true, train.getLine());
 
-        train.setCurrentLocation(yard); // This assumes that a station named yard will always be present
         trainDispatch.setDisable(true);
         trainAuthorityButton.setDisable(false);
     }
 
     public void trainSpeedSet(ActionEvent e) {
-        Train train = trainIdentifier.getValue();
+        Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
         try {
-            train.setCommandedSpeed(Integer.parseInt(trainSpeedValue.textProperty().getValue()));
+            double speed = Double.parseDouble(trainSpeedValue.textProperty().getValue());
+            System.out.println(speed);
+            double speedLimit = train.getCurrentBlock().getSpeedLimit();
+            System.out.println(speedLimit);
+            System.out.println("1");
+            if (speed > speedLimit) {
+                train.setSuggestedSpeed(speedLimit);
+
+            }
+            else if (speed < 0) {
+                train.setSuggestedSpeed(0);
+            }
+            else {
+                train.setSuggestedSpeed(speed); // TODO: set suggestedSpeed on trackModel.block corresponding to train location, etc
+            }
         }
         catch (NumberFormatException exception) {
-            trainSpeedValue.textProperty().setValue("Integer speed only");
+            trainSpeedValue.textProperty().setValue("Double speed only");
         }
     }
 
     public void trainAuthoritySet(ActionEvent e) {
-        Train train = trainIdentifier.getValue();
+        Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
-        //List<Block> authority = routeService.getShortestPath(train.getPreviousLocation(), train.getCurrentLocation().getValue(), trainAuthoritySelect.getSelectionModel().getSelectedItem());
+        List<Block> authority = routeService.getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), trainAuthoritySelect.getSelectionModel().getSelectedItem());
 
-        //train.setCommandedAuthority(authority);
+        if (authority != null) {
+            train.setSuggestedAuthority(authority); // TODO: set suggestedAuthority on trackModel.block corresponding to train location, etc
+        }
     }
 
     public void trainStopAdd(ActionEvent e) {
         Block block = trainStopBlock.getSelectionModel().getSelectedItem();
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
-        /*List<Stop> stops = train.getStops();
-        stops.add(new Stop(block));
-        train.setStops(stops);*/
         train.addStop(new Stop(block));
     }
 
     private Parent loadItemFxml(Stop stop, Train train) {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("./build/resources/main/fxml/StopView.fxml"));
-
+        FXMLLoader fxmlLoader = null;
         try {
+            fxmlLoader = new FXMLLoader(new File("./build/resources/main/fxml/StopView.fxml").toURI().toURL());
 
             StopController stopController = new StopController(stop, train);
-
             fxmlLoader.setController(stopController);
-            fxmlLoader.load();
 
-            return fxmlLoader.getRoot();
+            fxmlLoader.load();
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            e.printStackTrace();
+            return null;
         }
+
+        return fxmlLoader.getRoot();
     }
 }
