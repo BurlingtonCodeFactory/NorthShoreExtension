@@ -9,4 +9,5 @@ public interface ITrackModelForCTCOffice {
     void addBlock(Block block);
     Block getBlock(Line line, int id);
     List<Block> getBlocks(Line line);
+    void setMultiplier(double multiplier);
 }

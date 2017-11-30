@@ -79,36 +79,29 @@ public class NseMain extends Application {
         TrackControllerTestBench testBench = new TrackControllerTestBench(injector);
         testBench.launch();
 
-        trackModel.setMultiplier(30);
-
-
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run(){
-                while(true)
+        Thread thread = new Thread(() -> {
+            while(true)
+            {
+                if(trackModel.getMultiplier() != 0)
                 {
-                    if(trackModel.getMultiplier() != 0)
-                    {
-                        trainModel.updateTrains(500);
-                        try {
-                            Thread.sleep((long)(1000 / trackModel.getMultiplier()));                 //1000 milliseconds is one second.
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
+                    trackModel.addInterval(500);
+                    trainModel.updateTrains(500);
+                    try {
+                        Thread.sleep((long)(1000 / trackModel.getMultiplier()));                 //1000 milliseconds is one second.
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Thread.sleep((long)(1000));                 //1000 milliseconds is one second.
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+
+                }
+                else
+                {
+                    try {
+                        Thread.sleep((long)(1000));                 //1000 milliseconds is one second.
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
-
         });
 
         thread.start();
