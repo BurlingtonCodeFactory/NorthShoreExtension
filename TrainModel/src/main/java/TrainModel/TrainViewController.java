@@ -1,6 +1,5 @@
 package TrainModel;
 
-
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.beans.value.ChangeListener;
@@ -8,19 +7,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class TrainViewController  {
@@ -31,11 +25,13 @@ public class TrainViewController  {
     @FXML
     public TextField POWER;
     @FXML
+    public TextField AUTHORITY;
+    @FXML
     public TextField MASS;
     @FXML
     public TextField CARS;
     @FXML
-    public Slider CABIN_TEMP;
+    public TextField CABIN_TEMP;
     @FXML
     public Circle BRAKE_INDICATOR;
     @FXML
@@ -56,6 +52,18 @@ public class TrainViewController  {
     Rectangle LEFT_DOORS;
     @FXML
     Rectangle RIGHTS_DOORS;
+    @FXML
+    TextField ID;
+    @FXML
+    TextField LENGTH;
+    @FXML
+    TextField WIDTH;
+    @FXML
+    TextField HEIGHT;
+    @FXML
+    TextField PASSENGER_COUNT;
+    @FXML
+    TextField CREW_COUNT;
 
     private Train train;
 
@@ -114,9 +122,17 @@ public class TrainViewController  {
         ACCELERATION_GAUGE_PANE.getChildren().add(accelerationGauge);
 
         //Binding
+        ID.textProperty().setValue(Integer.toString(train.getID()));
+        CREW_COUNT.textProperty().setValue("1");
         POWER.textProperty().bind(train.getPowerProperty().multiply(0.001).asString());
-        CABIN_TEMP.valueProperty().bind(train.getCabinTempProperty());
+        CABIN_TEMP.textProperty().bind(train.getCabinTempProperty().asString());
         MASS.textProperty().bind(train.getMassProperty().asString());
+        CARS.textProperty().bind(train.getCarsProperty().asString());
+        HEIGHT.textProperty().bind(train.getHeightProperty().asString());
+        WIDTH.textProperty().bind(train.getWidthProperty().asString());
+        LENGTH.textProperty().bind(train.getLengthProperty().asString());
+        PASSENGER_COUNT.textProperty().bind(train.getPassengerCountProperty().asString());
+        AUTHORITY.textProperty().bind(train.getAuthorityProperty().asString());
 
         train.getLightsProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -163,6 +179,21 @@ public class TrainViewController  {
             }
         });
 
+        train.getBrakesProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue){
+
+                if(newValue)
+                {
+                  BRAKE_INDICATOR.setFill(Color.RED);
+                }
+                else
+                {
+                    BRAKE_INDICATOR.setFill(Color.WHITE);
+                }
+            }
+        });
+
         train.getSpeedProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -201,8 +232,6 @@ public class TrainViewController  {
     {
         train.setBrakeFailure();
     }
-
-
 
     public TrainViewController(Train train)
     {
