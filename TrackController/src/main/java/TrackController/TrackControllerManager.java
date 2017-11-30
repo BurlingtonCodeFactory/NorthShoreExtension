@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Singleton
-public class TrackControllerManager implements OccupancyChangeListener, SuggestedSpeedChangeListener, SuggestedAuthorityChangeListener {
+public class TrackControllerManager implements OccupancyChangeListener, SuggestedSpeedChangeListener, SuggestedAuthorityChangeListener, FailureChangeListener {
     public List<TrackController> redControllers;
     public List<TrackController> greenControllers;
     private HashMap<Integer, TrackController> redMapping;
@@ -69,6 +69,12 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
     public void suggestedAuthorityChangeReceived(SuggestedAuthorityChangeEvent event)
     {
         System.out.println("Handling authority change in Track Controller");
+        runRules();
+    }
+
+    public void failureChangeReceived(FailureChangeEvent event)
+    {
+        System.out.println("Handling failure change in Track Controller");
         runRules();
     }
 }

@@ -50,5 +50,12 @@ public class Main extends Application {
         //Instantiate Test Bench
         TrackControllerTestBench testBench = new TrackControllerTestBench(injector);
         testBench.launch();
+
+
+        Block.addOccupancyChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addFailureChangeListener(injector.getInstance(TrackControllerManager.class));
+
     }
 }

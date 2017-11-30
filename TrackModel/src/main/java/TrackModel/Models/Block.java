@@ -37,8 +37,7 @@ public class Block {
     private static List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
     private static List<SuggestedSpeedChangeListener> suggestedSpeedChangeListeners = new ArrayList<>();
     private static List<SuggestedAuthorityChangeListener> suggestedAuthorityChangeListeners = new ArrayList<>();
-
-
+    private static List<FailureChangeListener> failureChangeListeners = new ArrayList<>();
 
     public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit){
         this.id = id;
@@ -198,6 +197,21 @@ public class Block {
         return authority.substring(0, authority.length()-1);
     }
 
+    public String getConnectedBlocksString()
+    {
+        if(connectedBlocks.size() == 0)
+        {
+            return "";
+        }
+
+        String blocks = "";
+        for(int block : connectedBlocks)
+        {
+            blocks += block+",";
+        }
+        return blocks.substring(0, blocks.length()-1);
+    }
+
 
     public int getNextBlock() {
         int maxID = -1;
@@ -234,6 +248,7 @@ public class Block {
 
         public void setFailed(boolean failed) {
             this.failed = failed;
+            fireFailureChangeEvent(this);
         }
 
         public void setHeaterOn(boolean heaterOn) {
@@ -379,6 +394,26 @@ public class Block {
             System.out.println("Sending authority event to "+listener.getClass());
 
             listener.suggestedAuthorityChangeReceived(event);
+        }
+    }
+
+    // Failure Change
+    public static synchronized void addFailureChangeListener( FailureChangeListener l ) {
+        failureChangeListeners.add( l );
+    }
+
+    public static synchronized void removeFailureChangeListener( FailureChangeListener l ) {
+        failureChangeListeners.remove( l );
+    }
+
+    private static synchronized void fireFailureChangeEvent(Object source)
+    {
+        FailureChangeEvent event = new FailureChangeEvent(source);
+        for(FailureChangeListener listener : failureChangeListeners)
+        {
+            System.out.println("Sending failure event to "+listener.getClass());
+
+            listener.failureChangeReceived(event);
         }
     }
 }

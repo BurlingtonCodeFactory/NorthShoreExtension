@@ -216,6 +216,15 @@ public class PLC {
                         performAction(action, block);
                     }
                     break;
+                case "failure":
+                    for(int num : block.getConnectedBlocks())
+                    {
+                        if(track.getBlock(block.getLine(),num).getFailed() == Boolean.parseBoolean(value))
+                        {
+                            performAction(action, block);
+                            return;
+                        }
+                    }
             }
 
         }
@@ -377,6 +386,9 @@ public class PLC {
 
     public boolean evaluateBlock(Block block)
     {
+        if(block.getSuggestedAuthority().size() == 0)
+            return true;
+
         if(block instanceof Switch)
         {
             for (PLCRule rule : switchRules) {

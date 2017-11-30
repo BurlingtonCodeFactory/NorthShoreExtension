@@ -67,9 +67,5 @@ public class NseMain extends Application {
         Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
 
-
-        trackModel.getBlock(Line.GREEN, 1).setSuggestedSpeed(20);
-        trackModel.getBlock(Line.GREEN, 1).setSuggestedAuthority(new ArrayList<>());
-
     }
 }
