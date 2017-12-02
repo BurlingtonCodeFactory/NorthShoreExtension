@@ -17,6 +17,7 @@ import static javafx.application.Application.launch;
 public class LaunchGUI extends Application {
     private ArrayList<TrainController> trainControllers;
     private ArrayList<String> trainNames;
+    private GUIController controller;
 
     public LaunchGUI(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames) {
         this.trainControllers = trainControllers;
@@ -25,16 +26,11 @@ public class LaunchGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        /*FXMLLoader loader = new FXMLLoader(new File("./build/resources/main/fxml/sample.fxml").toURI().toURL());
-        Parent root = loader.load();
-        GUIController controller = new GUIController(trainControllers, trainNames);
-        loader.setController(controller);
-        primaryStage.setTitle("TrainController");
-        primaryStage.setScene(new Scene(root, 1200, 800));
-        primaryStage.show();*/
+
 
         FXMLLoader loader = new FXMLLoader(new File("./build/resources/main/fxml/sample.fxml").toURI().toURL());
-        loader.setController(new GUIController(trainControllers, trainNames));
+        controller = new GUIController(trainControllers, trainNames);
+        loader.setController(controller);
         AnchorPane page = loader.load();
         Scene scene = new Scene(page, 1200, 800);
         primaryStage.setScene(scene);
@@ -42,8 +38,7 @@ public class LaunchGUI extends Application {
         primaryStage.show();
     }
 
-    public void update(ArrayList<TrainController> newTrains, ArrayList<String> newTrain_names){
-        this.trainNames=newTrain_names;
-        this.trainControllers=newTrains;
+    public GUIController getController(){
+        return controller;
     }
 }

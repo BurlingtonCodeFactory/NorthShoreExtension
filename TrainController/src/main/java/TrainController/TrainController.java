@@ -15,30 +15,19 @@ public class TrainController {
     double acceleration;
     List<SkinnyBlock> track;
     double current_velocity;
-
     double commanded_velocity;
-
     double authority;
     double previousTime;
-
     boolean auto;
     boolean emergency_brake;
-
     boolean brake;
-
     boolean doorsOpenLeft;
-    boolean doorsOpenRight;//0 = all closed, 1 = left open, 2 = right open
-
+    boolean doorsOpenRight;
     boolean lights;
-
     double power_out;
-
     double input_velocity;
     double distInBlock;
-
     double setpoint_velocity;
-
-
     int previousBlock;
     double kp;
     PID pid;
@@ -46,7 +35,6 @@ public class TrainController {
     String [] stations = new String[226];
     boolean departing;
     String nextStation;
-
     double blockLength;
     double distToStation;
     boolean stopping;
@@ -54,7 +42,6 @@ public class TrainController {
     double stoppingDistance;
     double speed;
     int beacon;
-
     SkinnyBlock greenYard;
     SkinnyBlock redYard;
     String RIS;
@@ -132,8 +119,6 @@ public class TrainController {
 
             if(stations[i] != null){
                 skinnyBlock = addBlock(skinnyBlock, true, i, 0.0, 0.0 );
-
-
             }
              else if(i == 150){
                 skinnyBlock = addBlock(skinnyBlock, true, i, 0.0, 0.0 );
@@ -180,17 +165,6 @@ public class TrainController {
     }
 
 
-
-
-    public PID getPid(){
-        return pid;
-    }
-
-    public void setPID(PID new_pid){
-        pid = new_pid;
-
-    }
-
     public void updateVelocity(double velocity){
         current_velocity = velocity;
         setStoppingDistance();
@@ -201,10 +175,9 @@ public class TrainController {
         lights = underground;
     }
 
-    public void nextBlock(){
-
+    public void nextBlock()
+    {
         distInBlock=0.0;
-
         if(departing){
             RIS = "Next station is " + nextStation;
         }
@@ -215,8 +188,6 @@ public class TrainController {
             skinnyBlock = track.get(current).getPrev();
         }
         return skinnyBlock.ID;*/
-
-
     }
 
 
@@ -227,9 +198,7 @@ public class TrainController {
 
     public void setBeacon(int beacon){
         this.beacon = beacon;
-
         int type = beacon & 1073741824;
-
         if (type == 0)
         {
             int block = beacon &1072693248;
@@ -251,6 +220,7 @@ public class TrainController {
 
             int id = -1;
             SkinnyBlock skinnyBlock = greenYard;
+
             while (id != stationOne){
                 skinnyBlock = skinnyBlock.next;
                 id = skinnyBlock.getID();
@@ -261,12 +231,9 @@ public class TrainController {
                 skinnyBlock = skinnyBlock.getNext();
                 double dist = skinnyBlock.getDistToStation(stationTwo, skinnyBlock);
                 setAuthority(dist);
-
                 departing = true;
-
                 nextStation = stations[stationTwo];
                 RIS = "Now departing " + stations[stationOne];
-
                 //oldID = skinnyBlock.getPrev().getID();
                 //newID = currentSkinnyBlock
                 //searchNode = currentSkinnyBlock
@@ -277,17 +244,12 @@ public class TrainController {
                 //  oldID = newID;
                 //  newID = searchNode;
                 //
-
             }
             else
             {
                 arriving = true;
                 RIS = "Arriving at " +stations[stationOne];
             }
-
-
-
-
         }
     }
 
@@ -296,17 +258,11 @@ public class TrainController {
 
     public SkinnyBlock addBlock(SkinnyBlock skinnyBlock, boolean station, int blockID, double speedLimit, double blockLength){
         SkinnyBlock newSkinnyBlock = new SkinnyBlock(blockLength, speedLimit, skinnyBlock, station, blockID);
-
         skinnyBlock.next= newSkinnyBlock;
         return newSkinnyBlock;
-
     }
 
-    public void setAuthority(double a){
-
-        this.authority = a;
-
-    }
+    public void setAuthority(double a){this.authority = a;}
 
     public boolean getLights(){
         return lights;
@@ -315,8 +271,6 @@ public class TrainController {
     public double getPower(){
         return power_out;
     }
-
-
 
     public double getPower(double period){
         if (brake || emergency_brake)
@@ -330,30 +284,23 @@ public class TrainController {
         distInBlock += current_velocity*(period/1000);
         System.out.println("Controller Velocity="+current_velocity +" Power="+getPower() + " Setpoint="+setpoint_velocity +" Distance="+distInBlock+" Brake="+brake);
         System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
-
-
         return power_out;
     }
 
     public void calcSetpointVelocity(double v){
 
         this.commanded_velocity = v;
-
         if(v < current_velocity){
             brake = true;
-
         }
 
         if(v > speedLimit){
-
             this.commanded_velocity = speedLimit;
 
         } else;{
             this.commanded_velocity = v;
         }
-
         this.setpoint_velocity = this.commanded_velocity;
-
     }
 
 
@@ -364,27 +311,17 @@ public class TrainController {
 
 
 
-    public void open_left_doors(){
-
-       doorsOpenLeft = true;
-
-    }
+    public void open_left_doors(){doorsOpenLeft = true;}
 
 
 
-    public void open_right_doors(){
-
-        doorsOpenRight = true;
-
-    }
+    public void open_right_doors(){doorsOpenRight = true;}
 
 
 
     public void close_doors(){
-
         doorsOpenLeft = false;
         doorsOpenRight = false;
-
     }
 
     public boolean getServiceBrake(){
@@ -400,9 +337,7 @@ public class TrainController {
     }
 
     public void setEBrake( boolean brake){
-
         this.emergency_brake = brake;
-
     }
 
     public boolean getEmergencyBrake(){
@@ -444,14 +379,11 @@ public class TrainController {
             stoppingDistance = Math.pow(current_velocity, 2) / 2.4;
             stoppingDistance +=15;
             stoppingDistance *=1.2;
-
         }
-;
     }
 
     public void checkStopping(){
         if(authority ==0 && distInBlock ==0 && current_velocity==0 ){
-
         }else {
             double travelDistance = current_velocity*1.5;
             brake = ((authority - (distInBlock + travelDistance)) <= stoppingDistance);
@@ -461,202 +393,79 @@ public class TrainController {
 
     public void brakeTrain(double period){
         current_velocity = current_velocity + (-1.2 *period);
-
     }
 
     public void update() {
-
-
         //Calculate elapsed time since last update
-
         double deltaTmillis = System.currentTimeMillis() - previousTime;
-
         previousTime = System.currentTimeMillis();
 
         if(brake) {
-
             double period = deltaTmillis/1000;
-
             brakeTrain(period);
-
-        }else {
-
-
-        power_out = getPower(deltaTmillis);
-
-        //Calculate new velocity and speed
-
-        current_velocity = current_velocity + (((prevAcceleration + acceleration) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
-
-        speed = Math.abs(current_velocity);
-
-
-        //Calculate forces
-        double mass = 37096;
-
-        double frictionForce = mass * 9.8 * .001 * Math.cos(Math.toRadians(0)); // We've got to convert this to degrees
-
-        double brakingAcceleration = 0;
-
-        if (emergency_brake) {
-            brakingAcceleration = -2.37;
-        } else if (brake) {
-            brakingAcceleration = -1.2;
         }
-
-        double brakingForce = brakingAcceleration * mass;
-
-        double gradeForce = -(mass * 9.8 * Math.sin(Math.toRadians(0))); //Negative here as a positive grade will reduce forward force
-
-        double powerForce = Math.sqrt((power_out * mass * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
-
-
-        double staticForce = frictionForce + brakingForce;
-
-        double dynamicForce = powerForce + gradeForce;
-
-
-
-        //One last velocity check
-
-        if (current_velocity < 0 && staticForce > dynamicForce)
-
+        else
         {
+            power_out = getPower(deltaTmillis);
 
-            current_velocity = 0.0;
+            //Calculate new velocity and speed
+            current_velocity = current_velocity + (((prevAcceleration + acceleration) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
+            speed = Math.abs(current_velocity);
 
-        }
+            //Calculate forces
+            double mass = 37096;
+            double frictionForce = mass * 9.8 * .001 * Math.cos(Math.toRadians(0)); // We've got to convert this to degrees
+            double brakingAcceleration = 0;
+            if (emergency_brake) {
+                brakingAcceleration = -2.37;
+            } else if (brake) {
+                brakingAcceleration = -1.2;
+            }
 
+            double brakingForce = brakingAcceleration * mass;
+            double gradeForce = -(mass * 9.8 * Math.sin(Math.toRadians(0))); //Negative here as a positive grade will reduce forward force
+            double powerForce = Math.sqrt((power_out * mass * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
+            double staticForce = frictionForce + brakingForce;
+            double dynamicForce = powerForce + gradeForce;
 
-        double netForce = 0.0;
-        //Calculate net force
-
-        if (current_velocity > 0)                                //Forward movement
-
-        {
-
-            netForce = dynamicForce - staticForce;
-
-        } else if (current_velocity < 0 && gradeForce < 0)        //Backwards movement
-
-        {
-
-            netForce = dynamicForce + staticForce;
-
-        } else if (current_velocity == 0)
-
-        {
-
-
-            if (dynamicForce > staticForce)              //Acceleration
-
+            //One last velocity check
+            if (current_velocity < 0 && staticForce > dynamicForce)
             {
+                current_velocity = 0.0;
+            }
 
+            double netForce = 0.0;
+            //Calculate net force
+            if (current_velocity > 0)                                //Forward movement
+            {
                 netForce = dynamicForce - staticForce;
-
-
-            } else if (dynamicForce <= staticForce)
-
+            } else if (current_velocity < 0 && gradeForce < 0)        //Backwards movement
             {
-
-
-                if (Math.abs(gradeForce) > staticForce)  //Downhill roll from standstill
-
+                netForce = dynamicForce + staticForce;
+            } else if (current_velocity == 0)
+            {
+                if (dynamicForce > staticForce)              //Acceleration
                 {
-
-
-                    netForce = dynamicForce + staticForce;
-
-                } else                                    //Standstill
-
+                   netForce = dynamicForce - staticForce;
+                } else if (dynamicForce <= staticForce)
                 {
-
-                    netForce = 0;
-
+                    if (Math.abs(gradeForce) > staticForce)  //Downhill roll from standstill
+                    {
+                        netForce = dynamicForce + staticForce;
+                    }
+                    else                                    //Standstill
+                    {
+                        netForce = 0;
+                    }
                 }
-
             }
 
+            //Calculate new acceleration
+            prevAcceleration = acceleration;
+            acceleration = netForce / mass;
         }
-
-
-        //Calculate new acceleration
-
-        prevAcceleration = acceleration;
-
-
-
-        acceleration = netForce / mass;
-
-
-
-
-
     }
-
-
-    }
-
-
-
-
 
 }
 
-class SkinnyBlock {
 
-    boolean station;
-    int block;
-    SkinnyBlock previous;
-    SkinnyBlock next;
-    int ID;
-    double speedLimit;
-    double length;
-
-
-
-
-    public SkinnyBlock(double length, double speed, SkinnyBlock prev, boolean station, int id){
-
-        this.length = length;
-        this.speedLimit = speed;
-
-        this.previous = prev;
-        this.station=true;
-        this.ID = id;
-
-    }
-
-    public void addNext(SkinnyBlock next){
-        this.next = next;
-    }
-
-
-
-    public int getID(){
-        return this.ID;
-    }
-
-    public SkinnyBlock getNext(){
-        return  this.next;
-    }
-
-    public double getDistToStation(int stationBlock, SkinnyBlock skinnyBlock){
-        double dist = skinnyBlock.length;
-
-        while(skinnyBlock.getID() != stationBlock){
-            skinnyBlock = skinnyBlock.getNext();
-            if(skinnyBlock.getID() != stationBlock) {
-                dist = dist + skinnyBlock.length;
-            }
-        }
-        return dist;
-
-    }
-
-
-
-    public SkinnyBlock getPrev(){
-        return this.previous;
-    }
-}

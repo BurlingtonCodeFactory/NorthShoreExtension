@@ -37,10 +37,8 @@ public class Train_display {
 
     public Train_display(TrainController trainController) {
         pane = new GridPane();
-
         setConst(pane, 1,6);
         pane.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-
         String com_gauge_str = trainController.name.concat(" Commanded Velocity");
         String vel_gauge_str = trainController.name.concat(" Current Velocity");
         String pwr_gauge_str = trainController.name.concat(" Power Output");
@@ -112,7 +110,6 @@ public class Train_display {
         name.setAlignment(Pos.CENTER);
         pane_one.add(name, 0, 3);
         name.setAlignment(Pos.CENTER);
-
         String tempString = "Cabin temp is " + Double.toString(trainController.cabinTemp);
 
         TextField temp = new TextField(tempString);
@@ -121,6 +118,7 @@ public class Train_display {
         tempValue.setPromptText("Input new Temperature here:");
         tempValue.setAlignment(Pos.CENTER);
         Button tempSubmit = new Button("Change Temp");
+
         tempSubmit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -136,8 +134,6 @@ public class Train_display {
         pane_one.add(tempSubmit, 0, 6);
 
         pane.add(pane_one, 3,0);
-
-
 
         GridPane pane_two = new GridPane();
         pane_two.setPrefSize(200, 200);
@@ -210,11 +206,8 @@ public class Train_display {
 
         pane.add(pane_two, 4, 0);
 
-
         GridPane pane_three = new GridPane();
         pane_three.setPrefSize(200, 200);
-
-
         ColumnConstraints col_three = new ColumnConstraints();
         col_three.setPercentWidth(48);
 
@@ -232,8 +225,6 @@ public class Train_display {
         vel_label.setAlignment(Pos.BASELINE_CENTER);
         vel_label.setFont(font_two);
 
-
-
         velocity_select = new Slider();
         velocity_select.setMax(44.0);
         velocity_select.setMajorTickUnit(5.0);
@@ -249,7 +240,6 @@ public class Train_display {
                 trainController.setpoint_velocity = velocity_select.getValue();
             }
         });
-
 
         pane_three.add(velocity_select, 0, 0);
 
@@ -278,31 +268,17 @@ public class Train_display {
 
         Label onLabel = new Label();
         onLabel.setText("ON");
-
-
         Label offLabel = new Label();
         offLabel.setText("OFF");
-
-
         pane_three.add(e_brake, 1,0);
-
 
         RowConstraints row_three_two = new RowConstraints();
         row_three_two.setPercentHeight(10);
         pane_three.getRowConstraints().add(row_three_two);
-
         pane_three.add(vel_label, 0,1);
         pane_three.add(e_brake_label, 1,1);
-
-
         pane.add(pane_three, 5,0);
-
-
-
         setValues(trainController);
-
-
-
     }
 
     public void setConst(GridPane pane, int rowNum, int colNum){
@@ -313,7 +289,6 @@ public class Train_display {
             rowConst.setPercentHeight(height / rowNum);
             pane.getRowConstraints().add(rowConst);
         }
-
         for(int i =0; i< colNum; i++){
             ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPercentWidth(width /colNum);
@@ -323,8 +298,6 @@ public class Train_display {
 
     public void setValues(TrainController trainController){
         try {
-
-
             command_gauge.setValue(trainController.commanded_velocity);
             speed_gauge.setValue(trainController.current_velocity);
             power_gauge.setValue(trainController.power_out);

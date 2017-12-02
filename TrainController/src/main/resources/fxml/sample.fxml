@@ -56,6 +56,8 @@
           </font>
         </Label>
         <Label font="$x1" style="-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: black;" text="The Next Station has Doors on the Left Side" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+        <ListView fx:id="trainControllerListView" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <ListView fx:id="trainNamesListView" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="0" />
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

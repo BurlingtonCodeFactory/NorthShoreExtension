@@ -25,15 +25,14 @@ public class TrainControllerManager {
     }
 
     public void addTrainController(TrainController train){
-        trainControllers.add(train);
-        trainNames.add(train.name);
-        launch.update(trainControllers, trainNames);
+        GUIController controller = launch.getController();
+        controller.addTrainController(train);
+
     }
 
     public void deleteTrainController(TrainController train){
-        int index = train.ID;
-        trainControllers.remove(index);
-        trainNames.remove(index);
-        launch.update(trainControllers, trainNames);
+        GUIController controller = launch.getController();
+        controller.deleteTrainController(train);
+
     }
 }

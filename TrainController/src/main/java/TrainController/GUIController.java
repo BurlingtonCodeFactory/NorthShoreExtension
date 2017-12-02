@@ -3,6 +3,13 @@ package TrainController;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.application.Application;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,15 +17,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Slider;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,6 +39,8 @@ import static javafx.scene.control.Alert.*;
 public class GUIController {
     private ArrayList<TrainController> trainControllers;
     private ArrayList<String> trainNames;
+    ObservableList<String> trainNamesObservableList = FXCollections.observableArrayList();
+    ObservableList<TrainController> trainControllerObservableList = FXCollections.observableArrayList();
 
     @FXML
     public GridPane individual_view_pane;
@@ -48,25 +55,47 @@ public class GUIController {
     @FXML
     public GridPane group_grid;
 
+    @FXML
+    public ListView<TrainController> trainControllerListView;
+    @FXML
+    public ListView<String> trainNamesListView;
+
     private Gauge commanded_velocity_gauge;
     private Gauge current_velocity_gauge;
-
     private Gauge power_gauge;
     private ArrayList<Train_display> displays;
-
-    PID pid_ctrl;
-    int clicks =0;
-
-    double previousTimestamp;
+    ListProperty<TrainController> trainControllerListProperty;
+    ListProperty<String> trainNamesListProperty;
 
     public GUIController(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames) {
         this.trainControllers = trainControllers;
         this.trainNames = trainNames;
+        trainControllerListProperty = new SimpleListProperty<TrainController>();
+        trainNamesListProperty = new SimpleListProperty<String>();
     }
 
     @FXML
     public void initialize() {
-       
+
+        trainControllerListView = new ListView<TrainController>();
+        trainNamesListView = new ListView<>();
+        trainControllerListProperty.setValue(FXCollections.observableArrayList(trainControllers));
+        trainNamesListProperty.setValue(FXCollections.observableArrayList(trainNames));
+
+        train_select.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                changeDisplay((String)newValue);
+            }
+        });
+        trainControllerListView.itemsProperty().bind(trainControllerListProperty);
+        trainNamesListView.itemsProperty().bind(trainNamesListProperty);
+        //buildIndividualView();
+        addData();
+        addGauges();
+    }
+
+    private void buildIndividualView(){
         group_grid.setPrefWidth(1200);
         group_grid.setMaxWidth(group_grid.getPrefWidth());
         group_grid.setMinWidth(group_grid.getPrefWidth());
@@ -92,9 +121,6 @@ public class GUIController {
             group_grid.addRow(i);
             group_grid.add(pane, 0, i);
         }
-
-        addData();
-        addGauges();
     }
 
     private void addGauges() {
@@ -117,52 +143,82 @@ public class GUIController {
                 .maxValue(120)
                 .build();
 
-
-        individual_view_pane.add(commanded_velocity_gauge, 1, 1);
-        individual_view_pane.add(current_velocity_gauge, 2, 1);
-
-        individual_view_pane.add(power_gauge, 3, 1);
+        //individual_view_pane.add(commanded_velocity_gauge, 1, 1);
+        //individual_view_pane.add(current_velocity_gauge, 2, 1);
+        //individual_view_pane.add(power_gauge, 3, 1);
     }
 
     private void addData() {
+        trainNamesObservableList = trainNamesListView.getItems();
         train_select.setValue("");
         for (int i = 0; i < train_select.getItems().size(); i++) {
             train_select.getItems().set(i, "");
         }
-        for (int i = 0; i < trainNames.size(); i++) {
+        for (int i = 0; i < trainNamesObservableList.size(); i++) {
             if (i < train_select.getItems().size()) {
-                train_select.getItems().set(i, trainNames.get(i));
+                train_select.getItems().set(i, trainNamesObservableList.get(i));
             } else {
-                train_select.getItems().add(trainNames.get(i));
+                train_select.getItems().add(trainNamesObservableList.get(i));
             }
         }
     }
 
     public void checkStatus() {
         String selected = train_select.getValue().toString();
-
         current_train.setText(selected);
         int index = trainNames.indexOf(selected);
         if (index != -1) {
             TrainController controller = trainControllers.get(index);
-
             String auth = Double.toString(controller.authority);
             authority_display.setText(auth);
-
             commanded_velocity_gauge.setValue(controller.setpoint_velocity);
             current_velocity_gauge.setValue(controller.current_velocity);
             power_gauge.setValue(controller.getPower()/4000);
-
             checkInput(controller);
         }
     }
 
+    public void changeDisplay(String trainName){
+
+        commanded_velocity_gauge.valueProperty().unbind();
+        current_velocity_gauge.valueProperty().unbind();
+        power_gauge.valueProperty().unbind();
+
+        trainNamesObservableList = trainNamesListView.getItems();
+        int i = trainNamesObservableList.indexOf(trainName);
+        trainControllerObservableList = trainControllerListView.getItems();
+        TrainController trainController = trainControllerObservableList.get(i);
+
+        commanded_velocity_gauge.valueProperty().bind(new DoubleBinding() {
+            @Override
+            protected double computeValue() {
+               return  trainController.commanded_velocity;
+            }
+        });
+
+        power_gauge.valueProperty().bind(new DoubleBinding() {
+            @Override
+            protected double computeValue() {
+                return trainController.getPower();
+            }
+        });
+
+        current_velocity_gauge.valueProperty().bind(new DoubleBinding() {
+            @Override
+            protected double computeValue() {
+                return trainController.current_velocity;
+            }
+        });
+
+
+
+    }
+
     public void checkInput(TrainController controller) {
 
-        Double v_input = velocity_select.getValue();
+        double v_input = velocity_select.getValue();
         controller.calcSetpointVelocity(v_input);
-        Double v_current = controller.current_velocity;
-
+        double v_current = controller.current_velocity;
         if(controller.setpoint_velocity != v_current) {
             if(controller.setpoint_velocity< v_current){
                 controller.brake = true;
@@ -171,21 +227,19 @@ public class GUIController {
         }
     }
 
-    public void brakeTrain(TrainController train, double period) {
-        train.current_velocity = train.current_velocity - (1.2 * period);
+    public void addTrainController(TrainController train) {
+        trainControllers.add(train);
+        trainNames.add(train.name);
+        trainControllerListProperty.setValue(FXCollections.observableArrayList(trainControllers));
+        trainNamesListProperty.setValue(FXCollections.observableArrayList(trainNames));
+
     }
+    public void deleteTrainController(TrainController train) {
+        trainControllers.remove(train);
+        trainNames.remove(train.name);
+        trainControllerListProperty.setValue(FXCollections.observableArrayList(trainControllers));
+        trainNamesListProperty.setValue(FXCollections.observableArrayList(trainNames));
 
-    public void addTrain(TrainController train) {
-        int rows = getRowCount(group_grid);
-
-        train_select.getItems().add(train.name);
-
-        Train_display display = new Train_display(train);
-        GridPane pane = display.getPane();
-
-        displays.add(display);
-
-        group_grid.add(pane, 0, rows - 1);
     }
 
     private int getRowCount(GridPane pane) {
