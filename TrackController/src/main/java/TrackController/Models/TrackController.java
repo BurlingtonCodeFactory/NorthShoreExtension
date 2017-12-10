@@ -39,4 +39,10 @@ public class TrackController {
             plc.evaluateBlock(block);
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return this.name;
+    }
 }

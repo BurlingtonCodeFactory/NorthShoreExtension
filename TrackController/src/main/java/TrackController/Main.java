@@ -59,6 +59,8 @@ public class Main extends Application {
         Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addFailureChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addSwitchStateChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addMaintenanceRequestListener(injector.getInstance(TrackControllerManager.class));
 
     }
 }
