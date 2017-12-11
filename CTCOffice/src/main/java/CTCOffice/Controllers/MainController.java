@@ -5,10 +5,7 @@ import CTCOffice.Interfaces.IRouteService;
 import CTCOffice.Interfaces.ITrainRepository;
 import CTCOffice.Models.Stop;
 import CTCOffice.Models.Train;
-import TrackModel.Events.ClockTickUpdateEvent;
-import TrackModel.Events.ClockTickUpdateListener;
-import TrackModel.Events.OccupancyChangeEvent;
-import TrackModel.Events.OccupancyChangeListener;
+import TrackModel.Events.*;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
@@ -26,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class MainController implements ClockTickUpdateListener, OccupancyChangeListener {
+public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener {
     @FXML
     public ChoiceBox<Integer> multiplier;
     @FXML
@@ -273,6 +270,16 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine()) {
             blockOccupied.setText(Boolean.toString(changedBlock.getIsOccupied()));
+        }
+    }
+
+    @Override
+    public void maintenanceChangeReceived(MaintenanceChangeEvent event) {
+        Block changedBlock = (Block) event.getSource();
+        Block selectedBlock = blockName.getSelectionModel().getSelectedItem();
+
+        if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine()) {
+            blockMaintenance.setText(Boolean.toString(changedBlock.getUnderMaintenance()));
         }
     }
 

@@ -42,7 +42,7 @@ public class Block {
     private static List<FailureChangeListener> failureChangeListeners = new ArrayList<>();
     private static List<SwitchStateChangeListener> switchStateChangeListeners = new ArrayList<>();
     private static List<MaintenanceRequestListener> maintenanceRequestListeners = new ArrayList<>();
-
+    private static List<MaintenanceChangeListener> maintenanceChangeListeners = new ArrayList<>();
 
     public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit){
         this.id = id;
@@ -307,6 +307,7 @@ public class Block {
 
         public void setUnderMaintenance(boolean underMaintenance) {
             this.underMaintenance = underMaintenance;
+            fireMaintenanceChangeEvent(this);
         }
 
         public void setLock(boolean lock)
@@ -436,7 +437,7 @@ public class Block {
         }
     }
 
-    // Maintenance Change
+    // Request Maintenance Change
     public static synchronized void addMaintenanceRequestListener( MaintenanceRequestListener l ) {
         maintenanceRequestListeners.add( l );
     }
@@ -447,10 +448,32 @@ public class Block {
 
     protected static synchronized void fireMaintenanceRequestEvent(Object source)
     {
+        System.out.println("Fire suggested maintenance change");
+
         MaintenanceRequestEvent event = new MaintenanceRequestEvent(source);
         for(MaintenanceRequestListener listener : maintenanceRequestListeners)
         {
             listener.maintenanceRequestReceived(event);
+        }
+    }
+
+    // Maintenance Change
+    public static synchronized void addMaintenanceChangeListener( MaintenanceChangeListener l ) {
+        maintenanceChangeListeners.add( l );
+    }
+
+    public static synchronized void removeMaintenanceChangeListener( MaintenanceChangeListener l ) {
+        maintenanceChangeListeners.remove( l );
+    }
+
+    protected static synchronized void fireMaintenanceChangeEvent(Object source)
+    {
+        System.out.println("Fire maintenance change");
+
+        MaintenanceChangeEvent event = new MaintenanceChangeEvent(source);
+        for(MaintenanceChangeListener listener : maintenanceChangeListeners)
+        {
+            listener.maintenanceChangeReceived(event);
         }
     }
 }
