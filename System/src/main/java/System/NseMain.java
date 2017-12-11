@@ -77,6 +77,7 @@ public class NseMain extends Application {
         Block.addMaintenanceRequestListener(injector.getInstance(TrackControllerManager.class));
 
         Block.addOccupancyChangeListener(injector.getInstance(CTCEventHandler.class));
+        Block.addMaintenanceChangeListener(injector.getInstance(CTCEventHandler.class));
 
         //Instantiate Test Bench
         TrackControllerTestBench testBench = new TrackControllerTestBench(injector);

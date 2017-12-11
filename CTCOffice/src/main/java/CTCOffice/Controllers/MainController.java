@@ -244,7 +244,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     public void trainAuthoritySet(ActionEvent e) {
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
-        List<Block> authority = routeService.getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), trainAuthoritySelect.getSelectionModel().getSelectedItem());
+        train.setDestinationBlock(trainAuthoritySelect.getSelectionModel().getSelectedItem());
+        List<Block> authority = routeService.getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), train.getDestinationBlock());
 
         if (authority != null) {
             train.setSuggestedAuthority(authority); // TODO: set suggestedAuthority on trackModel.block corresponding to train location, etc

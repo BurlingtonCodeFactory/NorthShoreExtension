@@ -306,8 +306,11 @@ public class Block {
         }
 
         public void setUnderMaintenance(boolean underMaintenance) {
+            if (this.underMaintenance != underMaintenance) {
+                this.underMaintenance = underMaintenance;
+                fireMaintenanceChangeEvent(this);
+            }
             this.underMaintenance = underMaintenance;
-            fireMaintenanceChangeEvent(this);
         }
 
         public void setLock(boolean lock)
@@ -468,7 +471,7 @@ public class Block {
 
     protected static synchronized void fireMaintenanceChangeEvent(Object source)
     {
-        System.out.println("Fire maintenance change");
+        //System.out.println("Fire maintenance change");
 
         MaintenanceChangeEvent event = new MaintenanceChangeEvent(source);
         for(MaintenanceChangeListener listener : maintenanceChangeListeners)

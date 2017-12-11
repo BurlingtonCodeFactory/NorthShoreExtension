@@ -23,6 +23,9 @@ public class RouteService implements IRouteService {
 
     @Override
     public List<Block> getShortestPath(Block previousBlock, Block currentBlock, Block destination) {
+        if (destination == null) {
+            return null;
+        }
         System.out.print("Previous "+previousBlock.getId());
         System.out.print(" Current "+currentBlock.getId());
         System.out.println(" Destination "+destination.getId());
@@ -53,7 +56,7 @@ public class RouteService implements IRouteService {
                 }
 
                 Block neighbor = trackModel.getBlock(currentBlock.getLine(), neighborId);
-                if (!distance.containsKey(neighbor) && !neighbor.getIsOccupied()) {
+                if (!distance.containsKey(neighbor) && !neighbor.getIsOccupied() && !neighbor.getUnderMaintenance()) {
                     distance.put(neighbor, distance.get(u) + 1);
                     previous.put(neighbor, u);
                     queue.offer(neighbor);
@@ -74,18 +77,14 @@ public class RouteService implements IRouteService {
     @Override
     public void RouteTrains(Line line) {
         for (Train train : trainRepository.getTrains(line)) {
-            List<Block> authority = train.getSuggestedAuthority();
-            if (authority.size() > 1) {
-                List<Block> newAuthority = getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), authority.get(authority.size() - 1));
-                train.setSuggestedAuthority(newAuthority == null ? new ArrayList<>() : newAuthority);
-                if (trainRepository.getMode()) {
-                    train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit());
-                }
-            }
-            else if (trainRepository.getMode() && train.getSchedule().size() > 0) {
+            List<Block> newAuthority = getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), train.getDestinationBlock());
+            train.setSuggestedAuthority(newAuthority == null ? new ArrayList<>() : newAuthority);
+            train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit() < train.getSuggestedSpeed() ? train.getCurrentBlock().getSpeedLimit() : train.getSuggestedSpeed());
+            System.out.println("Setting " + line + "-" + train.getId() + " authority of " + newAuthority);
+            /*else if (trainRepository.getMode() && train.getSchedule().size() > 0) {
                 train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit());
                 List<Block> newAuthority = getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), train.getSchedule().get(0).getBlock());
-            }
+            }*/
         }
     }
 
