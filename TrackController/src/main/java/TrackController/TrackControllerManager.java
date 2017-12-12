@@ -34,7 +34,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
         if(track.getBlocks(Line.GREEN).size() > 0)
         {
             controllers = new ArrayList<>();
-            TrackController controller = new TrackController(id, "Vital Section " + id, "file" + id + ".plc", track);
+            TrackController controller = new TrackController(id, "Vital Section " + id, "green" + id + ".plc", track);
             for (Block block : track.getBlocks(Line.GREEN))
             {
                 controller.addBlock(block);
@@ -49,7 +49,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
         else {
             controllers = new ArrayList<>();
             id = 1;
-            TrackController controller = new TrackController(id, "Vital Section " + id, "file" + id + ".plc", track);
+            TrackController controller = new TrackController(id, "Vital Section " + id, "red" + id + ".plc", track);
             for (Block block : track.getBlocks(Line.RED)) {
                 controller.addBlock(block);
                 if (REDLOCKS.contains(block.getId())) {
