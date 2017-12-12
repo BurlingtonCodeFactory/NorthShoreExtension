@@ -26,9 +26,16 @@ public class SkinnyBlock {
         this.ID = id;
 
     }
+    public List getConnected(){
+        return connectedBlocks;
+    }
 
-
-
+    public double getLength(){
+        return length;
+    }
+    public double getSpeedLimit(){
+        return this.speedLimit;
+    }
     public void setPrev(int prev){
         this.previous=prev;
     }
