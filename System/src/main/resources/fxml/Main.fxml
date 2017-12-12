@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.152" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -125,6 +125,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
@@ -146,25 +147,27 @@
             <ChoiceBox fx:id="trainIdentifier" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Location" GridPane.rowIndex="4" />
             <Label fx:id="trainLocation" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Suggested Speed" GridPane.rowIndex="5" />
-            <Label fx:id="trainSpeed" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Label text="Destination" GridPane.rowIndex="5" />
+            <Label fx:id="trainDestination" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Suggested Speed" GridPane.rowIndex="6" />
+            <Label fx:id="trainSpeed" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <children>
                   <TextField fx:id="trainSpeedValue" />
                   <Button fx:id="trainSpeedButton" minWidth="40.0" mnemonicParsing="false" text="Set" />
                </children>
             </HBox>
-            <Label text="Suggested Authority" GridPane.rowIndex="7" />
-            <Label fx:id="trainAuthorityBlocks" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <Label text="Suggested Authority" GridPane.rowIndex="8" />
+            <Label fx:id="trainAuthorityBlocks" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <children>
                   <ChoiceBox fx:id="trainAuthoritySelect" />
                   <Button fx:id="trainAuthorityButton" disable="true" minWidth="40.0" mnemonicParsing="false" text="Set" />
                </children>
             </HBox>
-            <Label text="Schedule" GridPane.rowIndex="9" />
-            <ListView fx:id="trainStops" GridPane.columnSpan="2" GridPane.rowIndex="10" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
+            <Label text="Schedule" GridPane.rowIndex="10" />
+            <ListView fx:id="trainStops" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
                <children>
                   <ChoiceBox fx:id="trainStopBlock" />
                   <Button fx:id="trainStopButton" disable="true" minWidth="40.0" mnemonicParsing="false" text="Add" />

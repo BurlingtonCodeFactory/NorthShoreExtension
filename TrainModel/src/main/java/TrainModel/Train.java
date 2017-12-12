@@ -27,12 +27,14 @@ public class Train {
     private SimpleDoubleProperty powerProperty;
     private SimpleDoubleProperty speedProperty;
     private SimpleDoubleProperty accelerationProperty;
-    private SimpleDoubleProperty massProperty;
+    private SimpleDoubleProperty massProperty, lengthProperty, heightProperty, widthProperty;
+    private SimpleDoubleProperty authorityProperty;
     private SimpleDoubleProperty cabinTempProperty;
     private SimpleStringProperty RISProperty;
     private SimpleBooleanProperty lightsProperty;
     private SimpleBooleanProperty leftDoorsProperty, rightDoorsProperty;
     private SimpleBooleanProperty brakesProperty;
+    private SimpleIntegerProperty passengerCountProperty = new SimpleIntegerProperty();
 
     private double g = 9.8;
     private double coeffFriction = 0.001;
@@ -41,7 +43,7 @@ public class Train {
     private double velocity = 0;
     private double  displacement = 0, totalDisplacement = 0, totalBlockLength = 0;
     private double previousAcceleration = 0, brakingAcceleration = 0;
-    private double previousTimestamp, deltaTmillis;
+    private double deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
 
     public Train(int previousBlock, int currentBlock, int cars, TrainController trainController, boolean PIDSetupbypass, int ID, ITrackModelForTrainModel track, Line line)
@@ -56,8 +58,12 @@ public class Train {
         this.line = line;
         this.carsProperty = new SimpleIntegerProperty();
         this.powerProperty = new SimpleDoubleProperty();
+        this.authorityProperty = new SimpleDoubleProperty();
         this.speedProperty = new SimpleDoubleProperty();
         this.massProperty = new SimpleDoubleProperty();
+        this.heightProperty = new SimpleDoubleProperty();
+        this.lengthProperty = new SimpleDoubleProperty();
+        this.widthProperty = new SimpleDoubleProperty();
         this.accelerationProperty = new SimpleDoubleProperty();
         this.cabinTempProperty = new SimpleDoubleProperty();
         this.leftDoorsProperty = new SimpleBooleanProperty();
@@ -69,9 +75,13 @@ public class Train {
         speedProperty.set(0);
         accelerationProperty.set(0);
         cabinTempProperty.set(67);
+        heightProperty.set(11.22);
+        widthProperty.set(8.69);
+        lengthProperty.set(cars * 105);
+        passengerCountProperty.set(0);
 
         //Calculate Initial Train Mass
-        setMass(carsProperty.getValue() * 37096);
+        setMass(carsProperty.getValue() * 37103);
 
         //Initialize block length tracking
         totalBlockLength = track.getLengthByID(currentBlock, line);
@@ -149,6 +159,7 @@ public class Train {
         //System.out.println("Train Velocity="+velocity +" Power="+getPower() +" Location="+currentBlock + " Distance="+(totalDisplacement-totalBlockLength));
 
         //Relay data to Train Controller
+        setAuthority(track.getAuthorityByID(currentBlock, line));
         trainController.updateVelocity(velocity);
         trainController.setAuthority(track.getAuthorityByID(currentBlock, line));
         trainController.calcSetpointVelocity(track.getSpeedByID(currentBlock, line));
@@ -202,6 +213,10 @@ public class Train {
         frictionForce = getMass() * g * coeffFriction * Math.cos(Math.toRadians(grade)); // We've got to convert this to degrees
         brakingForce = brakingAcceleration * getMass();
         gradeForce = -(getMass() * g * Math.sin(Math.toRadians(grade))); //Negative here as a positive grade will reduce forward force
+        if(previousBlock > currentBlock) //Invert grade force if train is traveling in opposite direction on track
+        {
+            gradeForce = gradeForce * -1;
+        }
         powerForce = Math.sqrt((getPower() * getMass() * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
 
         staticForce = frictionForce + brakingForce;
@@ -274,17 +289,22 @@ public class Train {
         brakeFailure = true;
     }
 
-    public void setPower(double power){ powerProperty.set(power);}
+    public void setPower(double power){ powerProperty.setValue(power);}
 
-    public void setMass(double mass){massProperty.set(mass);}
+    public void setMass(double mass){massProperty.setValue(mass);}
 
-    public void setRIS(String RIS){RISProperty.set(RIS);}
+    public void setAuthority(double authority){ authorityProperty.setValue(authority);}
 
-    public void setSpeed(double speed){ speedProperty.set(speed);}
 
-    public void setAcceleration(double acceleration){ accelerationProperty.set(acceleration);}
+    public void setRIS(String RIS){RISProperty.setValue(RIS);}
+
+    public void setSpeed(double speed){ speedProperty.setValue(speed);}
+
+    public void setAcceleration(double acceleration){ accelerationProperty.setValue(acceleration);}
 
     public void setBrake(boolean brakesOn){brakesProperty.setValue(brakesOn);}
+
+    public void setPassengerCount(int passengerCount){passengerCountProperty.set(passengerCount);}
 
     //Getters//////////////////////////////////////////////////
 
@@ -305,7 +325,7 @@ public class Train {
 
     public double getPower()
     {
-        return powerProperty.doubleValue();
+        return Math.floor(powerProperty.doubleValue() * 100) / 100; //Truncates decimal places
     }
 
     public double getMass(){return massProperty.doubleValue();}
@@ -316,9 +336,19 @@ public class Train {
         return powerProperty;
     }
 
+    public SimpleDoubleProperty getAuthorityProperty() {
+        return authorityProperty;
+    }
+
     public SimpleDoubleProperty getCabinTempProperty(){return cabinTempProperty;}
 
     public SimpleDoubleProperty getMassProperty(){return massProperty;}
+
+    public SimpleDoubleProperty getLengthProperty(){return lengthProperty;}
+
+    public SimpleDoubleProperty getWidthProperty(){return widthProperty;}
+
+    public SimpleDoubleProperty getHeightProperty(){return heightProperty;}
 
     public SimpleIntegerProperty getCarsProperty(){return carsProperty;}
 
@@ -328,7 +358,7 @@ public class Train {
 
     public SimpleBooleanProperty getRightDoorsProperty(){return rightDoorsProperty;}
 
-    public double getSpeed(){ return speedProperty.doubleValue(); }
+    public SimpleBooleanProperty getBrakesProperty(){return brakesProperty;}
 
     public SimpleDoubleProperty getSpeedProperty() {
         return speedProperty;
@@ -337,4 +367,8 @@ public class Train {
     public SimpleDoubleProperty getAccelerationProperty() {
         return accelerationProperty;
     }
+
+    public SimpleIntegerProperty getPassengerCountProperty(){return passengerCountProperty;}
+
+    public double getSpeed(){ return speedProperty.doubleValue(); }
 }
