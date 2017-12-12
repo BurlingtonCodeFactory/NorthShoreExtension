@@ -164,10 +164,10 @@ public class PLC {
                 }
             }
 
-            if(field.equals("failure"))
+            /*if(field.equals("failure"))
             {
                 System.out.println(block.getId() + " failure " + block.getFailed() + " " + value);
-            }
+            }*/
             switch(field)
             {
                 case "occupied":
