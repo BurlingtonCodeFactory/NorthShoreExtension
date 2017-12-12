@@ -118,10 +118,11 @@ public class PLC {
         String field;
         String value;
         String action;
+        List<Integer> validBlocks = new ArrayList<>();
 
         public PLCRule(String[] command)
         {
-            switch(command[0])
+            switch(command[0].split("-")[0])
             {
                 case "switch":
                     infrastructure = BlockType.SWITCH;
@@ -137,11 +138,19 @@ public class PLC {
                     break;
             }
 
+            String[] splitType = command[0].split("-");
 
             offset = command[1];
             field = command[2];
             value = command[3];
             action = command[4];
+            if(splitType.length > 1)
+            {
+                for (String b : splitType[1].split(","))
+                {
+                    validBlocks.add(Integer.parseInt(b));
+                }
+            }
         }
 
         public void evaluateStandardRule(Block block)
@@ -164,7 +173,7 @@ public class PLC {
                     return;
                 }
             }
-            
+
             switch(field)
             {
                 case "occupied":
@@ -225,6 +234,10 @@ public class PLC {
             }
 
             Block intendedBlock = track.getBlock(block.getLine(), blockNum);
+            if(validBlocks.size() > 0 && !validBlocks.contains(block))
+            {
+                return;
+            }
 
             switch(field)
             {

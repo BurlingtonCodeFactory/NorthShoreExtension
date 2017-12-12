@@ -232,7 +232,9 @@ public class Block {
         return maxID;
     }
 
-    public int getPreviousBlock() { return id-1; }
+    public int getPreviousBlock() {
+        return id == 0 ? 0 : id-1;
+    }
 
     //</editor-fold>
 

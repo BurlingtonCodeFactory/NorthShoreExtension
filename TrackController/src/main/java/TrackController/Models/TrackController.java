@@ -28,7 +28,7 @@ public class TrackController {
 
     public boolean addBlock(Block block)
     {
-       return blocks.add(block);
+        return blocks.add(block);
     }
 
 
@@ -36,6 +36,7 @@ public class TrackController {
     {
         for (Block block : blocks)
         {
+            System.out.println(block.getId());
             plc.evaluateBlock(block);
         }
     }

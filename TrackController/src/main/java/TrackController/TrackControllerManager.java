@@ -24,7 +24,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
     public List<TrackController> controllers;
     private ITrackModelForTrackController track;
     private final ArrayList<Integer> GREENLOCKS = new ArrayList<>(Arrays.asList(29,76));
-    private final ArrayList<Integer> REDLOCKS = new ArrayList<>();
+    private final ArrayList<Integer> REDLOCKS = new ArrayList<>(Arrays.asList(9, 15, 27, 32, 38, 43, 52));
     private static ArrayList<RefreshUIListener> listeners = new ArrayList<>();
 
     public TrackControllerManager() //TODO: Inject Track Model and create controllers
