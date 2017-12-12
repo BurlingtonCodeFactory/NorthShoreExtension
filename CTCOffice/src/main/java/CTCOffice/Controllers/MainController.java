@@ -43,6 +43,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     @FXML
     public Label trainLocation;
     @FXML
+    public Label trainDestination;
+    @FXML
     public Label trainSpeed;
     @FXML
     public Label trainAuthorityBlocks;
@@ -97,7 +99,11 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         // Set handler for mode change
         mode.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> trainRepository.setMode(newValue)
+                (observable, oldValue, newValue) -> {
+                    trainRepository.setMode(newValue);
+                    routeService.RouteTrains(Line.GREEN);
+                    routeService.RouteTrains(Line.RED);
+                }
         );
 
         // Set blockLine options
@@ -110,7 +116,6 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         // Set handler for blockName selection changes
         blockName.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    // TODO: this is not an observable! need to listen to UI update event from Occupancy changed handler (and others -> maintenance)
                     blockOccupied.setText(Boolean.toString(newValue.getIsOccupied()));
                     blockSpeedLimit.setText(String.format("%1$.2f", newValue.getSpeedLimit() * 2.23694));
                     blockMaintenance.setText(Boolean.toString(newValue.getUnderMaintenance()));
@@ -139,6 +144,7 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
                 (observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         trainLocation.textProperty().bind(newValue.getCurrentBlockProperty().asString());
+                        trainDestination.textProperty().bind(newValue.getDestinationBlockProperty().asString());
                         trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().multiply(2.23694).asString("%.2f"));
                         trainAuthorityBlocks.textProperty().bind(newValue.getSuggestedAuthorityProperty().asString());
                         trainStops.setItems(newValue.getScheduleProperty());
@@ -146,7 +152,12 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
                         trainStopButton.setDisable(false);
 
                         if (newValue.getPreviousBlock() == null) {
-                            trainDispatch.setDisable(false);
+                            if (!trackModel.getBlock(newValue.getLine(), 0).getIsOccupied()) {
+                                trainDispatch.setDisable(false);
+                            }
+                            else {
+                                trainDispatch.setDisable(true);
+                            }
                             trainAuthorityButton.setDisable(true);
                         }
                         else {
@@ -194,7 +205,7 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
             return;
         }
 
-        block.setSuggestMaintenance(!block.getUnderMaintenance()); // TODO: need UnderMaintenanceChangeEvent, when TC changes value it fires, pick that up and refresh blockMaintenance text
+        block.setSuggestMaintenance(!block.getUnderMaintenance());
     }
 
     public void trainCreateButton(ActionEvent e) {
@@ -209,6 +220,11 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     }
 
     public void trainDispatchButton(ActionEvent e) {
+        Line line = trainLine.getSelectionModel().getSelectedItem();
+        if (trackModel.getBlock(line, 0).getIsOccupied()) {
+            return;
+        }
+
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
         train.setPreviousBlock(trackModel.getBlock(train.getLine(), 0));
 
@@ -233,7 +249,7 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
                 train.setSuggestedSpeed(0);
             }
             else {
-                train.setSuggestedSpeed(speed); // TODO: set suggestedSpeed on trackModel.block corresponding to train location, etc
+                train.setSuggestedSpeed(speed);
             }
         }
         catch (NumberFormatException exception) {
@@ -248,7 +264,7 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         List<Block> authority = routeService.getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), train.getDestinationBlock());
 
         if (authority != null) {
-            train.setSuggestedAuthority(authority); // TODO: set suggestedAuthority on trackModel.block corresponding to train location, etc
+            train.setSuggestedAuthority(authority);
         }
     }
 
@@ -257,6 +273,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
         train.addStop(new Stop(block));
+
+        routeService.RouteTrains(train.getLine());
     }
 
     @Override
@@ -271,6 +289,15 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine()) {
             blockOccupied.setText(Boolean.toString(changedBlock.getIsOccupied()));
+        }
+
+        Train selectedTrain = trainIdentifier.getSelectionModel().getSelectedItem();
+
+        if (selectedTrain != null && selectedTrain.getPreviousBlock() == null && !trackModel.getBlock(selectedTrain.getLine(), 0).getIsOccupied()) {
+            trainDispatch.setDisable(false);
+        }
+        else {
+            trainDispatch.setDisable(true);
         }
     }
 

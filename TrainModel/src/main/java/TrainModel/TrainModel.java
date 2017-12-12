@@ -6,11 +6,10 @@ import TrackModel.Models.Line;
 import TrainController.TrainController;
 import TrainController.TrainControllerManager;
 import TrainModel.Interfaces.ITrainModelForCTCOffice;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.io.IOException;
 import java.util.*;
 
 @Singleton

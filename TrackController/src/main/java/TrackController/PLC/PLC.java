@@ -164,7 +164,7 @@ public class PLC {
                     return;
                 }
             }
-
+            
             switch(field)
             {
                 case "occupied":
