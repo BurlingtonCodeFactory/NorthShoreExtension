@@ -66,6 +66,10 @@ public class CTCEventHandler implements OccupancyChangeListener, MaintenanceChan
                         () -> {
                             movedTrain.setPreviousBlock(movedTrain.getCurrentBlock());
                             movedTrain.setCurrentBlock(changedBlock);
+                            if (movedTrain.getSchedule().size() > 0 && movedTrain.getSchedule().get(0).getBlock().getId() == movedTrain.getCurrentBlock().getId()) {
+                                System.out.println("Stop " + movedTrain.getSchedule().get(0).getBlock() + " reached for train "+ movedTrain.getLine() + "-" + movedTrain.getId());
+                                movedTrain.removeStop(movedTrain.getSchedule().get(0));
+                            }
                             routeService.RouteTrains(changedBlock.getLine());
                         }
                 );

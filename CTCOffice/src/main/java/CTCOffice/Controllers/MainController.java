@@ -97,7 +97,11 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         // Set handler for mode change
         mode.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> trainRepository.setMode(newValue)
+                (observable, oldValue, newValue) -> {
+                    trainRepository.setMode(newValue);
+                    routeService.RouteTrains(Line.GREEN);
+                    routeService.RouteTrains(Line.RED);
+                }
         );
 
         // Set blockLine options
@@ -110,7 +114,6 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         // Set handler for blockName selection changes
         blockName.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    // TODO: this is not an observable! need to listen to UI update event from Occupancy changed handler (and others -> maintenance)
                     blockOccupied.setText(Boolean.toString(newValue.getIsOccupied()));
                     blockSpeedLimit.setText(String.format("%1$.2f", newValue.getSpeedLimit() * 2.23694));
                     blockMaintenance.setText(Boolean.toString(newValue.getUnderMaintenance()));
@@ -267,6 +270,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
         train.addStop(new Stop(block));
+
+        routeService.RouteTrains(train.getLine());
     }
 
     @Override

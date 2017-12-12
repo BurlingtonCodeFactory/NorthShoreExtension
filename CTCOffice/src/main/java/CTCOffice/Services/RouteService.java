@@ -77,9 +77,30 @@ public class RouteService implements IRouteService {
     @Override
     public void RouteTrains(Line line) {
         for (Train train : trainRepository.getTrains(line)) {
+            if (train.getPreviousBlock() == null) {
+                continue;
+            }
+
+            if (trainRepository.getMode()) {
+                Block destination = train.getDestinationBlock();
+                if (destination == null && train.getSchedule().size() > 0) {
+                    System.out.println("No destination for train " + line + "-" + train.getId() + " setting destination to " + train.getSchedule().get(0).getBlock());
+                    train.setDestinationBlock(train.getSchedule().get(0).getBlock());
+                }
+                else if (destination != null && destination.getId() == train.getCurrentBlock().getId() && train.getSchedule().size() > 0) {
+                    System.out.println("Destination reached for train " + line + "-" + train.getId() + " setting destination to " + train.getSchedule().get(0).getBlock());
+                    train.setDestinationBlock(train.getSchedule().get(0).getBlock());
+                }
+            }
+
             List<Block> newAuthority = getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), train.getDestinationBlock());
             train.setSuggestedAuthority(newAuthority == null ? new ArrayList<>() : newAuthority);
-            train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit() < train.getSuggestedSpeed() ? train.getCurrentBlock().getSpeedLimit() : train.getSuggestedSpeed());
+            if (trainRepository.getMode()) {
+                train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit());
+            }
+            else {
+                train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit() < train.getSuggestedSpeed() ? train.getCurrentBlock().getSpeedLimit() : train.getSuggestedSpeed());
+            }
             System.out.println("Setting " + line + "-" + train.getId() + " authority of " + newAuthority);
             /*else if (trainRepository.getMode() && train.getSchedule().size() > 0) {
                 train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit());
