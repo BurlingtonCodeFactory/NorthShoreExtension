@@ -326,18 +326,18 @@ public class TrainController {
         }
         distInBlock += current_velocity*(period/1000);
         //System.out.println("Controller Velocity="+current_velocity +" Power="+getPower() + " Setpoint="+setpoint_velocity +" Distance="+distInBlock+" Brake="+brake);
-<<<<<<< HEAD
+
        // System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
         //System.out.println("Controller e brake" + emergency_brake + " Controller left door =" + doorsOpenLeft + " Controller right door " + doorsOpenRight + " Cabin Temp " + cabinTemp);
         System.out.println(RIS + " Current block is " + currentSkinnyBlock.getID() + " previous block is " + currentSkinnyBlock.previous + " The connected blocks are " );
         for(int i = 0; i< currentSkinnyBlock.getConnected().size(); i++){
             System.out.print(" "+currentSkinnyBlock.getConnected().get(i) + " ");
         }
-=======
+
         //System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
 
 
->>>>>>> ea4fc79bbd952e111fa30c87c9615f76798cd99c
+
         return power_out;
     }
 
