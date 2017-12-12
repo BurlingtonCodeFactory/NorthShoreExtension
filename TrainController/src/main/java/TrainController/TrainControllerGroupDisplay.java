@@ -1,204 +1,42 @@
 package TrainController;
 
+
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
-
-public class GUIController {
-
-    @FXML
-    public GridPane individual_view_pane;
-    @FXML
-    public ComboBox train_select;
-    @FXML
-    public TextField authority_display;
-    @FXML
-    public TextField current_train;
-    @FXML
-    public Slider velocity_select;
-    @FXML
-    public ScrollPane groupViewScroll;
-
-    private GridPane groupViewGrid = new GridPane();
-    private Gauge commanded_velocity_gauge;
-    private Gauge current_velocity_gauge;
-    private Gauge power_gauge;
-
-    private ArrayList<TrainController> trainControllers;
-    private ArrayList<String> trainNames;
-
-    private ObservableList<TrainControllerGroupDisplay> trainControllerDisplayObservableList = FXCollections.observableArrayList();
+import javax.swing.*;
 
 
+public class TrainControllerGroupDisplay {
+
+    Gauge command_gauge;
+    Gauge speed_gauge;
+    Gauge power_gauge;
+    TextField authority;
+    TextField name;
+    Slider velocity_select;
+    ToggleButton left_door;
+    ToggleButton right_door;
+    ToggleButton auto_button;
+    Slider e_brake;
+    ToggleButton lights;
+    GridPane pane;
+    String trainName;
 
 
-    public GUIController(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames) {
-        this.trainControllers = trainControllers;
-        this.trainNames = trainNames;
-
-    }
-
-    @FXML
-    public void initialize() {
-
-        train_select.setValue("Select a Train");
-        groupViewGrid.setPrefWidth(groupViewScroll.getPrefWidth());
-        groupViewScroll.setContent(groupViewGrid);
-
-
-
-
-
-    
-        train_select.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                changeDisplay((String)newValue);
-            }
-        });
-
-
-
-        addGauges();
-    }
-
-
-    private void addGauges() {
-        commanded_velocity_gauge = GaugeBuilder.create()
-                .title("Commanded Velocity")
-                .unit("MPH")
-                .maxValue(44)
-                .build();
-
-        current_velocity_gauge = GaugeBuilder.create()
-                .title("Current Velocity")
-                .unit("MPH")
-                .maxValue(44)
-                .build();
-
-
-        power_gauge = GaugeBuilder.create()
-                .title("Power Output")
-                .unit("KW")
-                .maxValue(120)
-                .build();
-
-        individual_view_pane.add(commanded_velocity_gauge, 1, 1);
-        individual_view_pane.add(current_velocity_gauge, 2, 1);
-        individual_view_pane.add(power_gauge, 3, 1);
-    }
-
-
-
-
-
-    public void changeDisplay(String trainName){
-
-        try {
-            commanded_velocity_gauge.valueProperty().unbind();
-            current_velocity_gauge.valueProperty().unbind();
-            power_gauge.valueProperty().unbind();
-        } catch (NullPointerException n){}
-
-        int i = trainNames.indexOf(trainName);
-
-        try {
-            TrainController trainController = trainControllers.get(i);
-
-            commanded_velocity_gauge.valueProperty().bind(new DoubleBinding() {
-                @Override
-                protected double computeValue() {
-                    return trainController.commanded_velocity;
-                }
-            });
-
-            power_gauge.valueProperty().bind(new DoubleBinding() {
-                @Override
-                protected double computeValue() {
-                    return trainController.getPower();
-                }
-            });
-
-            current_velocity_gauge.valueProperty().bind(new DoubleBinding() {
-                @Override
-                protected double computeValue() {
-                    return trainController.current_velocity;
-                }
-            });
-
-        }catch (ArrayIndexOutOfBoundsException e){}
-
-    }
-
-
-
-    public void addTrainController(TrainController train) {
-        System.out.println("addtrain");
-
-        trainControllers.add(train);
-        trainNames.add(train.name);
-        TrainControllerGroupDisplay display = new TrainControllerGroupDisplay(train);
-        trainControllerDisplayObservableList.add(display);
-        RowConstraints constraints = new RowConstraints();
-        constraints.setPrefHeight(display.getHeight());
-        AnchorPane anchor = new AnchorPane();
-        anchor.setPrefHeight(200);
-        anchor.setPrefWidth(display.getWidth());
-
-        groupViewGrid.getRowConstraints().add(constraints);
-        groupViewGrid.addRow(trainControllerDisplayObservableList.size());
-        groupViewGrid.add(anchor, 0, trainControllerDisplayObservableList.size()-1);
-        createIndividualDisplay(anchor, train);
-        train_select.getItems().add(train.name);
-
-
-    }
-    public void deleteTrainController(TrainController train) {
-        trainControllers.remove(train);
-        trainNames.remove(train.name);
-        for(TrainControllerGroupDisplay d : trainControllerDisplayObservableList){
-            if(d.trainName == train.name){
-                trainControllerDisplayObservableList.remove(d);
-            }
-        }
-        train_select.getItems().remove(train.name);
-
-    }
-
-    public void createIndividualDisplay(AnchorPane anchor, TrainController trainController){
-        Gauge command_gauge;
-        Gauge speed_gauge;
-        Gauge power_gauge;
-        TextField authority;
-        TextField name;
-        Slider velocity_select;
-        ToggleButton left_door;
-        ToggleButton right_door;
-        ToggleButton auto_button;
-        ToggleButton e_brake;
-        ToggleButton lights;
-        GridPane pane;
-        String trainName;
+    public TrainControllerGroupDisplay(TrainController trainController) {
         trainName = trainController.name;
         pane = new GridPane();
         setConst(pane, 1,6);
@@ -231,16 +69,6 @@ public class GUIController {
                 .prefWidth(200)
                 .build();
 
-        SimpleDoubleProperty commandBind = new SimpleDoubleProperty();
-        commandBind.set(trainController.commanded_velocity);
-        SimpleDoubleProperty currentBind = new SimpleDoubleProperty();
-        commandBind.set(trainController.current_velocity);
-        SimpleDoubleProperty powerBind = new SimpleDoubleProperty();
-        commandBind.set(trainController.getPower());
-
-        command_gauge.valueProperty().bind(commandBind);
-        speed_gauge.valueProperty().bind(currentBind);
-        power_gauge.valueProperty().bind(powerBind);
         pane.add(command_gauge, 0, 0);
         pane.add(speed_gauge, 1,0);
         pane.add(power_gauge, 2,0);
@@ -417,27 +245,28 @@ public class GUIController {
 
         pane_three.add(velocity_select, 0, 0);
 
+        Label e_brake_label = new Label();
+        e_brake_label.setText("E_Brake");
+        e_brake_label.setFont(font);
+        e_brake_label.setTextFill(Color.RED);
 
+        e_brake = new Slider();
+        e_brake.setMax(1.0);
+        e_brake.setShowTickLabels(true);
+        e_brake.setSnapToTicks(true);
+        e_brake.setPrefHeight(150);
+        e_brake.orientationProperty().setValue(Orientation.VERTICAL);
 
-        e_brake = new ToggleButton();
-        e_brake.setText("Turn on \nEmergency \nBrake");
-
-        e_brake.setAlignment(Pos.CENTER);
-        e_brake.setPrefHeight(100);
-
-        e_brake.setOnAction(new EventHandler<ActionEvent>() {
+        e_brake.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void handle(ActionEvent event) {
-                if(trainController.emergency_brake){
-                    trainController.setEBrake(false);
-                }else{
-                    trainController.setEBrake(true);
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(e_brake.getValue() == 1){
+                    trainController.emergency_brake = true;
+                } else{
+                    trainController.emergency_brake = false;
                 }
             }
         });
-
-
-
 
         Label onLabel = new Label();
         onLabel.setText("ON");
@@ -449,10 +278,9 @@ public class GUIController {
         row_three_two.setPercentHeight(10);
         pane_three.getRowConstraints().add(row_three_two);
         pane_three.add(vel_label, 0,1);
-
+        pane_three.add(e_brake_label, 1,1);
         pane.add(pane_three, 5,0);
-
-        anchor.getChildren().add(pane);
+        setValues(trainController);
     }
 
     public void setConst(GridPane pane, int rowNum, int colNum){
@@ -470,6 +298,27 @@ public class GUIController {
         }
     }
 
+    public void setValues(TrainController trainController){
+        try {
+            command_gauge.setValue(trainController.commanded_velocity);
+            speed_gauge.setValue(trainController.current_velocity);
+            power_gauge.setValue(trainController.power_out);
+            authority.setText(Double.toString(trainController.authority));
+        }
+        catch (NullPointerException n ){
+
+        }
+    }
+
+    public double getHeight(){
+        return pane.getPrefHeight();
+    }
+    public double getWidth(){
+        return pane.getPrefWidth();
+    }
+    public GridPane getPane(){
+        return pane;
+    }
+
+
 }
-
-

@@ -84,54 +84,62 @@ public class TrainController {
         input_velocity  = 0.0;
         authority =0.0;
         distInBlock=0.0;
-        SkinnyBlock yard = new SkinnyBlock(0.0, 0.0, null, true, 0);
-        greenYard = yard;
-        SkinnyBlock skinnyBlock = yard;
+
+
         this.speedLimit = Double.MAX_VALUE;
         this.cabinTemp = 67.0;
 
-        stations[0] = "green yard";
-        stations[150] = "red yard";
-        stations[157] = "Shadyside";
-        stations[166] = "Herron Ave";
-        stations[171] = "Swissville";
-        stations[175] = "Penn Station";
-        stations[185] = "Steel Plaza";
-        stations[195] ="First Ave";
-        stations[198] = "Station Square";
-        stations[210] = "South Hills Junction";
-        stations[2] = "Pioneer";
-        stations[9] = "Edgebrook";
-        stations[16] = "Station";
-        stations[22] = "Whited";
-        stations[31]="South Bank";
-        stations[39] = "Central";
-        stations[48] = "Inglewood";
-        stations[57] = "Overbrook";
-        stations[65] = "Glenbury";
-        stations[73] = "Dormont";
-        stations[77] = "Mount Lebanon";
-        stations[88] = "Poplar";
-        stations[96] = "Castle Shannon";
+        if(line.equals(Line.GREEN)){
+            stations[0] = "green yard";
+            stations[2] = "Pioneer";
+            stations[9] = "Edgebrook";
+            stations[16] = "Station";
+            stations[22] = "Whited";
+            stations[31]="South Bank";
+            stations[39] = "Central";
+            stations[48] = "Inglewood";
+            stations[57] = "Overbrook";
+            stations[65] = "Glenbury";
+            stations[73] = "Dormont";
+            stations[77] = "Mount Lebanon";
+            stations[88] = "Poplar";
+            stations[96] = "Castle Shannon";
+            stations[105] = "Dormont";
+            stations[114]="Glenbury";
+            stations[123]="Overbrook";
+            stations[132]="Inglewood";
+            stations[141]="Central";
+        }else{
+            stations[0] = "red yard";
+            stations[150] = "Shadyside";
+            stations[16] = "Herron Ave";
+            stations[21] = "Swissville";
+            stations[25] = "Penn Station";
+            stations[35] = "Steel Plaza";
+            stations[15] ="First Ave";
+            stations[48] = "Station Square";
+            stations[60] = "South Hills Junction";
+        }
+
+
+
 
         track = new ArrayList<SkinnyBlock>();
+        boolean station = false;
         for (int i =0; i<stations.length;i++){
+            Block block = trackInput.get(i);
 
             if(stations[i] != null){
-                skinnyBlock = addBlock(skinnyBlock, true, i, 0.0, 0.0 );
-            }
-             else if(i == 150){
-                skinnyBlock = addBlock(skinnyBlock, true, i, 0.0, 0.0 );
-                redYard = skinnyBlock;
-            }
-            else {
-                skinnyBlock = addBlock(skinnyBlock, false, i, 0.0, 0.0);
+                station = true;
             }
 
+            SkinnyBlock skinny = new SkinnyBlock( block.getLength(), block.getSpeedLimit(), station, block.getId(), block.getConnectedBlocks());
+
             if(i == current){
-                 currentSkinnyBlock = skinnyBlock;
+                 currentSkinnyBlock = skinny;
             }
-            track.add(i, skinnyBlock);
+            track.add(i, skinny);
+            station=false;
         }
 
 
@@ -282,8 +290,9 @@ public class TrainController {
             power_out = pid.getPower(current_velocity, setpoint_velocity, period);
         }
         distInBlock += current_velocity*(period/1000);
-        System.out.println("Controller Velocity="+current_velocity +" Power="+getPower() + " Setpoint="+setpoint_velocity +" Distance="+distInBlock+" Brake="+brake);
-        System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
+       // System.out.println("Controller Velocity="+current_velocity +" Power="+getPower() + " Setpoint="+setpoint_velocity +" Distance="+distInBlock+" Brake="+brake);
+       // System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
+        //System.out.println("Controller e brake" + emergency_brake + " Controller left door =" + doorsOpenLeft + " Controller right door " + doorsOpenRight + " Cabin Temp " + cabinTemp);
         return power_out;
     }
 

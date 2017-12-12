@@ -1,56 +1,63 @@
 package TrainController;
 
+import java.util.List;
+
 public class SkinnyBlock {
 
     boolean station;
-    int block;
-    SkinnyBlock previous;
-    SkinnyBlock next;
+
+    int previous;
+
     int ID;
     double speedLimit;
     double length;
+    List <Integer>connectedBlocks;
 
 
 
 
-    public SkinnyBlock(double length, double speed, SkinnyBlock prev, boolean station, int id){
+    public SkinnyBlock(double length, double speed, boolean station, int id, List<Integer> connected){
 
         this.length = length;
         this.speedLimit = speed;
+        this.connectedBlocks = connected;
 
-        this.previous = prev;
-        this.station=true;
+        this.station=station;
         this.ID = id;
 
     }
 
 
 
-
+    public void setPrev(int prev){
+        this.previous=prev;
+    }
 
     public int getID(){
         return this.ID;
     }
 
-    public SkinnyBlock getNext(){
-        return  this.next;
-    }
-
-    public double getDistToStation(int stationBlock, SkinnyBlock skinnyBlock){
-        double dist = skinnyBlock.length;
-        while(skinnyBlock.getID() != stationBlock){
-            skinnyBlock = skinnyBlock.getNext();
-            if(skinnyBlock.getID() != stationBlock) {
-                dist = dist + skinnyBlock.length;
+    public int getNext(){
+        if(connectedBlocks.size() == 1){
+            return connectedBlocks.get(0);
+        }else if (connectedBlocks.size()==2){
+            if(previous==connectedBlocks.get(0)){
+                return connectedBlocks.get(1);
+            } else{
+                return connectedBlocks.get(0);
             }
+        }else if (connectedBlocks.size()==3){
+            return -3;
         }
-        return dist;
+        return -1;
 
     }
 
 
 
-    public SkinnyBlock getPrev(){
+
+
+    public int getPrev(){
         return this.previous;
     }
 }

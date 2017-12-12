@@ -28,7 +28,7 @@ public class LaunchGUI extends Application {
     public void start(Stage primaryStage) throws Exception{
 
 
-        FXMLLoader loader = new FXMLLoader(new File("./build/resources/main/fxml/sample.fxml").toURI().toURL());
+        FXMLLoader loader = new FXMLLoader(new File("./build/resources/main/fxml/TrainControllerUI.fxml").toURI().toURL());
         controller = new GUIController(trainControllers, trainNames);
         loader.setController(controller);
         AnchorPane page = loader.load();
