@@ -43,6 +43,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     @FXML
     public Label trainLocation;
     @FXML
+    public Label trainDestination;
+    @FXML
     public Label trainSpeed;
     @FXML
     public Label trainAuthorityBlocks;
@@ -142,6 +144,7 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
                 (observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         trainLocation.textProperty().bind(newValue.getCurrentBlockProperty().asString());
+                        trainDestination.textProperty().bind(newValue.getDestinationBlockProperty().asString());
                         trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().multiply(2.23694).asString("%.2f"));
                         trainAuthorityBlocks.textProperty().bind(newValue.getSuggestedAuthorityProperty().asString());
                         trainStops.setItems(newValue.getScheduleProperty());
