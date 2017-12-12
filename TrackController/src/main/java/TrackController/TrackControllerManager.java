@@ -34,30 +34,36 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
         if(track.getBlocks(Line.GREEN).size() > 0)
         {
             controllers = new ArrayList<>();
-            TrackController controller = new TrackController(id, "Vital Section " + id, "green" + id + ".plc", track);
+            TrackController controller1 = new TrackController(id, "Controller 1", "green" + id + ".plc", track);
+            TrackController controller2 = new TrackController(id, "Controller 2", "green" + id + ".plc", track);
             for (Block block : track.getBlocks(Line.GREEN))
             {
-                controller.addBlock(block);
+                controller1.addBlock(block);
+                controller2.addBlock(block);
                 if(GREENLOCKS.contains(block.getId()))
                 {
                     System.out.println("Creating lock on "+block.getId());
                     block.createLock();
                 }
             }
-            controllers.add(controller);
+            controllers.add(controller1);
+            controllers.add(controller2);
         }
         else {
             controllers = new ArrayList<>();
             id = 1;
-            TrackController controller = new TrackController(id, "Vital Section " + id, "red" + id + ".plc", track);
+            TrackController controller1 = new TrackController(id, "Controller 1", "red" + id + ".plc", track);
+            TrackController controller2 = new TrackController(id, "Controller 2", "red" + id + ".plc", track);
             for (Block block : track.getBlocks(Line.RED)) {
-                controller.addBlock(block);
+                controller1.addBlock(block);
+                controller2.addBlock(block);
                 if (REDLOCKS.contains(block.getId())) {
                     System.out.println("Creating lock on " + block.getId());
                     block.createLock();
                 }
             }
-            controllers.add(controller);
+            controllers.add(controller1);
+            controllers.add(controller2);
         }
     }
 
