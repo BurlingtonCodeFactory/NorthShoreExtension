@@ -98,6 +98,12 @@ public class TestBenchController {
     Label blockConnectedBlocks;
 
     @FXML
+    Label blockSuggestedMaintenance;
+
+    @FXML
+    Label blockMaintenance;
+
+    @FXML
     TextField suggestedAuthorityValue;
 
     @FXML
@@ -119,12 +125,22 @@ public class TestBenchController {
     private void initialize()
     {
         List<Block> blockList = new ArrayList<>();
-        for (Block block: track.getBlocks(Line.GREEN)) {
-            blockList.add(block);
+        if(track.getBlocks(Line.GREEN).size() > 0)
+        {
+            for (Block block: track.getBlocks(Line.GREEN)) {
+                blockList.add(block);
+            }
         }
+        else
+        {
+            for (Block block: track.getBlocks(Line.RED)) {
+                blockList.add(block);
+            }
+        }
+
         blocksObservableList.addAll(blockList);
         blockListView.setItems(blocksObservableList);
-        blockListView.getItems().get(0);
+        block = blockListView.getItems().get(0);
 
     }
 
@@ -169,10 +185,16 @@ public class TestBenchController {
             if(blockString.trim().equals("")) {
                 break;
             }
-            authority.add(track.getBlock(Line.GREEN, Integer.parseInt(blockString.trim())));
+            authority.add(track.getBlock(block.getLine(), Integer.parseInt(blockString.trim())));
         }
         block.setSuggestedAuthority(authority);
         suggestedAuthorityValue.setText("");
+        refreshUI();
+    }
+
+    public void setSuggestedMaintenance()
+    {
+        block.setSuggestMaintenance(!block.getSuggestMaintenance());
         refreshUI();
     }
 
@@ -197,6 +219,9 @@ public class TestBenchController {
         blockAuthority.setText(String.valueOf(block.getCommandedAuthorityString()));
         blockConnectedBlocks.setText(block.getConnectedBlocksString());
         blockLock.setText(block.hasLock() ? String.valueOf(block.getLock()) : "No Lock");
+        blockSuggestedMaintenance.setText(String.valueOf(block.getSuggestMaintenance()));
+        blockMaintenance.setText(String.valueOf(block.getUnderMaintenance()));
+
 
         if(block instanceof Crossing)
         {

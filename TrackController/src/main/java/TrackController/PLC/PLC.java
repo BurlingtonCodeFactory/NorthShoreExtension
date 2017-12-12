@@ -90,6 +90,7 @@ public class PLC {
                 field.equals("switch") ||
                 field.equals("lock") ||
                 field.equals("failure") ||
+                field.equals("maintenance") ||
                 field.equals("route");
     }
 
@@ -105,6 +106,7 @@ public class PLC {
                 field.equals("stop") ||
                 field.equals("heaterOn") ||
                 field.equals("heaterOff") ||
+                field.equals("acceptMaintenance") ||
                 field.equals("route");
     }
 
@@ -143,8 +145,29 @@ public class PLC {
 
         public void evaluateStandardRule(Block block)
         {
-            int off = Integer.parseInt(offset);
-            Block intendedBlock = getBlockByOffset(off, block);
+            int off;
+            Block intendedBlock;
+            try
+            {
+                off = Integer.parseInt(offset);
+                intendedBlock = getBlockByOffset(off, block);
+            }
+            catch(NumberFormatException e)
+            {
+                off = Integer.parseInt(offset.substring(1));
+                if(off < block.getSuggestedAuthority().size()) {
+                    intendedBlock = getBlockByAuthorityOffset(off, block);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if(field.equals("failure"))
+            {
+                System.out.println(block.getId() + " failure " + block.getFailed() + " " + value);
+            }
             switch(field)
             {
                 case "occupied":
@@ -154,17 +177,19 @@ public class PLC {
                     }
                     break;
                 case "failure":
-                    for(int num : block.getConnectedBlocks())
+                    if(intendedBlock.getFailed() == Boolean.parseBoolean(value))
                     {
-                        if(track.getBlock(block.getLine(),num).getFailed() == Boolean.parseBoolean(value))
-                        {
-                            performAction(action, block);
-                            return;
-                        }
+                        performAction(action, block);
                     }
                     break;
                 case "lock":
                     if(intendedBlock.hasLock() && intendedBlock.getLock() == Boolean.parseBoolean(value))
+                    {
+                        performAction(action, block);
+                    }
+                    break;
+                case "maintenance":
+                    if(intendedBlock.getUnderMaintenance() == Boolean.parseBoolean(value))
                     {
                         performAction(action, block);
                     }
@@ -191,7 +216,7 @@ public class PLC {
                 blockNum = block.getSwitchBase();
             }
 
-            Block intendedBlock = track.getBlock(Line.GREEN, blockNum);
+            Block intendedBlock = track.getBlock(block.getLine(), blockNum);
 
             switch(field)
             {
@@ -207,7 +232,7 @@ public class PLC {
                             {
                                 performAction(action, block);
                             }
-                            else if (intendedBlock.getSuggestedAuthority().contains(track.getBlock(Line.GREEN, block.getSwitchOne()))) {
+                            else if (intendedBlock.getSuggestedAuthority().contains(track.getBlock(block.getLine(), block.getSwitchOne()))) {
                                 performAction("switchOne", block);
                             } else {
                                 performAction("switchZero", block);
@@ -220,7 +245,7 @@ public class PLC {
                     {
                         for(int i = 0; i < 3; i++)
                         {
-                            intendedBlock = track.getBlock(Line.GREEN,intendedBlock.getPreviousBlock());
+                            intendedBlock = track.getBlock(block.getLine(),intendedBlock.getPreviousBlock());
                             performAction(action, intendedBlock);
                         }
                     }
@@ -289,9 +314,14 @@ public class PLC {
                     block.setLightGreen(true);
                     break;
                 case "stop":
+                    System.out.println("stop on "+block.getId());
                     block.setCommandedSpeed(0);
                     block.setCommandedAuthority(new ArrayList<>());
                     block.setLightGreen(false);
+                    break;
+                case "acceptMaintenance":
+                    block.setUnderMaintenance(block.getSuggestMaintenance());
+                    block.setLightGreen(!block.getUnderMaintenance());
                     break;
             }
         }
@@ -307,8 +337,8 @@ public class PLC {
                 }
                 Block occupancyBlock = authority.get(authority.indexOf(b) + 2);
                 Block switchBlock = authority.get(authority.indexOf(b) + 3);
-                if(!occupancyBlock.getIsOccupied() && (!switchBlock.hasLock() || (switchBlock.hasLock() && !switchBlock.getLock())
-                        || (switchBlock.hasLock() && switchBlock.getLock() && authority.contains(track.getBlock(Line.GREEN, ((Switch)switchBlock).getSwitchOne())))))
+                if(!occupancyBlock.getFailed() && !occupancyBlock.getUnderMaintenance() && !occupancyBlock.getIsOccupied() && (!switchBlock.hasLock() || (switchBlock.hasLock() && !switchBlock.getLock())
+                        || (switchBlock.hasLock() && switchBlock.getLock() && authority.contains(track.getBlock(occupancyBlock.getLine(), ((Switch)switchBlock).getSwitchOne())))))
                 {
                     newAuthority.add(b);
                 }
@@ -328,21 +358,27 @@ public class PLC {
             while(offset > 0) {
                 if (right)
                 {
-                    base = track.getBlock(Line.GREEN, base.getNextBlock());
+                    base = track.getBlock(base.getLine(), base.getNextBlock());
                 }
                 else
                 {
-                    base = track.getBlock(Line.GREEN, base.getPreviousBlock());
+                    base = track.getBlock(base.getLine(), base.getPreviousBlock());
                 }
                 offset--;
             }
             return base;
         }
+
+        public Block getBlockByAuthorityOffset(int offset, Block base)
+        {
+            return base.getSuggestedAuthority().get(offset);
+        }
     }
 
     public boolean evaluateBlock(Block block)
     {
-        if(block.getSuggestedAuthority().size() == 0 && block.getBlockType() != BlockType.SWITCH)
+        if(block.getSuggestedAuthority().size() == 0 && block.getSuggestMaintenance() == block.getUnderMaintenance() &&
+                !block.getFailed() && block.getBlockType() == BlockType.STANDARD)
             return true;
 
         if(block instanceof Switch)

@@ -40,6 +40,9 @@ public class Block {
     private static List<SuggestedSpeedChangeListener> suggestedSpeedChangeListeners = new ArrayList<>();
     private static List<SuggestedAuthorityChangeListener> suggestedAuthorityChangeListeners = new ArrayList<>();
     private static List<FailureChangeListener> failureChangeListeners = new ArrayList<>();
+    private static List<SwitchStateChangeListener> switchStateChangeListeners = new ArrayList<>();
+    private static List<MaintenanceRequestListener> maintenanceRequestListeners = new ArrayList<>();
+    private static List<MaintenanceChangeListener> maintenanceChangeListeners = new ArrayList<>();
 
     public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit){
         this.id = id;
@@ -237,6 +240,7 @@ public class Block {
 
         public void setCircuitFailed(boolean circuitFailed) {
             this.circuitFailed = circuitFailed;
+            updateFailure();
         }
 
         public void setCoefficientFriction(double coefficientFriction) {
@@ -271,10 +275,18 @@ public class Block {
 
         public void setPowerFailed(boolean powerFailed) {
             this.powerFailed = powerFailed;
+            updateFailure();
         }
 
         public void setRailBroken(boolean railBroken) {
             this.railBroken = railBroken;
+            updateFailure();
+        }
+
+        public void updateFailure()
+        {
+            this.failed = railBroken || powerFailed || circuitFailed;
+            fireFailureChangeEvent(this);
         }
 
         public void setSuggestedAuthority(List<Block> suggestedAuthority) {
@@ -290,9 +302,14 @@ public class Block {
 
         public void setSuggestMaintenance(boolean suggestMaintenance) {
             this.suggestMaintenance = suggestMaintenance;
+            fireMaintenanceRequestEvent(this);
         }
 
         public void setUnderMaintenance(boolean underMaintenance) {
+            if (this.underMaintenance != underMaintenance) {
+                this.underMaintenance = underMaintenance;
+                fireMaintenanceChangeEvent(this);
+            }
             this.underMaintenance = underMaintenance;
         }
 
@@ -334,6 +351,7 @@ public class Block {
 
     private static synchronized void fireOccupancyChangeEvent(Object source)
     {
+        System.out.println("Fire occupancy change");
         OccupancyChangeEvent event = new OccupancyChangeEvent(source);
         for(OccupancyChangeListener listener : occupancyChangeListeners)
         {
@@ -354,6 +372,7 @@ public class Block {
 
     private static synchronized void fireSuggestedSpeedChangeEvent(Object source)
     {
+        System.out.println("Fire suggested speed change");
         SuggestedSpeedChangeEvent event = new SuggestedSpeedChangeEvent(source);
         for(SuggestedSpeedChangeListener listener : suggestedSpeedChangeListeners)
         {
@@ -372,6 +391,8 @@ public class Block {
 
     private static synchronized void fireSuggestedAuthorityChangeEvent(Object source)
     {
+        System.out.println("Fire suggested authority change");
+
         SuggestedAuthorityChangeEvent event = new SuggestedAuthorityChangeEvent(source);
         for(SuggestedAuthorityChangeListener listener : suggestedAuthorityChangeListeners)
         {
@@ -390,10 +411,72 @@ public class Block {
 
     private static synchronized void fireFailureChangeEvent(Object source)
     {
+        System.out.println("Fire suggested failure change");
+
         FailureChangeEvent event = new FailureChangeEvent(source);
         for(FailureChangeListener listener : failureChangeListeners)
         {
             listener.failureChangeReceived(event);
+        }
+    }
+
+    // Switch Change
+    public static synchronized void addSwitchStateChangeListener( SwitchStateChangeListener l ) {
+        switchStateChangeListeners.add( l );
+    }
+
+    public static synchronized void removeSwitchStateChangeListener( SwitchStateChangeListener l ) {
+        switchStateChangeListeners.remove( l );
+    }
+
+    protected static synchronized void fireSwitchStateChangeEvent(Object source)
+    {
+        System.out.println("Fire switch change");
+
+        SwitchStateChangeEvent event = new SwitchStateChangeEvent(source);
+        for(SwitchStateChangeListener listener : switchStateChangeListeners)
+        {
+            listener.switchStateChangeReceived(event);
+        }
+    }
+
+    // Request Maintenance Change
+    public static synchronized void addMaintenanceRequestListener( MaintenanceRequestListener l ) {
+        maintenanceRequestListeners.add( l );
+    }
+
+    public static synchronized void removeMaintenanceRequestListener( MaintenanceRequestListener l ) {
+        maintenanceRequestListeners.remove( l );
+    }
+
+    protected static synchronized void fireMaintenanceRequestEvent(Object source)
+    {
+        System.out.println("Fire suggested maintenance change");
+
+        MaintenanceRequestEvent event = new MaintenanceRequestEvent(source);
+        for(MaintenanceRequestListener listener : maintenanceRequestListeners)
+        {
+            listener.maintenanceRequestReceived(event);
+        }
+    }
+
+    // Maintenance Change
+    public static synchronized void addMaintenanceChangeListener( MaintenanceChangeListener l ) {
+        maintenanceChangeListeners.add( l );
+    }
+
+    public static synchronized void removeMaintenanceChangeListener( MaintenanceChangeListener l ) {
+        maintenanceChangeListeners.remove( l );
+    }
+
+    protected static synchronized void fireMaintenanceChangeEvent(Object source)
+    {
+        //System.out.println("Fire maintenance change");
+
+        MaintenanceChangeEvent event = new MaintenanceChangeEvent(source);
+        for(MaintenanceChangeListener listener : maintenanceChangeListeners)
+        {
+            listener.maintenanceChangeReceived(event);
         }
     }
 }

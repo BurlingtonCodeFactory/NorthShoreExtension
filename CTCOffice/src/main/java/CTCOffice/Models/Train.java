@@ -14,6 +14,7 @@ public class Train {
     private Line line;
     private Block previousBlock;
     private Block currentBlock;
+    private Block destinationBlock;
     private double suggestedSpeed;
     private List<Block> suggestedAuthority;
     private List<Stop> schedule;
@@ -66,6 +67,10 @@ public class Train {
         return currentBlockProperty;
     }
 
+    public Block getDestinationBlock() {
+        return destinationBlock;
+    }
+
     public double getSuggestedSpeed() {
         return suggestedSpeed;
     }
@@ -102,6 +107,10 @@ public class Train {
     public void setCurrentBlock(Block currentBlock) {
         this.currentBlock = currentBlock;
         this.currentBlockProperty.setValue(currentBlock);
+    }
+
+    public void setDestinationBlock(Block destinationBlock) {
+        this.destinationBlock = destinationBlock;
     }
 
     public void setSuggestedSpeed(double suggestedSpeed) {

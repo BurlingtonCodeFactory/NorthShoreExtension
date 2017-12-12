@@ -19,47 +19,58 @@ import java.util.HashMap;
 import java.util.List;
 
 @Singleton
-public class TrackControllerManager implements OccupancyChangeListener, SuggestedSpeedChangeListener, SuggestedAuthorityChangeListener, FailureChangeListener {
-    public List<TrackController> redControllers;
-    public List<TrackController> greenControllers;
-    private HashMap<Integer, TrackController> redMapping;
-    private HashMap<Integer, TrackController> greenMapping;
+public class TrackControllerManager implements OccupancyChangeListener, SuggestedSpeedChangeListener,
+        SuggestedAuthorityChangeListener, FailureChangeListener, SwitchStateChangeListener, MaintenanceRequestListener{
+    public List<TrackController> controllers;
     private ITrackModelForTrackController track;
-    private final int[] REDCONTROLLERBLOCKS = {15};
-    private final int[] GREENCONTROLLERBLOCKS = {150};
-    private final ArrayList<Integer> LOCKS = new ArrayList<>(Arrays.asList(29,76));
+    private final ArrayList<Integer> GREENLOCKS = new ArrayList<>(Arrays.asList(29,76));
+    private final ArrayList<Integer> REDLOCKS = new ArrayList<>();
     private static ArrayList<RefreshUIListener> listeners = new ArrayList<>();
 
     public TrackControllerManager() //TODO: Inject Track Model and create controllers
     {
         track = TrackControllerModule.injector.getInstance(ITrackModelForTrackController.class);
-        greenControllers = new ArrayList<TrackController>();
         int id = 1;
-        int blockid = 0;
-        for (int limit : GREENCONTROLLERBLOCKS) {
+        if(track.getBlocks(Line.GREEN).size() > 0)
+        {
+            controllers = new ArrayList<>();
             TrackController controller = new TrackController(id, "Vital Section " + id, "file" + id + ".plc", track);
-            for (int i = blockid; i <= limit; i++)
+            for (Block block : track.getBlocks(Line.GREEN))
             {
-                controller.addBlock(track.getBlock(Line.GREEN, i));
-                if(LOCKS.contains(i))
+                controller.addBlock(block);
+                if(GREENLOCKS.contains(block.getId()))
                 {
-                    System.out.println("Creating lock on "+i);
-                    track.getBlock(Line.GREEN, i).createLock();
+                    System.out.println("Creating lock on "+block.getId());
+                    block.createLock();
                 }
-                blockid++;
             }
-            id++;
-            greenControllers.add(controller);
+            controllers.add(controller);
+        }
+        else {
+            controllers = new ArrayList<>();
+            id = 1;
+            TrackController controller = new TrackController(id, "Vital Section " + id, "file" + id + ".plc", track);
+            for (Block block : track.getBlocks(Line.RED)) {
+                controller.addBlock(block);
+                if (REDLOCKS.contains(block.getId())) {
+                    System.out.println("Creating lock on " + block.getId());
+                    block.createLock();
+                }
+            }
+            controllers.add(controller);
         }
     }
 
     private void runRules()
     {
-        for (TrackController controller : greenControllers) {
+        for (TrackController controller : controllers) {
             controller.evaluateBlocks();
         }
     }
 
+    public ITrackModelForTrackController getTrack() {
+        return track;
+    }
 
     public void handleEvent()
     {
@@ -68,35 +79,44 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
 
     public void occupancyChangeReceived(OccupancyChangeEvent event)
     {
-        //System.out.println("Handling occupancy change in Track Controller ");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     public void suggestedSpeedChangeReceived(SuggestedSpeedChangeEvent event)
     {
-        //System.out.println("Handling speed change in Track Controller");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     public void suggestedAuthorityChangeReceived(SuggestedAuthorityChangeEvent event)
     {
-        //System.out.println("Handling authority change in Track Controller");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     public void failureChangeReceived(FailureChangeEvent event)
     {
-        //System.out.println("Handling failure change in Track Controller");
+        System.out.println("Fired");
+        runRules();
+        fireRefreshUIEvent(this);
+    }
+
+    public void switchStateChangeReceived(SwitchStateChangeEvent event)
+    {
+        runRules();
+        fireRefreshUIEvent(this);
+    }
+
+    public void maintenanceRequestReceived(MaintenanceRequestEvent event)
+    {
+        System.out.println("Fired");
         runRules();
         fireRefreshUIEvent(this);
     }
 
     // Occupancy Change
     public static synchronized void addRefreshUIListener( RefreshUIListener l ) {
-        //System.out.println("Adding refresh change listener " + l.getClass());
         listeners.add( l );
     }
 
@@ -109,7 +129,6 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
         RefreshUIEvent event = new RefreshUIEvent(source);
         for(RefreshUIListener listener : listeners)
         {
-            //System.out.println("Sending refresh event to "+listener.getClass());
             Platform.runLater(()->listener.refreshUIReceived(event));
         }
     }
