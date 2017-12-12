@@ -117,12 +117,14 @@ public class Train {
         this.suggestedSpeed = suggestedSpeed;
         this.suggestedSpeedProperty.setValue(suggestedSpeed);
 
-        currentBlock.setSuggestedSpeed(suggestedSpeed);
+        if (previousBlock != null) {
+            currentBlock.setSuggestedSpeed(suggestedSpeed);
 
-        if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
-            Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
-            if (!nextBlock.getIsOccupied()) {
-                nextBlock.setSuggestedSpeed(suggestedSpeed);
+            if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
+                Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
+                if (!nextBlock.getIsOccupied()) {
+                    nextBlock.setSuggestedSpeed(suggestedSpeed);
+                }
             }
         }
     }
@@ -130,14 +132,17 @@ public class Train {
     public void setSuggestedAuthority(List<Block> suggestedAuthority) {
         this.suggestedAuthority = suggestedAuthority;
         this.suggestedAuthorityProperty.setValue(FXCollections.observableArrayList(suggestedAuthority));
-        currentBlock.setSuggestedAuthority(suggestedAuthority);
-        if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
-            Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
-            if (!nextBlock.getIsOccupied()) {
 
-                List<Block> newBlockAuthority = new ArrayList<>(suggestedAuthority);
-                newBlockAuthority.remove(0);
-                nextBlock.setSuggestedAuthority(newBlockAuthority);
+        if (previousBlock != null) {
+            currentBlock.setSuggestedAuthority(suggestedAuthority);
+            if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
+                Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
+                if (!nextBlock.getIsOccupied()) {
+
+                    List<Block> newBlockAuthority = new ArrayList<>(suggestedAuthority);
+                    newBlockAuthority.remove(0);
+                    nextBlock.setSuggestedAuthority(newBlockAuthority);
+                }
             }
         }
     }

@@ -8,11 +8,11 @@ import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
 import TrackModel.TrackModel;
+import com.google.inject.Singleton;
 import javafx.application.Application;
 import javafx.application.Platform;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
