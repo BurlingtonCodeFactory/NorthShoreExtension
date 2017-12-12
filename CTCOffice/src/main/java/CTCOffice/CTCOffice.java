@@ -31,6 +31,7 @@ public class CTCOffice extends Application {
         TrackModel.addClockTickUpdateListener(controller);
         Block.addOccupancyChangeListener(controller);
         Block.addMaintenanceChangeListener(controller);
+        Block.addSwitchStateChangeListener(controller);
         fxmlLoader.setController(controller);
 
         try {
