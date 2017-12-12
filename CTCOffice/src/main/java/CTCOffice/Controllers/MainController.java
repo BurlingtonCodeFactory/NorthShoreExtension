@@ -8,7 +8,9 @@ import CTCOffice.Models.Train;
 import TrackModel.Events.*;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Models.Block;
+import TrackModel.Models.BlockType;
 import TrackModel.Models.Line;
+import TrackModel.Models.Switch;
 import TrainModel.Interfaces.ITrainModelForCTCOffice;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
@@ -23,7 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener {
+public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener {
     @FXML
     public ChoiceBox<Integer> multiplier;
     @FXML
@@ -36,6 +38,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     public Label blockSpeedLimit;
     @FXML
     public Button blockMaintenance;
+    @FXML
+    public Button blockSwitch;
     @FXML
     public ChoiceBox<Line> trainLine;
     @FXML
@@ -120,11 +124,23 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
                     blockSpeedLimit.setText(String.format("%1$.2f", newValue.getSpeedLimit() * 2.23694));
                     blockMaintenance.setText(Boolean.toString(newValue.getUnderMaintenance()));
                     blockMaintenance.setDisable(false);
+
+                    if (newValue.getBlockType() == BlockType.SWITCH) {
+                        blockSwitch.setDisable(false);
+                        blockSwitch.setText(switchString((Switch) newValue));
+                    }
+                    else {
+                        blockSwitch.setDisable(true);
+                        blockSwitch.setText("N/A");
+                    }
                 }
         );
 
         // Set onAction handler for blockMaintenance
         blockMaintenance.setOnAction(this::blockMaintenanceButton);
+
+        // Set onAction handler for blockSwitch
+        blockSwitch.setOnAction(this::blockSwitchButton);
 
         // Set trainLine options
         trainLine.setItems(FXCollections.observableArrayList(Line.values()));
@@ -206,6 +222,17 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         }
 
         block.setSuggestMaintenance(!block.getUnderMaintenance());
+    }
+
+    public void blockSwitchButton(ActionEvent e) {
+        Block block = blockName.getSelectionModel().getSelectedItem();
+
+        if (block == null || block.getBlockType() != BlockType.SWITCH) {
+            return;
+        }
+
+        ((Switch) block).setSwitchStateManual(!((Switch) block).getSwitchState());
+        blockSwitch.setText(switchString((Switch) block));
     }
 
     public void trainCreateButton(ActionEvent e) {
@@ -311,6 +338,17 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         }
     }
 
+    @Override
+    public void switchStateChangeReceived(SwitchStateChangeEvent event) {
+        Switch changedSwitch = (Switch) event.getSource();
+        Block selectedBlock = blockName.getSelectionModel().getSelectedItem();
+
+        if (selectedBlock != null && changedSwitch.getId() == selectedBlock.getId() && changedSwitch.getLine() == selectedBlock.getLine()) {
+            System.out.println("Setting output for switch " + changedSwitch.getId());
+            blockSwitch.setText(switchString(changedSwitch));
+        }
+    }
+
     private Parent loadItemFxml(Stop stop, Train train) {
         FXMLLoader fxmlLoader = null;
         try {
@@ -327,4 +365,10 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         return fxmlLoader.getRoot();
     }
+
+    private String switchString(Switch block) {
+        return block.getSwitchBase() + " <-> " + (block.getSwitchState() ? block.getSwitchOne() : block.getSwitchZero());
+    }
+
+
 }

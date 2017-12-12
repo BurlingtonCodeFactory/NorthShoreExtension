@@ -7,20 +7,17 @@ import TrackModel.Events.*;
 import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
-import TrackModel.TrackModel;
 import com.google.inject.Singleton;
-import javafx.application.Application;
 import javafx.application.Platform;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 @Singleton
 public class TrackControllerManager implements OccupancyChangeListener, SuggestedSpeedChangeListener,
-        SuggestedAuthorityChangeListener, FailureChangeListener, SwitchStateChangeListener, MaintenanceRequestListener{
+        SuggestedAuthorityChangeListener, FailureChangeListener, SwitchStateManualChangeListener, MaintenanceRequestListener{
     public List<TrackController> controllers;
     private ITrackModelForTrackController track;
     private final ArrayList<Integer> GREENLOCKS = new ArrayList<>(Arrays.asList(29,76));
@@ -102,7 +99,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
         fireRefreshUIEvent(this);
     }
 
-    public void switchStateChangeReceived(SwitchStateChangeEvent event)
+    public void switchStateManualChangeReceived(SwitchStateManualChangeEvent event)
     {
         runRules();
         fireRefreshUIEvent(this);

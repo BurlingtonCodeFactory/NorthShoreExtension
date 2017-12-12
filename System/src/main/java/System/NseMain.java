@@ -6,7 +6,6 @@ import TrackController.TrackControllerManager;
 import TrackController.TrackControllerModule;
 import TrackController.TrackControllerTestBench;
 import TrackModel.Models.Block;
-import TrackModel.Models.Line;
 import TrackModel.Services.FileService;
 import TrackModel.TrackModel;
 import TrainModel.TrainModel;
@@ -18,11 +17,8 @@ import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class NseMain extends Application {
 
@@ -73,7 +69,7 @@ public class NseMain extends Application {
         Block.addSuggestedSpeedChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addSuggestedAuthorityChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addFailureChangeListener(injector.getInstance(TrackControllerManager.class));
-        Block.addSwitchStateChangeListener(injector.getInstance(TrackControllerManager.class));
+        Block.addSwitchStateManualChangeListener(injector.getInstance(TrackControllerManager.class));
         Block.addMaintenanceRequestListener(injector.getInstance(TrackControllerManager.class));
 
         Block.addOccupancyChangeListener(injector.getInstance(CTCEventHandler.class));

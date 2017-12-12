@@ -54,12 +54,13 @@ public class Switch extends Block {
     public void setSwitchState(boolean newSwitchState)
     {
         this.switchState = newSwitchState;
+        fireSwitchStateChangeEvent(this);
     }
 
     public void setSwitchStateManual(boolean newSwitchState)
     {
         this.switchState = newSwitchState;
-        fireSwitchStateChangeEvent(this);
+        fireSwitchStateManualChangeEvent(this);
     }
 
     //</editor-fold>
