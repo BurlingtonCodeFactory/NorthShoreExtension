@@ -21,6 +21,7 @@ public class Train {
 
     private ObjectProperty<Block> previousBlockProperty;
     private ObjectProperty<Block> currentBlockProperty;
+    private ObjectProperty<Block> destinationBlockProperty;
     private DoubleProperty suggestedSpeedProperty;
     private ListProperty<Block> suggestedAuthorityProperty;
     private ListProperty<Stop> scheduleProperty;
@@ -30,6 +31,7 @@ public class Train {
         this.line = line;
         this.previousBlockProperty = new SimpleObjectProperty<>();
         this.currentBlockProperty = new SimpleObjectProperty<>();
+        this.destinationBlockProperty = new SimpleObjectProperty<>();
         this.suggestedSpeedProperty = new SimpleDoubleProperty();
         this.suggestedAuthorityProperty = new SimpleListProperty<>();
         this.scheduleProperty = new SimpleListProperty<>();
@@ -69,6 +71,10 @@ public class Train {
 
     public Block getDestinationBlock() {
         return destinationBlock;
+    }
+
+    public ObjectProperty<Block> getDestinationBlockProperty() {
+        return destinationBlockProperty;
     }
 
     public double getSuggestedSpeed() {
@@ -111,6 +117,7 @@ public class Train {
 
     public void setDestinationBlock(Block destinationBlock) {
         this.destinationBlock = destinationBlock;
+        this.destinationBlockProperty.setValue(destinationBlock);
     }
 
     public void setSuggestedSpeed(double suggestedSpeed) {
