@@ -19,10 +19,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener {
@@ -74,6 +75,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     public Label currentTime;
     @FXML
     public CheckBox mode;
+    @FXML
+    public Button importSchedule;
 
     private ITrackModelForCTCOffice trackModel;
     private ITrainRepository trainRepository;
@@ -141,6 +144,9 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         // Set onAction handler for blockSwitch
         blockSwitch.setOnAction(this::blockSwitchButton);
+
+        // Set onAction handler for importSchedule
+        importSchedule.setOnAction(this::importScheduleButton);
 
         // Set trainLine options
         trainLine.setItems(FXCollections.observableArrayList(Line.values()));
@@ -302,6 +308,32 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         train.addStop(new Stop(block));
 
         routeService.RouteTrains(train.getLine());
+    }
+
+    public void importScheduleButton(ActionEvent e) {
+        Stage fileStage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select train schedule to import");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+
+        File trackLayoutFile = fileChooser.showOpenDialog(fileStage);
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(trackLayoutFile);
+        } catch (FileNotFoundException e1) {
+            System.out.println("Could not read file for train schedule import.");
+            return;
+        }
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        fileService.parseTrainSchedule(bufferedReader);
+
+        Line currentLine = trainLine.getSelectionModel().getSelectedItem();
+        trainIdentifier.setItems(FXCollections.observableArrayList(trainRepository.getTrains(currentLine)));
+        //trainIdentifier.getSelectionModel().select(train);
+
+        routeService.RouteTrains(Line.GREEN);
+        routeService.RouteTrains(Line.RED);
     }
 
     @Override
