@@ -22,4 +22,5 @@ public interface ITrackModelForTrainModel {
 
     public int getNextBlock(int previousBlock, int currentBlock, Line line);
 
+    public void disembarkPassengers(int amount);
 }

@@ -26,7 +26,7 @@ import javafx.util.Callback;
 import java.io.*;
 import java.util.List;
 
-public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener {
+public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener, ThroughputUpdateListener {
     @FXML
     public ChoiceBox<Integer> multiplier;
     @FXML
@@ -77,6 +77,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     public CheckBox mode;
     @FXML
     public Button importSchedule;
+    @FXML
+    public Label throughput;
 
     private ITrackModelForCTCOffice trackModel;
     private ITrainRepository trainRepository;
@@ -381,6 +383,11 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         }
     }
 
+    @Override
+    public void throughputUpdateReceived(ThroughputUpdateEvent event) {
+        throughput.setText(Double.toString(trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60)));
+    }
+
     private Parent loadItemFxml(Stop stop, Train train) {
         FXMLLoader fxmlLoader = null;
         try {
@@ -401,6 +408,4 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     private String switchString(Switch block) {
         return block.getSwitchBase() + " <-> " + (block.getSwitchState() ? block.getSwitchOne() : block.getSwitchZero());
     }
-
-
 }

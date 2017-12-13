@@ -1,9 +1,6 @@
 package TrackModel;
 
-import TrackModel.Events.ClockTickUpdateEvent;
-import TrackModel.Events.ClockTickUpdateListener;
-import TrackModel.Events.OccupancyChangeEvent;
-import TrackModel.Events.OccupancyChangeListener;
+import TrackModel.Events.*;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
@@ -29,8 +26,10 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     private Map<Integer, Block> greenLine;
     private double time;
     private double multiplier;
+    private int passengersDisembarked;
 
     private static List<ClockTickUpdateListener> clockTickUpdateListeners = new ArrayList<>();
+    private static List<ThroughputUpdateListener> throughputUpdateListeners = new ArrayList<>();
 
     private List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
 
@@ -39,6 +38,7 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
         greenLine = new HashMap<>();
         time = 0;
         multiplier = 0;
+        passengersDisembarked = 0;
     }
 
     public double getTime()
@@ -167,6 +167,18 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
         return -2;
     }
 
+    @Override
+    public int getPassengersDisembarked() {
+        return passengersDisembarked;
+    }
+
+    @Override
+    public void disembarkPassengers(int amount) {
+        this.passengersDisembarked += amount;
+        fireThroughputUpdateEvent(this);
+    }
+
+    // Clock tick update event
     public static synchronized void addClockTickUpdateListener(ClockTickUpdateListener listener) {
         clockTickUpdateListeners.add(listener);
     }
@@ -184,6 +196,26 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
             Platform.runLater(
                     () -> listener.clockTickUpdateReceived(event)
             );
+        }
+    }
+
+    // Throughput update event
+    public static synchronized void addThroughputUpdateListener( ThroughputUpdateListener l ) {
+        throughputUpdateListeners.add( l );
+    }
+
+    public static synchronized void removeThroughputUpdateListener( ThroughputUpdateListener l ) {
+        throughputUpdateListeners.remove( l );
+    }
+
+    protected static synchronized void fireThroughputUpdateEvent(Object source)
+    {
+        System.out.println("Throughput update event fired");
+
+        ThroughputUpdateEvent event = new ThroughputUpdateEvent(source);
+        for(ThroughputUpdateListener listener : throughputUpdateListeners)
+        {
+            listener.throughputUpdateReceived(event);
         }
     }
 }
