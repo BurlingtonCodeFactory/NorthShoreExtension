@@ -290,7 +290,7 @@ public class TrainController {
         int prev = currentSkinnyBlock.getID();
         int next = currentSkinnyBlock.getNext();
         //System.out.println("Moving to block " + next);
-        if(next !=-2 && next !=-1)
+        if(next >= 0)
         {
             currentSkinnyBlock = track.get(next);
             currentSkinnyBlock.setPrev(prev);

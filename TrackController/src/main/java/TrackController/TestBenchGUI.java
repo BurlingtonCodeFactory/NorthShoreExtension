@@ -30,7 +30,7 @@ public class TestBenchGUI extends Application {
             }
             else
             {
-                loader = new FXMLLoader(new File("./TrackController/build/resources/main/fxml/TestBench.fxml").toURI().toURL());
+                loader = new FXMLLoader(new File("./build/resources/main/fxml/TestBench.fxml").toURI().toURL());
             }
             TestBenchController controller = new TestBenchController(track);
             loader.setController(controller);

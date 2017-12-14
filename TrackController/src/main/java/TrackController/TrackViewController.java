@@ -150,7 +150,7 @@ public class TrackViewController implements RefreshUIListener{
         }
         else
         {
-            file = new File("./TrackController/build/resources/main/" + selectedController.plc.filename);
+            file = new File("./build/resources/main/" + selectedController.plc.filename);
         }
         try {
             Scanner scanner = new Scanner(file);
@@ -286,7 +286,7 @@ public class TrackViewController implements RefreshUIListener{
         }
         else
         {
-            file = new File("./TrackController/build/resources/main/" + plcName);
+            file = new File("./build/resources/main/" + plcName);
         }
 
 
@@ -318,7 +318,7 @@ public class TrackViewController implements RefreshUIListener{
             return;
         }
         File destSystem = new File("./build/resources/main/"+plcFile.getName());
-        File destTC = new File("./TrackController/build/resources/main/"+plcFile.getName());
+        File destTC = new File("./build/resources/main/"+plcFile.getName());
 
         try
         {
