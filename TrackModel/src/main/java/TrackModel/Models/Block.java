@@ -259,7 +259,7 @@ public class Block {
 
         public void setFailed(boolean failed) {
             this.failed = failed;
-            fireFailureChangeEvent(this);
+            this.setIsOccupied(failed);
         }
 
         public void setHeaterOn(boolean heaterOn) {
