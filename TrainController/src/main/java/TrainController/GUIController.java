@@ -301,7 +301,7 @@ public class GUIController {
 
         auto_button = new ToggleButton();
         auto_button.setAlignment(Pos.CENTER);
-        auto_button.setText("Start Manual Mode");
+        auto_button.setText("Automatic Mode");
         auto_button.selectedProperty().bindBidirectional(trainController.getAutoModeProperty());
 
         lights = new ToggleButton();
