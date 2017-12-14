@@ -3,18 +3,14 @@ package TrainController;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
-import com.sun.org.apache.bcel.internal.generic.SIPUSH;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Skin;
 
 import javax.swing.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
-import java.util.Timer;
 
 public class TrainController {
 
@@ -29,7 +25,7 @@ public class TrainController {
     SimpleDoubleProperty authorityProperty;
     SimpleDoubleProperty powerProperty;
     SimpleStringProperty cabinTempProperty;
-    SimpleBooleanProperty manualModeProperty;
+    SimpleBooleanProperty autoModeProperty;
     double prevAcceleration;
     double acceleration;
     double desiredCabinTemp;
@@ -255,7 +251,7 @@ public class TrainController {
     {
        System.out.println("Door is " + door + " Left door is " + leftOpenDoorProperty.getValue() + " right door is " + rightOpenDoorProperty.getValue());
         serviceBrakeProperty.setValue(true);
-        if(!manualModeProperty.getValue()){
+        if(!autoModeProperty.getValue()){
             if(door==1){
                 leftOpenDoorProperty.setValue(true);
             }else{
@@ -497,7 +493,7 @@ public class TrainController {
     }
 
     public SimpleBooleanProperty getAutoModeProperty() {
-        return manualModeProperty;
+        return autoModeProperty;
     }
 
     public SimpleBooleanProperty getEmergencyBrakeProperty() {
