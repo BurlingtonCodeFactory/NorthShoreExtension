@@ -15,6 +15,7 @@ standard 0 maintenance true stop
 standard A1 failure true stop
 standard A2 failure true stop
 standard A3 failure true stop
+standard 0 failure true stop
 crossing 1 occupied false crossingOff
 crossing 0 occupied false crossingOff
 crossing -1 occupied false crossingOff
