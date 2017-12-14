@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 
 public class TrainViewController  {
@@ -207,6 +208,14 @@ public class TrainViewController  {
                 accelerationGauge.setValue(newValue.doubleValue() * 2.23694);
             }
         });
+
+        train.getDeleteProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue) {
+                        ((Stage) BRAKE_FAILURE.getScene().getWindow()).close();
+                    }
+                }
+        );
     }
 
     @FXML

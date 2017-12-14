@@ -3,10 +3,7 @@ package TrainModel;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Line;
 import TrainController.TrainController;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 import java.lang.Math;
 import java.util.Random;
@@ -36,6 +33,7 @@ public class Train {
     private SimpleBooleanProperty leftDoorsProperty, rightDoorsProperty;
     private SimpleBooleanProperty brakesProperty;
     private SimpleIntegerProperty passengerCountProperty = new SimpleIntegerProperty();
+    private BooleanProperty deleteProperty;
 
     private double g = 9.8;
     private double coeffFriction = 0.001;
@@ -47,7 +45,7 @@ public class Train {
     private double deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
     private int capacity;
-    private boolean delete = false;
+    private boolean delete;
     private int it = 0;
 
     public Train(int previousBlock, int currentBlock, int cars, TrainController trainController, boolean PIDSetupbypass, int ID, ITrackModelForTrainModel track, Line line)
@@ -75,6 +73,7 @@ public class Train {
         this.lightsProperty = new SimpleBooleanProperty();
         this.brakesProperty = new SimpleBooleanProperty();
         this.RISProperty = new SimpleStringProperty();
+        this.deleteProperty = new SimpleBooleanProperty(false);
         carsProperty.set(cars);
         speedProperty.set(0);
         accelerationProperty.set(0);
@@ -239,11 +238,20 @@ public class Train {
 
         track.setOccupancy(currentBlock, false, line);
 
-        this.delete = true;
+        setDelete(true);
 
         it = 0;
 
         return true;
+    }
+
+    private void setDelete(boolean delete) {
+        this.delete = delete;
+        this.deleteProperty.setValue(delete);
+    }
+
+    public BooleanProperty getDeleteProperty() {
+        return this.deleteProperty;
     }
 
     public void embarkDebark()
