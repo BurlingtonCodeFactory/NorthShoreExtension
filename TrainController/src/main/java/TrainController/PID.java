@@ -36,20 +36,13 @@ public class PID {
     public double getPower(double vel_input, double setpoint_vel, double period ){
 
         error = (setpoint_vel - vel_input);
-
         double errorSum = error + error_last;
-
         double uK = (period/2000) *errorSum;
-
-
         double integral = kI*(uK +integral_last);
-
-
         double power_out = integral + kP*error;
 
         if(power_out>power_max){
             integral = kI*(integral_last +integral_last);
-
             power_out = integral +kP*error;
         } else{
             integral_last =  uK;

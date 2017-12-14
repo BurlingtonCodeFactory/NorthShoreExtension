@@ -51,6 +51,7 @@ public class NseMain extends Application {
 
 
         for (Block block : blocks) {
+
             trackModel.addBlock(block);
         }
 
@@ -84,8 +85,8 @@ public class NseMain extends Application {
             {
                 if(trackModel.getMultiplier() != 0)
                 {
-                    trackModel.addInterval(500);
-                    trainModel.updateTrains(500);
+                    trackModel.addInterval(250);
+                    trainModel.updateTrains(100);
                     try {
                         Thread.sleep((long)(1000 / trackModel.getMultiplier()));                 //1000 milliseconds is one second.
                     } catch (InterruptedException e) {

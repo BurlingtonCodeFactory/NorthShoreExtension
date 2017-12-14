@@ -58,7 +58,7 @@
       <Label fx:id="blockCrossingBar" layoutX="472.0" layoutY="440.0" />
       <TextArea fx:id="plcContents" editable="false" layoutX="533.0" layoutY="52.0" prefHeight="371.0" prefWidth="301.0" />
       <ListView fx:id="plcList" layoutX="533.0" onMouseClicked="#plcSelected" prefHeight="52.0" prefWidth="301.0" />
-      <Button layoutX="676.0" layoutY="423.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="157.0" text="Load PLC" />
+      <Button layoutX="676.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#addPLC" prefHeight="52.0" prefWidth="157.0" text="Load PLC" />
       <Button layoutX="535.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#plcActivated" prefHeight="52.0" prefWidth="141.0" text="Activate" />
    </children>
 </AnchorPane>

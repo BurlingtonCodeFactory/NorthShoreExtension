@@ -111,8 +111,10 @@ public class FileService implements IFileService{
         try {
             beacon = Integer.parseInt(tokens[3]);
         } catch (NumberFormatException e) {
+
             return null;
         }
+
 
         double coefficientFriction;
         try {

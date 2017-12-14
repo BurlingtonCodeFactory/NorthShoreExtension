@@ -53,7 +53,7 @@ public class TrainModel implements ITrainModelForCTCOffice{
     {
         //Create train controller
         TrainController trainController = new TrainController(PIDSetupBypass, previousBlock, currentBlock, ID, trackModelForTrainController, line);
-
+        controllerManager.addTrainController(trainController);
         //Create train
         Train train = new Train(previousBlock, currentBlock, cars, trainController, PIDSetupBypass, ID, track, line);
 

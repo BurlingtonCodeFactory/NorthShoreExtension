@@ -107,7 +107,7 @@ public class Train {
         while(totalDisplacement > totalBlockLength)         //This loop iterates as long as the trains displacement has surpassed the given displacement for this block
         {
             //Get next block and add its length to total block length
-            trainController.nextBlock();
+
             int temp = track.getNextBlock(previousBlock, currentBlock, line);
             if(temp == -2)
             {
@@ -123,6 +123,8 @@ public class Train {
             //Update current and previous blocks
             previousBlock = currentBlock;
             currentBlock = temp;
+
+            trainController.nextBlock();
         }
 
         //Check if train has just driven into yard

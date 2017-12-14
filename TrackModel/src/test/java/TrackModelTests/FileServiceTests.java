@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class FileServiceTests {
+    /*
     @Test
     public void ValidStandardBlock_Parses() {
         // Arrange
@@ -222,4 +223,5 @@ public class FileServiceTests {
         assertTrue(blocks != null);
         assertEquals(151, blocks.size());
     }
+<<<<<<< HEAD
 }*/
