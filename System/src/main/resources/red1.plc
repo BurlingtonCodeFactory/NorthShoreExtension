@@ -29,5 +29,8 @@ crossing 1 occupied true crossingOn
 crossing -1 occupied true crossingOn
 switch-15,52 1 occupied true unlock
 switch-15,52 -1 occupied true lock
+switch 1 occupied true switchOne
+switch 0 occupied true switchZero
+switch -1 occupied true route
 switch 0 lock false continue
 switch 0 lock true stop

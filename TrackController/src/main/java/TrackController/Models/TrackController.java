@@ -36,7 +36,6 @@ public class TrackController {
     {
         for (Block block : blocks)
         {
-            System.out.println(block.getId());
             plc.evaluateBlock(block);
         }
     }

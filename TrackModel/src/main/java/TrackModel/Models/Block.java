@@ -288,7 +288,14 @@ public class Block {
         public void updateFailure()
         {
             this.failed = railBroken || powerFailed || circuitFailed;
-            fireFailureChangeEvent(this);
+            if(this.failed)
+            {
+                setIsOccupied(true);
+            }
+            else
+            {
+                setIsOccupied(false);
+            }
         }
 
         public void setSuggestedAuthority(List<Block> suggestedAuthority) {
