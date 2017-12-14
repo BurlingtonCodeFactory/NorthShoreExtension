@@ -34,6 +34,8 @@ public class TrainViewController  {
     @FXML
     public TextField CABIN_TEMP;
     @FXML
+    public TextField RIS;
+    @FXML
     public Slider CABIN_TEMP_SLIDER;
     @FXML
     public Circle BRAKE_INDICATOR;
@@ -54,7 +56,7 @@ public class TrainViewController  {
     @FXML
     Rectangle LEFT_DOORS;
     @FXML
-    Rectangle RIGHTS_DOORS;
+    Rectangle RIGHT_DOORS;
     @FXML
     TextField ID;
     @FXML
@@ -132,13 +134,14 @@ public class TrainViewController  {
         POWER.textProperty().bind(train.getPowerProperty().multiply(0.001).asString("%.2f")); //Convert W to kW and truncate
         CABIN_TEMP.textProperty().bind(train.getCabinTempProperty().asString());
         CABIN_TEMP_SLIDER.valueProperty().bind(train.getCabinTempProperty());
-        MASS.textProperty().bind(train.getMassProperty().multiply(2.2).asString()); //Convert Kg to lbs
+        MASS.textProperty().bind(train.getMassProperty().multiply(2.2).asString("%.3f")); //Convert Kg to lbs
         CARS.textProperty().bind(train.getCarsProperty().asString());
         HEIGHT.textProperty().bind(train.getHeightProperty().asString());
         WIDTH.textProperty().bind(train.getWidthProperty().asString());
         LENGTH.textProperty().bind(train.getLengthProperty().asString());
         PASSENGER_COUNT.textProperty().bind(train.getPassengerCountProperty().asString());
         AUTHORITY.textProperty().bind(train.getAuthorityRemainingProperty().multiply(0.000621371).asString("%.4f")); //Convert m to mi and truncate
+        RIS.textProperty().bind(train.getRISProperty());
 
         train.getLightsProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -176,11 +179,11 @@ public class TrainViewController  {
 
                 if(newValue)
                 {
-                    RIGHTS_DOORS.setFill(Color.GREEN);
+                    RIGHT_DOORS.setFill(Color.GREEN);
                 }
                 else
                 {
-                    RIGHTS_DOORS.setFill(Color.WHITE);
+                    RIGHT_DOORS.setFill(Color.WHITE);
                 }
             }
         });

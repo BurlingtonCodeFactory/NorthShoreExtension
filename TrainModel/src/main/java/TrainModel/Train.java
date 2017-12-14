@@ -70,8 +70,8 @@ public class Train {
         this.widthProperty = new SimpleDoubleProperty();
         this.accelerationProperty = new SimpleDoubleProperty();
         this.cabinTempProperty = new SimpleDoubleProperty();
-        this.leftDoorsProperty = new SimpleBooleanProperty();
-        this.rightDoorsProperty = new SimpleBooleanProperty();
+        this.leftDoorsProperty = new SimpleBooleanProperty(false);
+        this.rightDoorsProperty = new SimpleBooleanProperty(false);
         this.lightsProperty = new SimpleBooleanProperty();
         this.brakesProperty = new SimpleBooleanProperty();
         this.RISProperty = new SimpleStringProperty();
@@ -252,11 +252,11 @@ public class Train {
                 cabinTempProperty.set(trainController.getCabinTemp());
             }
         }
-//
-//        if(trainController.isStoppedAtStation())
-//        {
-//            embarkDebark();
-//        }
+
+        if(trainController.isStoppedAtStation())
+        {
+            embarkDebark();
+        }
 
         setRIS(trainController.getRIS());
     }
@@ -295,7 +295,7 @@ public class Train {
         passengerCountProperty.set(passengerCountProperty.get() + embark);
 
         //Recalculate train mass
-        setMass((carsProperty.getValue() * 37103) * (passengerCountProperty.get() * 73)); //73 kg is estimated as the average weight of passengers
+        setMass((carsProperty.getValue() * 37103) + (passengerCountProperty.get() * 73)); //73 kg is estimated as the average weight of passengers
 
         //Relay throughput to CTC
         track.disembarkPassengers(debark);
@@ -470,6 +470,8 @@ public class Train {
     }
 
     public SimpleIntegerProperty getPassengerCountProperty(){return passengerCountProperty;}
+
+    public SimpleStringProperty getRISProperty(){return  RISProperty;}
 
     public double getSpeed(){ return speedProperty.doubleValue(); }
 }

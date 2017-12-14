@@ -385,7 +385,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
     @Override
     public void throughputUpdateReceived(ThroughputUpdateEvent event) {
-        throughput.setText(Double.toString(trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60)));
+        System.out.println(trackModel.getPassengersDisembarked() + " / " + trackModel.getTime() / 1000 / 60 / 60 + " = " + trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60));
+        throughput.setText(String.format("%.2f",trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60)));
     }
 
     private Parent loadItemFxml(Stop stop, Train train) {

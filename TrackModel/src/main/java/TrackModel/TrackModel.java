@@ -174,6 +174,7 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
 
     @Override
     public void disembarkPassengers(int amount) {
+        System.out.println("Disembarking " + amount + " passenger(s)");
         this.passengersDisembarked += amount;
         fireThroughputUpdateEvent(this);
     }
@@ -210,11 +211,11 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
 
     protected static synchronized void fireThroughputUpdateEvent(Object source)
     {
-
+        System.out.println("Fire throughput update event.");
         ThroughputUpdateEvent event = new ThroughputUpdateEvent(source);
         for(ThroughputUpdateListener listener : throughputUpdateListeners)
         {
-            listener.throughputUpdateReceived(event);
+            Platform.runLater(() -> listener.throughputUpdateReceived(event));
         }
     }
 }
