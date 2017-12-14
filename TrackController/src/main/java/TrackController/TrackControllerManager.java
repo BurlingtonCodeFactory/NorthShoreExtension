@@ -100,7 +100,6 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
 
     public void failureChangeReceived(FailureChangeEvent event)
     {
-        System.out.println("Fired");
         runRules();
         fireRefreshUIEvent(this);
     }
@@ -113,7 +112,6 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
 
     public void maintenanceRequestReceived(MaintenanceRequestEvent event)
     {
-        System.out.println("Fired");
         runRules();
         fireRefreshUIEvent(this);
     }

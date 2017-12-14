@@ -335,6 +335,7 @@ public class PLC {
                     block.setLightGreen(true);
                     break;
                 case "stop":
+                    System.out.println("Stop Block "+block.getId()+" "+field+" "+value);
                     block.setCommandedSpeed(0);
                     block.setCommandedAuthority(new ArrayList<>());
                     block.setLightGreen(false);
@@ -348,7 +349,7 @@ public class PLC {
 
         private List<Block> sliceAuthority(List<Block> authority)
         {
-
+            /*
             List<Block> newAuthority = new ArrayList<>();
             for (Block b : authority) {
                 if(authority.indexOf(b) >= authority.size() - 3)
@@ -358,7 +359,7 @@ public class PLC {
                 Block occupancyBlock = authority.get(authority.indexOf(b) + 2);
                 Block switchBlock = authority.get(authority.indexOf(b) + 3);
                 if(!occupancyBlock.getFailed() && !occupancyBlock.getUnderMaintenance() && !occupancyBlock.getIsOccupied() && (!switchBlock.hasLock() || (switchBlock.hasLock() && !switchBlock.getLock())
-                        || (switchBlock.hasLock() && switchBlock.getLock() && authority.contains(track.getBlock(occupancyBlock.getLine(), ((Switch)switchBlock).getSwitchOne())))))
+                        || (switchBlock.hasLock() && switchBlock.getLock() && authority.contains(track.getBlock(occupancyBlock.getLine(), ((Switch)switchBlock).getSwitchZero())))))
                 {
                     newAuthority.add(b);
                 }
@@ -367,7 +368,8 @@ public class PLC {
                     return newAuthority;
                 }
             }
-            return newAuthority;
+            */
+            return authority;
         }
 
         public Block getBlockByOffset(int offset, Block base)
@@ -397,7 +399,7 @@ public class PLC {
 
     public boolean evaluateBlock(Block block)
     {
-        if(block.getSuggestedAuthority().size() == 0 && block.getSuggestMaintenance() == block.getUnderMaintenance() &&
+        if(block.getSuggestedAuthority().size() == 0 && !block.getIsOccupied() && block.getSuggestMaintenance() == block.getUnderMaintenance() &&
                 !block.getFailed() && block.getBlockType() == BlockType.STANDARD)
             return true;
 

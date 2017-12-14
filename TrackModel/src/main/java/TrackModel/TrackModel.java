@@ -210,7 +210,6 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
 
     protected static synchronized void fireThroughputUpdateEvent(Object source)
     {
-        System.out.println("Throughput update event fired");
 
         ThroughputUpdateEvent event = new ThroughputUpdateEvent(source);
         for(ThroughputUpdateListener listener : throughputUpdateListeners)
