@@ -1,24 +1,29 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Ryan Becker
+//**************************************************
 package TrackController;
 
-import TrackController.Models.BlockProperties;
-import TrackController.Models.TrackController;
-import TrackModel.Models.*;
+import TrackModel.Models.Block;
+import TrackModel.Models.Crossing;
+import TrackModel.Models.Line;
+import TrackModel.Models.Switch;
 import TrackModel.TrackModel;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestBenchController {
+public class TestBenchController
+{
 
     ObservableList<Block> blocksObservableList = FXCollections.observableArrayList();
 
@@ -110,8 +115,6 @@ public class TestBenchController {
     TextField suggestedSpeedValue;
 
 
-
-
     private final TrackModel track;
     private Block block;
 
@@ -125,15 +128,17 @@ public class TestBenchController {
     private void initialize()
     {
         List<Block> blockList = new ArrayList<>();
-        if(track.getBlocks(Line.GREEN).size() > 0)
+        if (track.getBlocks(Line.GREEN).size() > 0)
         {
-            for (Block block: track.getBlocks(Line.GREEN)) {
+            for (Block block : track.getBlocks(Line.GREEN))
+            {
                 blockList.add(block);
             }
         }
         else
         {
-            for (Block block: track.getBlocks(Line.RED)) {
+            for (Block block : track.getBlocks(Line.RED))
+            {
                 blockList.add(block);
             }
         }
@@ -165,10 +170,12 @@ public class TestBenchController {
     public void setSuggestedSpeed()
     {
         double value;
-        if(suggestedSpeedValue.getText().trim().equals("")) {
+        if (suggestedSpeedValue.getText().trim().equals(""))
+        {
             value = 0;
         }
-        else {
+        else
+        {
             value = Double.parseDouble(suggestedSpeedValue.getText());
         }
         block.setSuggestedSpeed(value);
@@ -180,9 +187,10 @@ public class TestBenchController {
     {
         List<Block> authority = new ArrayList<>();
         String[] blockStrings = suggestedAuthorityValue.getText().trim().split(",");
-        for(String blockString : blockStrings)
+        for (String blockString : blockStrings)
         {
-            if(blockString.trim().equals("")) {
+            if (blockString.trim().equals(""))
+            {
                 break;
             }
             authority.add(track.getBlock(block.getLine(), Integer.parseInt(blockString.trim())));
@@ -223,7 +231,7 @@ public class TestBenchController {
         blockMaintenance.setText(String.valueOf(block.getUnderMaintenance()));
 
 
-        if(block instanceof Crossing)
+        if (block instanceof Crossing)
         {
             Crossing crossingBlock = (Crossing) block;
             blockCrossing.setText(crossingBlock.isCrossingOn() ? "On" : "Off");
@@ -233,7 +241,7 @@ public class TestBenchController {
             blockCrossing.setText("N/A");
         }
 
-        if(block instanceof Switch)
+        if (block instanceof Switch)
         {
             Switch switchBlock = (Switch) block;
             blockSwitchState.setText(switchBlock.getSwitchState() ? "1" : "0");

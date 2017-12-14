@@ -1,11 +1,18 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Ryan Becker
+//**************************************************
 package TrackController;
 
-import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.TrackModel;
 import com.google.inject.Injector;
 import javafx.stage.Stage;
 
-public class TrackControllerTestBench {
+public class TrackControllerTestBench
+{
     protected static Injector injector;
 
     public TrackControllerTestBench(Injector injector)

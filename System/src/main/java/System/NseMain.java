@@ -1,3 +1,8 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//**************************************************
 package System;
 
 import CTCOffice.CTCEventHandler;
@@ -20,14 +25,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
-public class NseMain extends Application {
+public class NseMain extends Application
+{
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception
+    {
         System.out.println("Hello System!");
 
 
@@ -50,7 +58,8 @@ public class NseMain extends Application {
         TrackModel trackModel = injector.getInstance(TrackModel.class);
 
 
-        for (Block block : blocks) {
+        for (Block block : blocks)
+        {
 
             trackModel.addBlock(block);
         }
@@ -80,30 +89,37 @@ public class NseMain extends Application {
         TrackControllerTestBench testBench = new TrackControllerTestBench(injector);
         testBench.launch();
 
-        Thread thread = new Thread(() -> {
-            while(true)
-            {
-                if(trackModel.getMultiplier() != 0)
-                {
-                    trackModel.addInterval(250);
-                    trainModel.updateTrains(100);
-                    try {
-                        Thread.sleep((long)(1000 / trackModel.getMultiplier()));                 //1000 milliseconds is one second.
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        Thread thread = new Thread(() ->
+                                   {
+                                       while (true)
+                                       {
+                                           if (trackModel.getMultiplier() != 0)
+                                           {
+                                               trackModel.addInterval(250);
+                                               trainModel.updateTrains(100);
+                                               try
+                                               {
+                                                   Thread.sleep((long) (1000 / trackModel.getMultiplier()));                 //1000 milliseconds is one second.
+                                               }
+                                               catch (InterruptedException e)
+                                               {
+                                                   e.printStackTrace();
+                                               }
 
-                }
-                else
-                {
-                    try {
-                        Thread.sleep((long)(1000));                 //1000 milliseconds is one second.
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+                                           }
+                                           else
+                                           {
+                                               try
+                                               {
+                                                   Thread.sleep((long) (1000));                 //1000 milliseconds is one second.
+                                               }
+                                               catch (InterruptedException e)
+                                               {
+                                                   e.printStackTrace();
+                                               }
+                                           }
+                                       }
+                                   });
 
         thread.start();
 

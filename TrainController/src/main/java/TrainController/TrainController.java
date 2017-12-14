@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Chris Duncan
+//**************************************************
 package TrainController;
 
 import TrackModel.Interfaces.ITrackModelForTrainController;
@@ -8,11 +15,11 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.swing.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainController {
+public class TrainController
+{
 
 
     SimpleBooleanProperty lightsProperty;
@@ -47,7 +54,7 @@ public class TrainController {
     double kp;
     PID pid;
     double cabinTemp;
-    String [] stations = new String[226];
+    String[] stations = new String[226];
     boolean departing;
     String nextStation;
 
@@ -68,26 +75,24 @@ public class TrainController {
     int stopWait = 0;
 
 
-
-    public TrainController(boolean pidInputBypass, int previous, int current, int ID, ITrackModelForTrainController trackInterface, Line line){
+    public TrainController(boolean pidInputBypass, int previous, int current, int ID, ITrackModelForTrainController trackInterface, Line line)
+    {
 
         lightsProperty = new SimpleBooleanProperty();
-        leftOpenDoorProperty =new SimpleBooleanProperty();
-        rightOpenDoorProperty =new SimpleBooleanProperty();
-        emergencyBrakeProperty=new SimpleBooleanProperty();
-        serviceBrakeProperty=new SimpleBooleanProperty();
+        leftOpenDoorProperty = new SimpleBooleanProperty();
+        rightOpenDoorProperty = new SimpleBooleanProperty();
+        emergencyBrakeProperty = new SimpleBooleanProperty();
+        serviceBrakeProperty = new SimpleBooleanProperty();
         currentVelocityProperty = new SimpleDoubleProperty();
         setpointVelocityProperty = new SimpleDoubleProperty();
         authorityProperty = new SimpleDoubleProperty();
-        powerProperty= new SimpleDoubleProperty();
+        powerProperty = new SimpleDoubleProperty();
         cabinTempProperty = new SimpleStringProperty();
         autoModeProperty = new SimpleBooleanProperty(true);
         doorSide = new SimpleStringProperty("");
 
 
-
-
-        switchBeaconNext =0;
+        switchBeaconNext = 0;
         this.ID = ID;
 
         List<Block> trackInput = trackInterface.getBlocks(line);
@@ -95,7 +100,7 @@ public class TrainController {
 
         this.name = "Train Controller " + Integer.toString(ID);
         prevAcceleration = 0;
-        acceleration=0;
+        acceleration = 0;
 
 
         previousBlock = previous;
@@ -118,24 +123,24 @@ public class TrainController {
         previousTime = System.currentTimeMillis();
 
 
-        input_velocity  = 0.0;
+        input_velocity = 0.0;
 
-        authorityProperty.set(0.0*1.09);
-        distInBlock=0.0;
-
+        authorityProperty.set(0.0 * 1.09);
+        distInBlock = 0.0;
 
 
         this.cabinTemp = 67.0;
-        this.desiredCabinTemp= 67.0;
+        this.desiredCabinTemp = 67.0;
         cabinTempProperty.set("Cabin temp is " + cabinTemp);
 
-        if(line.equals(Line.GREEN)){
+        if (line.equals(Line.GREEN))
+        {
             stations[0] = "green yard";
             stations[2] = "Pioneer";
             stations[9] = "Edgebrook";
             stations[16] = "Station";
             stations[22] = "Whited";
-            stations[31]="South Bank";
+            stations[31] = "South Bank";
             stations[39] = "Central";
             stations[48] = "Inglewood";
             stations[57] = "Overbrook";
@@ -145,63 +150,70 @@ public class TrainController {
             stations[88] = "Poplar";
             stations[96] = "Castle Shannon";
             stations[105] = "Dormont";
-            stations[114]="Glenbury";
-            stations[123]="Overbrook";
-            stations[132]="Inglewood";
-            stations[141]="Central";
-        }else{
+            stations[114] = "Glenbury";
+            stations[123] = "Overbrook";
+            stations[132] = "Inglewood";
+            stations[141] = "Central";
+        }
+        else
+        {
             stations[0] = "red yard";
             stations[150] = "Shadyside";
             stations[16] = "Herron Ave";
             stations[21] = "Swissville";
             stations[25] = "Penn Station";
             stations[35] = "Steel Plaza";
-            stations[15] ="First Ave";
+            stations[15] = "First Ave";
             stations[48] = "Station Square";
             stations[60] = "South Hills Junction";
         }
 
 
-
-
         track = new ArrayList<SkinnyBlock>();
         boolean station = false;
-        for (int i =0; i<trackInput.size();i++){
+        for (int i = 0; i < trackInput.size(); i++)
+        {
             Block block = trackInput.get(i);
 
-            if(stations[i] != null){
+            if (stations[i] != null)
+            {
                 station = true;
             }
 
-            SkinnyBlock skinny = new SkinnyBlock( block.getLength(), block.getSpeedLimit(), station, block.getId(), block.getConnectedBlocks());
+            SkinnyBlock skinny = new SkinnyBlock(block.getLength(), block.getSpeedLimit(), station, block.getId(), block.getConnectedBlocks());
 
-            if(i == current){
-                 currentSkinnyBlock = skinny;
+            if (i == current)
+            {
+                currentSkinnyBlock = skinny;
             }
             track.add(i, skinny);
-            station=false;
+            station = false;
         }
-        speedLimit=Double.MAX_VALUE;
+        speedLimit = Double.MAX_VALUE;
 
         JFrame frame = new JFrame();
 
-        if(pidInputBypass){
+        if (pidInputBypass)
+        {
             pid = new PID();
-        } else {
+        }
+        else
+        {
 
             int n = JOptionPane.showConfirmDialog(frame,
-                    "Do you want to use the default values for Ki and Kp or insert your own?",
-                    "PID options",
-                    JOptionPane.YES_NO_OPTION);
-            if(n == 1){
-                String str = (String)JOptionPane.showInputDialog(frame,
-                            "Please enter your desired values for Ki and Kp seperated by a semicolon",
-                            "ki and kp input",
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            null,
-                        null);
-                String []ks = str.split(";");
+                                                  "Do you want to use the default values for Ki and Kp or insert your own?",
+                                                  "PID options",
+                                                  JOptionPane.YES_NO_OPTION);
+            if (n == 1)
+            {
+                String str = (String) JOptionPane.showInputDialog(frame,
+                                                                  "Please enter your desired values for Ki and Kp seperated by a semicolon",
+                                                                  "ki and kp input",
+                                                                  JOptionPane.QUESTION_MESSAGE,
+                                                                  null,
+                                                                  null,
+                                                                  null);
+                String[] ks = str.split(";");
                 double kI = Double.parseDouble(ks[0]);
                 double kP = Double.parseDouble(ks[1]);
                 pid = new PID(kI, kP);
@@ -215,10 +227,12 @@ public class TrainController {
     }
 
 
-    public void updateVelocity(double velocity){
+    public void updateVelocity(double velocity)
+    {
         //System.out.println("update stopped="+stopped + "stopwait is " + stopWait + " velocity " + velocity);
         //System.out.println("authority is " + authorityProperty.getValue() + " brake is " + serviceBrakeProperty.getValue() + " dist in block is " + distInBlock);
-        if(stopped && velocity==0){
+        if (stopped && velocity == 0)
+        {
             stopAtStation();
             stopWait++;
             serviceBrakeProperty.setValue(true);
@@ -231,13 +245,16 @@ public class TrainController {
         currentVelocityProperty.setValue(velocity);
     }
 
-    public void setUnderground(boolean underground){
+    public void setUnderground(boolean underground)
+    {
 
         lightsProperty.setValue(underground);
     }
 
-    public boolean isStoppedAtStation(){
-        if (stopped && stopWait == 120) {
+    public boolean isStoppedAtStation()
+    {
+        if (stopped && stopWait == 120)
+        {
             stopped = false;
             stopWait = 0;
             close_doors();
@@ -249,133 +266,159 @@ public class TrainController {
 
     public void stopAtStation()
     {
-       System.out.println("Door is " + door + " Left door is " + leftOpenDoorProperty.getValue() + " right door is " + rightOpenDoorProperty.getValue());
+        System.out.println("Door is " + door + " Left door is " + leftOpenDoorProperty.getValue() + " right door is " + rightOpenDoorProperty.getValue());
         serviceBrakeProperty.setValue(true);
-        if(autoModeProperty.getValue()){
-            if(door==1){
+        if (autoModeProperty.getValue())
+        {
+            if (door == 1)
+            {
                 leftOpenDoorProperty.setValue(true);
-            }else{
+            }
+            else
+            {
                 rightOpenDoorProperty.setValue(true);
             }
         }
 
-        arriving=false;
+        arriving = false;
     }
-
 
 
     public void nextBlock()
     {
         System.out.println("Next Block");
 
-        if(arriving){
-            arriving =false;
+        if (arriving)
+        {
+            arriving = false;
             stopped = true;
             RIS = "Now arriving at " + nextStation;
-        } else{
-            stopped=false;
         }
-        distInBlock=0.0;
-        if(departing) {
+        else
+        {
+            stopped = false;
+        }
+        distInBlock = 0.0;
+        if (departing)
+        {
 
             departing = false;
         }
-        if (!knowStop) {
-          RIS = "Next station will be announced shortly";
+        if (!knowStop)
+        {
+            RIS = "Next station will be announced shortly";
         }
 
         int prev = currentSkinnyBlock.getID();
         int next = currentSkinnyBlock.getNext();
 
         System.out.println("Moving to block " + next);
-        if(next >=0)
+        if (next >= 0)
         {
             currentSkinnyBlock = track.get(next);
             currentSkinnyBlock.setPrev(prev);
         }
         speedLimit = currentSkinnyBlock.getSpeedLimit();
         //System.out.println("Current block is " + currentSkinnyBlock.getID() + " The previous block was " +prev);
-        if(currentSkinnyBlock.station && !stopped){
+        if (currentSkinnyBlock.station && !stopped)
+        {
             RIS = "Now Passing " + stations[currentSkinnyBlock.getID()];
         }
 
     }
 
 
-
-    public void set_power_out(double power){
+    public void set_power_out(double power)
+    {
         powerProperty.set(power);
     }
 
-    public void setBeacon(int beacon) {
-        if(beacon != 0){
+    public void setBeacon(int beacon)
+    {
+        if (beacon != 0)
+        {
 
             this.beacon = beacon;
             int type = beacon & 1073741824;
             type = type >> 30;
-            if(type == 1){
+            if (type == 1)
+            {
 
                 int station = beacon & 536870912;
                 station = station >> 29;
-                if(station == 1){
+                if (station == 1)
+                {
 
                     int block = beacon & 534773760;
-                    block = block >>21;
+                    block = block >> 21;
                     currentSkinnyBlock = track.get(block);
 
                     arriving = true;
-                    if(authorityProperty.getValue() <= currentSkinnyBlock.getLength()){
+                    if (authorityProperty.getValue() <= currentSkinnyBlock.getLength())
+                    {
                         arriving = false;
                         stopped = true;
-                        knowStop=true;
+                        knowStop = true;
                         nextStation = stations[currentSkinnyBlock.getID()];
                         RIS = "Now Arriving at " + nextStation;
                     }
-                } else {
-                    knowStop=false;
+                }
+                else
+                {
+                    knowStop = false;
                     int block = beacon & 534773760;
-                    block = block >>21;
+                    block = block >> 21;
                     currentSkinnyBlock = track.get(block);
                     double searchAuthority = authorityProperty.getValue();
-                    int searchBlock =currentSkinnyBlock.getID();
+                    int searchBlock = currentSkinnyBlock.getID();
                     searchAuthority -= distInBlock;
 
 
                 }
 
-            }else {
+            }
+            else
+            {
                 int switchBeacon = beacon & 1;
-                int stationOne= beacon&1069547520;
+                int stationOne = beacon & 1069547520;
                 stationOne = stationOne >> 22;
-                int stationTwo=beacon &2088960;
-                stationTwo = stationTwo >>13;
-                int doors = beacon&2097152;
+                int stationTwo = beacon & 2088960;
+                stationTwo = stationTwo >> 13;
+                int doors = beacon & 2097152;
 
-                if(doors==0){
+                if (doors == 0)
+                {
                     door = 0;
                     doorSide.setValue("Right Side");
-                }else{
-                    door=1;
+                }
+                else
+                {
+                    door = 1;
                     doorSide.setValue("Left Side");
                 }
-                if(switchBeacon==1){
-                    int block = beacon&8160;
+                if (switchBeacon == 1)
+                {
+                    int block = beacon & 8160;
                     block = block >> 5;
                     currentSkinnyBlock = track.get(block);
                 }
                 //System.out.println("Station two " + stationTwo + " connected blocks " + currentSkinnyBlock.getConnected());
-                if(currentSkinnyBlock.getConnected().contains(stationTwo)){
+                if (currentSkinnyBlock.getConnected().contains(stationTwo))
+                {
                    /* System.out.println("Station beacon authority is " + authorityProperty.getValue() + " distance to end of station " +
                             ( currentSkinnyBlock.getLength()+track.get(stationTwo).getLength()) );*/
-                    if(authorityProperty.getValue() ==( currentSkinnyBlock.getLength()+track.get(stationTwo).getLength())){
+                    if (authorityProperty.getValue() == (currentSkinnyBlock.getLength() + track.get(stationTwo).getLength()))
+                    {
 
                         arriving = true;
                         nextStation = stations[stationTwo];
                         RIS = "Approaching Stop at " + nextStation;
                         knowStop = true;
-                    }else{
+                    }
+                    else
+                    {
                         arriving = false;
-                        knowStop=false;
+                        knowStop = false;
                         RIS = "Approaching " + stations[stationTwo];
                         /*double searchAuthority = authorityProperty.getValue();
                         int searchBlock =currentSkinnyBlock.getID();
@@ -393,11 +436,13 @@ public class TrainController {
                             }
                         }*/
                     }
-                }else{
+                }
+                else
+                {
                     departing = true;
-                    arriving=false;
-                    knowStop=false;
-                    RIS = "Now departing " +  stations[stationOne];
+                    arriving = false;
+                    knowStop = false;
+                    RIS = "Now departing " + stations[stationOne];
                     /*double searchAuthority = authorityProperty.getValue();
                     int searchBlock =currentSkinnyBlock.getID();
                     searchAuthority -= distInBlock;
@@ -420,19 +465,19 @@ public class TrainController {
     }
 
 
-
     public void setAuthority(double a)
     {
 
         authorityProperty.set(a);
-        if(knowStop)
+        if (knowStop)
         {
 
         }
 
     }
 
-    public boolean getLights(){
+    public boolean getLights()
+    {
         return lightsProperty.getValue();
     }
 
@@ -442,7 +487,8 @@ public class TrainController {
         return powerProperty.getValue();
     }
 
-    public double getPower(double period){
+    public double getPower(double period)
+    {
         if (serviceBrakeProperty.getValue() || emergencyBrakeProperty.getValue())
         {
             powerProperty.set(0.0);
@@ -453,9 +499,9 @@ public class TrainController {
             double p = pid.getPower(currentVelocityProperty.getValue(), setpointVelocityProperty.getValue(), period);
             powerProperty.set(p);
         }
-        distInBlock += currentVelocityProperty.getValue()*(period/1000);
+        distInBlock += currentVelocityProperty.getValue() * (period / 1000);
         //System.out.println("Controller Velocity="+currentVelocity +" Power="+getPower() + " Setpoint="+setpointVelocity +" Distance="+distInBlock+" Brake="+brake);
-       // System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
+        // System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
         //System.out.println("Controller e brake" + emergencyBrakeProperty.getValue() + " Controller left door =" + leftOpenDoorProperty.getValue() + " Controller right door " + rightOpenDoorProperty.getValue() + " Cabin Temp " + cabinTemp);
         //System.out.println(RIS + " Current block is " + currentSkinnyBlock.getID() + " previous block is " + currentSkinnyBlock.previous + " The connected blocks are " );
        /* for(int i = 0; i< currentSkinnyBlock.getConnected().size(); i++){
@@ -466,73 +512,95 @@ public class TrainController {
         return powerProperty.getValue();
     }
 
-    public void setDesiredCabinTemp(double temp){
+    public void setDesiredCabinTemp(double temp)
+    {
         this.desiredCabinTemp = temp;
     }
 
 
-    public void calcSetpointVelocity(double v){
+    public void calcSetpointVelocity(double v)
+    {
 
         this.commandedVelocity = v;
-        if(v < currentVelocityProperty.getValue()){
+        if (v < currentVelocityProperty.getValue())
+        {
 
             serviceBrakeProperty.setValue(true);
         }
 
-        if(v > speedLimit){
+        if (v > speedLimit)
+        {
             this.commandedVelocity = speedLimit;
 
-        } else;{
+        }
+        else
+        {
+            ;
+        }
+        {
             this.commandedVelocity = v;
         }
 
         setpointVelocityProperty.set(commandedVelocity);
     }
 
-    public SimpleBooleanProperty getLightsProperty(){
+    public SimpleBooleanProperty getLightsProperty()
+    {
         return lightsProperty;
     }
 
-    public SimpleBooleanProperty getAutoModeProperty() {
+    public SimpleBooleanProperty getAutoModeProperty()
+    {
         return autoModeProperty;
     }
 
-    public SimpleBooleanProperty getEmergencyBrakeProperty() {
+    public SimpleBooleanProperty getEmergencyBrakeProperty()
+    {
         return emergencyBrakeProperty;
     }
 
-    public SimpleBooleanProperty getLeleftOpenDoorProperty() {
+    public SimpleBooleanProperty getLeleftOpenDoorProperty()
+    {
         return leftOpenDoorProperty;
     }
 
-    public SimpleBooleanProperty getRightOpenDoorProperty() {
+    public SimpleBooleanProperty getRightOpenDoorProperty()
+    {
         return rightOpenDoorProperty;
     }
 
-    public SimpleBooleanProperty getServiceBrakeProperty() {
+    public SimpleBooleanProperty getServiceBrakeProperty()
+    {
         return serviceBrakeProperty;
     }
 
-    public SimpleDoubleProperty getAuthorityProperty() {
+    public SimpleDoubleProperty getAuthorityProperty()
+    {
         return authorityProperty;
     }
 
-    public SimpleStringProperty getCabinTempProperty() {
+    public SimpleStringProperty getCabinTempProperty()
+    {
         return cabinTempProperty;
     }
 
-    public SimpleDoubleProperty getCurrentVelocityProperty() {
+    public SimpleDoubleProperty getCurrentVelocityProperty()
+    {
         return currentVelocityProperty;
     }
 
-    public SimpleDoubleProperty getPowerProperty() {
+    public SimpleDoubleProperty getPowerProperty()
+    {
         return powerProperty;
     }
 
-    public SimpleDoubleProperty getSetpointVelocityProperty() {
+    public SimpleDoubleProperty getSetpointVelocityProperty()
+    {
         return setpointVelocityProperty;
     }
-    public SimpleStringProperty getDoorSide(){
+
+    public SimpleStringProperty getDoorSide()
+    {
         return doorSide;
     }
 
@@ -543,7 +611,6 @@ public class TrainController {
     }
 
 
-
     public void open_right_doors()
     {
 
@@ -551,75 +618,86 @@ public class TrainController {
     }
 
 
-
-    public void close_doors(){
+    public void close_doors()
+    {
 
         leftOpenDoorProperty.setValue(false);
         rightOpenDoorProperty.setValue(false);
     }
 
-    public boolean getServiceBrake(){
+    public boolean getServiceBrake()
+    {
         return serviceBrakeProperty.getValue();
     }
 
 
-
-
-
-    public void setEmergencyBrake(){
+    public void setEmergencyBrake()
+    {
 
         emergencyBrakeProperty.setValue(true);
     }
 
 
-
-    public boolean getEmergencyBrake(){
+    public boolean getEmergencyBrake()
+    {
         return emergencyBrakeProperty.getValue();
     }
 
-    public void setCabinTemp(double temp){
+    public void setCabinTemp(double temp)
+    {
         this.cabinTemp = temp;
         cabinTempProperty.set("Cabin temp is " + cabinTemp);
     }
 
-    public double getCabinTemp(){
+    public double getCabinTemp()
+    {
         return this.desiredCabinTemp;
     }
 
-    public String getRIS(){
+    public String getRIS()
+    {
         return RIS;
     }
 
     public boolean getLeftDoors()
     {
-        return  leftOpenDoorProperty.getValue();
+        return leftOpenDoorProperty.getValue();
     }
 
     public boolean getRightDoors()
     {
-        return  rightOpenDoorProperty.getValue();
+        return rightOpenDoorProperty.getValue();
     }
 
 
-
-    public void setUnderground(Boolean underground){
+    public void setUnderground(Boolean underground)
+    {
         lightsProperty.setValue(underground);
     }
 
-    public void setStoppingDistance(){
-        if(!serviceBrakeProperty.getValue()) {
+    public void setStoppingDistance()
+    {
+        if (!serviceBrakeProperty.getValue())
+        {
             stoppingDistance = Math.pow(currentVelocityProperty.getValue(), 2) / 2.4;
-            stoppingDistance +=15;
+            stoppingDistance += 15;
         }
     }
 
-    public void checkStopping(){
-        if(authorityProperty.getValue() ==0 && distInBlock ==0 && currentVelocityProperty.getValue()==0 ){
-        }else {
-            double travelDistance = currentVelocityProperty.getValue()*1.5;
-            if(stopped){
+    public void checkStopping()
+    {
+        if (authorityProperty.getValue() == 0 && distInBlock == 0 && currentVelocityProperty.getValue() == 0)
+        {
+        }
+        else
+        {
+            double travelDistance = currentVelocityProperty.getValue() * 1.5;
+            if (stopped)
+            {
                 serviceBrakeProperty.setValue(true);
-            } else {
+            }
+            else
+            {
                 serviceBrakeProperty.setValue(((authorityProperty.getValue() - (distInBlock + travelDistance)) <= stoppingDistance));
             }
 
@@ -627,10 +705,10 @@ public class TrainController {
     }
 
 
-    public void brakeTrain(double period){
-        currentVelocityProperty.set(currentVelocityProperty.getValue() + (-1.2 *period));
+    public void brakeTrain(double period)
+    {
+        currentVelocityProperty.set(currentVelocityProperty.getValue() + (-1.2 * period));
     }
-
 
 
 }

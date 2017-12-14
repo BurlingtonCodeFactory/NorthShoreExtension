@@ -1,3 +1,8 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//**************************************************
 package System;
 
 import CTCOffice.Interfaces.IFileService;
@@ -15,9 +20,11 @@ import TrainModel.Interfaces.ITrainModelForCTCOffice;
 import TrainModel.TrainModel;
 import com.google.inject.AbstractModule;
 
-public class DIModule extends AbstractModule {
+public class DIModule extends AbstractModule
+{
     @Override
-    protected void configure() {
+    protected void configure()
+    {
         bind(ITrackModelForTrackController.class).to(TrackModel.class);
         bind(ITrackModelForTrainController.class).to(TrackModel.class);
         bind(ITrackModelForTrainModel.class).to(TrackModel.class);

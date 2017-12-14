@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Robert Taylor
+//**************************************************
 package TrackModelTests;
 
 import TrackModel.Models.Block;
@@ -10,9 +17,11 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class TrackModelTests {
+public class TrackModelTests
+{
     @Test
-    public void AddingMultipleBlocks_IndexesCorrect() {
+    public void AddingMultipleBlocks_IndexesCorrect()
+    {
         // Arrange
         Block blockAtIndex2 = new Block(2, Line.GREEN, BlockType.STANDARD, 0, 0, new ArrayList<>(), 0, 0, false, false, 0, 0);
         Block blockAtIndex3 = new Block(3, Line.GREEN, BlockType.STANDARD, 0, 0, new ArrayList<>(), 0, 0, false, false, 0, 0);
@@ -29,7 +38,8 @@ public class TrackModelTests {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void AddingNullBlock_ExceptionThrown() {
+    public void AddingNullBlock_ExceptionThrown()
+    {
         // Arrange
         Block block = null;
 

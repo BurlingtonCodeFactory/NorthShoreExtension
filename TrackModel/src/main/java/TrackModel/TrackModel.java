@@ -1,13 +1,18 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//**************************************************
 package TrackModel;
 
 import TrackModel.Events.*;
 import TrackModel.Interfaces.ITrackModelForCTCOffice;
+import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Block;
 import TrackModel.Models.BlockType;
 import TrackModel.Models.Line;
-import TrackModel.Interfaces.ITrackModelForTrackController;
 import TrackModel.Models.Switch;
 import com.google.inject.Singleton;
 import javafx.application.Platform;
@@ -21,7 +26,8 @@ import java.util.Map;
 // of the track. It should be treated as a singleton in order to
 // maintain data consistency in the system.
 @Singleton
-public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController, ITrackModelForTrainController, ITrackModelForTrainModel {
+public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackController, ITrackModelForTrainController, ITrackModelForTrainModel
+{
     private Map<Integer, Block> redLine;
     private Map<Integer, Block> greenLine;
     private double time;
@@ -33,7 +39,8 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
 
     private List<OccupancyChangeListener> occupancyChangeListeners = new ArrayList<>();
 
-    public TrackModel() {
+    public TrackModel()
+    {
         redLine = new HashMap<>();
         greenLine = new HashMap<>();
         time = 0;
@@ -63,26 +70,32 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     }
 
     @Override
-    public void addBlock(Block block) {
-        if (block == null) {
+    public void addBlock(Block block)
+    {
+        if (block == null)
+        {
             throw new IllegalArgumentException("Cannot add null block.");
         }
 
-        if (block.getLine() == Line.GREEN) {
+        if (block.getLine() == Line.GREEN)
+        {
             greenLine.put(block.getId(), block);
         }
-        else {
+        else
+        {
             redLine.put(block.getId(), block);
         }
     }
 
     @Override
-    public Block getBlock(Line line, int id) {
+    public Block getBlock(Line line, int id)
+    {
         return line == Line.GREEN ? greenLine.get(id) : redLine.get(id);
     }
 
     @Override
-    public List<Block> getBlocks(Line line) {
+    public List<Block> getBlocks(Line line)
+    {
         return line == Line.GREEN ? new ArrayList<>(greenLine.values()) : new ArrayList<>(redLine.values());
     }
 
@@ -108,7 +121,7 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     public double getAuthorityByID(int ID, Line line)
     {
         double authority = 0;
-        for(Block block : getBlock(line, ID).getCommandedAuthority())
+        for (Block block : getBlock(line, ID).getCommandedAuthority())
         {
             authority += block.getLength();
         }
@@ -142,10 +155,10 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     public int getNextBlock(int previousBlock, int currentBlock, Line line)
     {
         Block block = getBlock(line, currentBlock);
-        if(block.getBlockType() == BlockType.SWITCH)
+        if (block.getBlockType() == BlockType.SWITCH)
         {
             Switch switchBlock = (Switch) block;
-            if(switchBlock.getSwitchBase() == previousBlock)
+            if (switchBlock.getSwitchBase() == previousBlock)
             {
                 return switchBlock.getSwitchState() ? switchBlock.getSwitchOne() : switchBlock.getSwitchZero();
             }
@@ -156,9 +169,9 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
         }
         else
         {
-            for(int b : block.getConnectedBlocks())
+            for (int b : block.getConnectedBlocks())
             {
-                if(b != previousBlock)
+                if (b != previousBlock)
                 {
                     return b;
                 }
@@ -168,30 +181,34 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     }
 
     @Override
-    public int getPassengersDisembarked() {
+    public int getPassengersDisembarked()
+    {
         return passengersDisembarked;
     }
 
     @Override
-    public void disembarkPassengers(int amount) {
+    public void disembarkPassengers(int amount)
+    {
         System.out.println("Disembarking " + amount + " passenger(s)");
         this.passengersDisembarked += amount;
         fireThroughputUpdateEvent(this);
     }
 
     // Clock tick update event
-    public static synchronized void addClockTickUpdateListener(ClockTickUpdateListener listener) {
+    public static synchronized void addClockTickUpdateListener(ClockTickUpdateListener listener)
+    {
         clockTickUpdateListeners.add(listener);
     }
 
-    public static synchronized void removeClockTickUpdateListener(ClockTickUpdateListener listener) {
+    public static synchronized void removeClockTickUpdateListener(ClockTickUpdateListener listener)
+    {
         clockTickUpdateListeners.remove(listener);
     }
 
     private static synchronized void fireClockTickUpdateEvent(Object source)
     {
         ClockTickUpdateEvent event = new ClockTickUpdateEvent(source);
-        for(ClockTickUpdateListener listener : clockTickUpdateListeners)
+        for (ClockTickUpdateListener listener : clockTickUpdateListeners)
         {
             //System.out.println("Sending clock tick event to "+listener.getClass());
             Platform.runLater(
@@ -201,19 +218,21 @@ public class TrackModel implements ITrackModelForCTCOffice, ITrackModelForTrackC
     }
 
     // Throughput update event
-    public static synchronized void addThroughputUpdateListener( ThroughputUpdateListener l ) {
-        throughputUpdateListeners.add( l );
+    public static synchronized void addThroughputUpdateListener(ThroughputUpdateListener l)
+    {
+        throughputUpdateListeners.add(l);
     }
 
-    public static synchronized void removeThroughputUpdateListener( ThroughputUpdateListener l ) {
-        throughputUpdateListeners.remove( l );
+    public static synchronized void removeThroughputUpdateListener(ThroughputUpdateListener l)
+    {
+        throughputUpdateListeners.remove(l);
     }
 
     protected static synchronized void fireThroughputUpdateEvent(Object source)
     {
         System.out.println("Fire throughput update event.");
         ThroughputUpdateEvent event = new ThroughputUpdateEvent(source);
-        for(ThroughputUpdateListener listener : throughputUpdateListeners)
+        for (ThroughputUpdateListener listener : throughputUpdateListeners)
         {
             Platform.runLater(() -> listener.throughputUpdateReceived(event));
         }

@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Robert Taylor
+//**************************************************
 package CTCOffice.Services;
 
 import CTCOffice.Interfaces.IFileService;
@@ -14,51 +21,66 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileService implements IFileService {
+public class FileService implements IFileService
+{
     private ITrackModelForCTCOffice trackModel;
     private ITrainRepository trainRepository;
 
     @Inject
-    public FileService(ITrackModelForCTCOffice trackModel, ITrainRepository trainRepository) {
+    public FileService(ITrackModelForCTCOffice trackModel, ITrainRepository trainRepository)
+    {
         this.trackModel = trackModel;
         this.trainRepository = trainRepository;
     }
 
     @Override
-    public boolean parsePresetScenario(BufferedReader bufferedReader) {
+    public boolean parsePresetScenario(BufferedReader bufferedReader)
+    {
         return false;
     }
-    
-    public void parseTrainSchedule(BufferedReader bufferedReader) {
+
+    public void parseTrainSchedule(BufferedReader bufferedReader)
+    {
         String line;
-        try {
+        try
+        {
             line = bufferedReader.readLine();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             return;
         }
 
-        while (line != null) {
+        while (line != null)
+        {
             Train train = parseTrain(line);
-            if (train != null) {
+            if (train != null)
+            {
                 trainRepository.addTrain(train);
             }
-            try {
+            try
+            {
                 line = bufferedReader.readLine();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 return;
             }
         }
     }
 
-    private Train parseTrain(String line) {
+    private Train parseTrain(String line)
+    {
         String[] tokens = line.split(",");
 
-        if (tokens.length < 2) {
+        if (tokens.length < 2)
+        {
             return null;
         }
 
         Line trainLine;
-        switch (tokens[0].toLowerCase()) {
+        switch (tokens[0].toLowerCase())
+        {
             case "green":
                 trainLine = Line.GREEN;
                 break;
@@ -70,16 +92,20 @@ public class FileService implements IFileService {
         }
 
         List<Stop> stops = new ArrayList<>();
-        for (int i = 1; i < tokens.length; i++) {
+        for (int i = 1; i < tokens.length; i++)
+        {
             int blockId;
-            try {
+            try
+            {
                 blockId = Integer.parseInt(tokens[i]);
             }
-            catch (NumberFormatException e) {
+            catch (NumberFormatException e)
+            {
                 return null;
             }
             Block block = trackModel.getBlock(trainLine, blockId);
-            if (block == null) {
+            if (block == null)
+            {
                 return null;
             }
 

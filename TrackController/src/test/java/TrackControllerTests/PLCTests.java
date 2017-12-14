@@ -1,8 +1,13 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Ryan Becker
+//**************************************************
 package TrackControllerTests;
 
-import org.junit.Test;
-import TrackController.PLC.PLC;
-
-public class PLCTests {
+public class PLCTests
+{
 
 }

@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Ryan Becker
+//**************************************************
 package TrackController;
 
 import TrackModel.TrackModel;
@@ -7,24 +14,26 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import javax.sound.midi.Track;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TestBenchGUI extends Application {
+public class TestBenchGUI extends Application
+{
     private final TrackModel track;
 
     public TestBenchGUI(TrackModel track)
     {
-        this.track =  track;
+        this.track = track;
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
+    public void start(Stage primaryStage)
+    {
+        try
+        {
             FXMLLoader loader;
-            if(System.getProperty("user.dir").endsWith("System"))
+            if (System.getProperty("user.dir").endsWith("System"))
             {
                 loader = new FXMLLoader(new File("./build/resources/main/fxml/TestBench.fxml").toURI().toURL());
             }
@@ -39,7 +48,9 @@ public class TestBenchGUI extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Track Controller Test Bench");
             primaryStage.show();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             Logger.getLogger(TrackControllerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

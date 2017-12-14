@@ -1,69 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ListView fx:id="blockListView" onMouseClicked="#blockSelected" prefHeight="577.0" prefWidth="232.0" />
-      <Label layoutX="349.0" layoutY="14.0" text="Block ID:" />
-      <Label layoutX="251.0" layoutY="31.0" text="Line:" />
-      <Label layoutX="239.0" layoutY="71.0" text="Block Type:" />
-      <Label layoutX="408.0" layoutY="376.0" text="Circuit Failed:" />
-      <Label layoutX="431.0" layoutY="342.0" text="Failed:" />
-      <Label layoutX="243.0" layoutY="140.0" text="Heater:" />
-      <Label layoutX="408.0" layoutY="140.0" text="Bi-Directional:" />
-      <Label layoutX="420.0" layoutY="31.0" text="Occupied:" />
-      <Label layoutX="409.0" layoutY="71.0" text="Underground:" />
-      <Label layoutX="428.0" layoutY="108.0" text="Length:" />
-      <Label layoutX="249.0" layoutY="108.0" text="Light:" />
-      <Label layoutX="237.0" layoutY="342.0" text="Power Failure:" />
-      <Label layoutX="238.0" layoutY="376.0" text="Rail Broken:" />
-      <Label layoutX="233.0" layoutY="192.0" text="Suggested Speed:" />
-      <Label layoutX="232.0" layoutY="228.0" text="Suggested Authority:" />
-      <Label layoutX="475.0" layoutY="192.0" text="Speed:" />
-      <Label layoutX="245.0" layoutY="262.0" text="Authority:" />
-      <Label layoutX="239.0" layoutY="421.0" text="Crossing Bar:" />
-      <Label layoutX="239.0" layoutY="457.0" text="Switch Zero:" />
-      <Label layoutX="362.0" layoutY="457.0" text="Switch One:" />
-      <Label layoutX="482.0" layoutY="457.0" text="Switch Base:" />
-      <Label layoutX="413.0" layoutY="421.0" text="Switch State:" />
-      <Label fx:id="blockID" layoutX="415.0" layoutY="14.0" text="Label" />
-      <Label fx:id="blockLine" layoutX="332.0" layoutY="31.0" text="Label" />
-      <Label fx:id="blockType" layoutX="332.0" layoutY="71.0" text="Label" />
-      <Label fx:id="blockLight" layoutX="332.0" layoutY="108.0" text="Label" />
-      <Label fx:id="blockUnderground" layoutX="523.0" layoutY="71.0" text="Label" />
-      <Label fx:id="blockLength" layoutX="523.0" layoutY="108.0" text="Label" />
-      <Label fx:id="blockHeater" layoutX="332.0" layoutY="140.0" text="Label" />
-      <Label fx:id="blockDirection" layoutX="523.0" layoutY="140.0" text="Label" />
-      <Label fx:id="blockCrossing" layoutX="336.0" layoutY="421.0" text="Label" />
-      <Label fx:id="blockSwitchState" layoutX="514.0" layoutY="421.0" text="Label" />
-      <Label fx:id="blockSwitchZero" layoutX="319.0" layoutY="457.0" text="Label" />
-      <Label fx:id="blockSwitchOne" layoutX="437.0" layoutY="457.0" text="Label" />
-      <Label fx:id="blockSwitchBase" layoutX="562.0" layoutY="457.0" text="Label" />
-      <Label fx:id="blockSpeed" layoutX="532.0" layoutY="192.0" text="Label" />
-      <Label fx:id="blockAuthority" layoutX="315.0" layoutY="262.0" prefHeight="17.0" prefWidth="279.0" text="Label" />
-      <Label fx:id="blockPowerFailure" layoutX="345.0" layoutY="343.0" text="Label" />
-      <Label fx:id="blockRailBroken" layoutX="345.0" layoutY="376.0" text="Label" />
-      <Label fx:id="blockCircuitFailed" layoutX="510.0" layoutY="376.0" text="Label" />
-      <Label fx:id="blockOccupied" layoutX="523.0" layoutY="31.0" onMouseClicked="#occupancyChanged" text="Label" />
-      <Label fx:id="blockSuggestedAuthority" layoutX="373.0" layoutY="228.0" prefHeight="17.0" prefWidth="221.0" text="Label" />
-      <Label fx:id="blockSuggestedSpeed" layoutX="354.0" layoutY="192.0" text="Label" />
-      <Label fx:id="blockFailure" layoutX="510.0" layoutY="343.0" onMouseClicked="#failureChanged" text="Label" />
-      <TextField fx:id="suggestedAuthorityValue" layoutX="234.0" layoutY="496.0" />
-      <Label layoutX="237.0" layoutY="479.0" text="New Suggested Authority:" />
-      <Label fx:id="setSuggestedAuthority" layoutX="302.0" layoutY="536.0" onMouseClicked="#setSuggestedAuthority" text="Set" />
-      <Label layoutX="429.0" layoutY="479.0" text="New Suggested Speed:" />
-      <TextField fx:id="suggestedSpeedValue" layoutX="413.0" layoutY="496.0" />
-      <Label fx:id="setSuggestedSpeed" layoutX="484.0" layoutY="536.0" onMouseClicked="#setSuggestedSpeed" text="Set" />
-      <Label layoutX="249.0" layoutY="167.0" text="Connected Blocks:" />
-      <Label fx:id="blockConnectedBlocks" layoutX="371.0" layoutY="167.0" prefHeight="17.0" prefWidth="116.0" text="Label" />
-      <Label layoutX="435.0" layoutY="167.0" text="Lock:" />
-      <Label fx:id="blockLock" layoutX="477.0" layoutY="167.0" text="Label" />
-      <Label layoutX="243.0" layoutY="305.0" text="Suggested Maintenance:" />
-      <Label layoutX="453.0" layoutY="305.0" text="Maintenance:" />
-      <Label fx:id="blockSuggestedMaintenance" layoutX="411.0" layoutY="305.0" onMouseClicked="#setSuggestedMaintenance" text="Label" />
-      <Label fx:id="blockMaintenance" layoutX="549.0" layoutY="305.0" text="Label" />
-   </children>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ListView fx:id="blockListView" onMouseClicked="#blockSelected" prefHeight="577.0" prefWidth="232.0"/>
+        <Label layoutX="349.0" layoutY="14.0" text="Block ID:"/>
+        <Label layoutX="251.0" layoutY="31.0" text="Line:"/>
+        <Label layoutX="239.0" layoutY="71.0" text="Block Type:"/>
+        <Label layoutX="408.0" layoutY="376.0" text="Circuit Failed:"/>
+        <Label layoutX="431.0" layoutY="342.0" text="Failed:"/>
+        <Label layoutX="243.0" layoutY="140.0" text="Heater:"/>
+        <Label layoutX="408.0" layoutY="140.0" text="Bi-Directional:"/>
+        <Label layoutX="420.0" layoutY="31.0" text="Occupied:"/>
+        <Label layoutX="409.0" layoutY="71.0" text="Underground:"/>
+        <Label layoutX="428.0" layoutY="108.0" text="Length:"/>
+        <Label layoutX="249.0" layoutY="108.0" text="Light:"/>
+        <Label layoutX="237.0" layoutY="342.0" text="Power Failure:"/>
+        <Label layoutX="238.0" layoutY="376.0" text="Rail Broken:"/>
+        <Label layoutX="233.0" layoutY="192.0" text="Suggested Speed:"/>
+        <Label layoutX="232.0" layoutY="228.0" text="Suggested Authority:"/>
+        <Label layoutX="475.0" layoutY="192.0" text="Speed:"/>
+        <Label layoutX="245.0" layoutY="262.0" text="Authority:"/>
+        <Label layoutX="239.0" layoutY="421.0" text="Crossing Bar:"/>
+        <Label layoutX="239.0" layoutY="457.0" text="Switch Zero:"/>
+        <Label layoutX="362.0" layoutY="457.0" text="Switch One:"/>
+        <Label layoutX="482.0" layoutY="457.0" text="Switch Base:"/>
+        <Label layoutX="413.0" layoutY="421.0" text="Switch State:"/>
+        <Label fx:id="blockID" layoutX="415.0" layoutY="14.0" text="Label"/>
+        <Label fx:id="blockLine" layoutX="332.0" layoutY="31.0" text="Label"/>
+        <Label fx:id="blockType" layoutX="332.0" layoutY="71.0" text="Label"/>
+        <Label fx:id="blockLight" layoutX="332.0" layoutY="108.0" text="Label"/>
+        <Label fx:id="blockUnderground" layoutX="523.0" layoutY="71.0" text="Label"/>
+        <Label fx:id="blockLength" layoutX="523.0" layoutY="108.0" text="Label"/>
+        <Label fx:id="blockHeater" layoutX="332.0" layoutY="140.0" text="Label"/>
+        <Label fx:id="blockDirection" layoutX="523.0" layoutY="140.0" text="Label"/>
+        <Label fx:id="blockCrossing" layoutX="336.0" layoutY="421.0" text="Label"/>
+        <Label fx:id="blockSwitchState" layoutX="514.0" layoutY="421.0" text="Label"/>
+        <Label fx:id="blockSwitchZero" layoutX="319.0" layoutY="457.0" text="Label"/>
+        <Label fx:id="blockSwitchOne" layoutX="437.0" layoutY="457.0" text="Label"/>
+        <Label fx:id="blockSwitchBase" layoutX="562.0" layoutY="457.0" text="Label"/>
+        <Label fx:id="blockSpeed" layoutX="532.0" layoutY="192.0" text="Label"/>
+        <Label fx:id="blockAuthority" layoutX="315.0" layoutY="262.0" prefHeight="17.0" prefWidth="279.0" text="Label"/>
+        <Label fx:id="blockPowerFailure" layoutX="345.0" layoutY="343.0" text="Label"/>
+        <Label fx:id="blockRailBroken" layoutX="345.0" layoutY="376.0" text="Label"/>
+        <Label fx:id="blockCircuitFailed" layoutX="510.0" layoutY="376.0" text="Label"/>
+        <Label fx:id="blockOccupied" layoutX="523.0" layoutY="31.0" onMouseClicked="#occupancyChanged" text="Label"/>
+        <Label fx:id="blockSuggestedAuthority" layoutX="373.0" layoutY="228.0" prefHeight="17.0" prefWidth="221.0"
+               text="Label"/>
+        <Label fx:id="blockSuggestedSpeed" layoutX="354.0" layoutY="192.0" text="Label"/>
+        <Label fx:id="blockFailure" layoutX="510.0" layoutY="343.0" onMouseClicked="#failureChanged" text="Label"/>
+        <TextField fx:id="suggestedAuthorityValue" layoutX="234.0" layoutY="496.0"/>
+        <Label layoutX="237.0" layoutY="479.0" text="New Suggested Authority:"/>
+        <Label fx:id="setSuggestedAuthority" layoutX="302.0" layoutY="536.0" onMouseClicked="#setSuggestedAuthority"
+               text="Set"/>
+        <Label layoutX="429.0" layoutY="479.0" text="New Suggested Speed:"/>
+        <TextField fx:id="suggestedSpeedValue" layoutX="413.0" layoutY="496.0"/>
+        <Label fx:id="setSuggestedSpeed" layoutX="484.0" layoutY="536.0" onMouseClicked="#setSuggestedSpeed"
+               text="Set"/>
+        <Label layoutX="249.0" layoutY="167.0" text="Connected Blocks:"/>
+        <Label fx:id="blockConnectedBlocks" layoutX="371.0" layoutY="167.0" prefHeight="17.0" prefWidth="116.0"
+               text="Label"/>
+        <Label layoutX="435.0" layoutY="167.0" text="Lock:"/>
+        <Label fx:id="blockLock" layoutX="477.0" layoutY="167.0" text="Label"/>
+        <Label layoutX="243.0" layoutY="305.0" text="Suggested Maintenance:"/>
+        <Label layoutX="453.0" layoutY="305.0" text="Maintenance:"/>
+        <Label fx:id="blockSuggestedMaintenance" layoutX="411.0" layoutY="305.0"
+               onMouseClicked="#setSuggestedMaintenance" text="Label"/>
+        <Label fx:id="blockMaintenance" layoutX="549.0" layoutY="305.0" text="Label"/>
+    </children>
 </AnchorPane>

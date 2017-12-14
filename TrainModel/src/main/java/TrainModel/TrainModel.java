@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Evan Ozaroff
+//**************************************************
 package TrainModel;
 
 import TrackModel.Interfaces.ITrackModelForTrainController;
@@ -10,10 +17,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import javafx.stage.Stage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 @Singleton
-public class TrainModel implements ITrainModelForCTCOffice{
+public class TrainModel implements ITrainModelForCTCOffice
+{
 
     //Initialize Track Model Interface
     ITrackModelForTrainModel track; //TODO: Fix this
@@ -78,11 +87,11 @@ public class TrainModel implements ITrainModelForCTCOffice{
 
         //Check trains for train by ID
         Train temp = null;
-        while(itTrains.hasNext())
+        while (itTrains.hasNext())
         {
             temp = itTrains.next();
 
-            if(temp.getID() == ID)
+            if (temp.getID() == ID)
             {
                 break;
             }
@@ -98,14 +107,14 @@ public class TrainModel implements ITrainModelForCTCOffice{
 
         //Check trains for train by ID
         Train temp = null;
-        while(itTrains.hasNext())
+        while (itTrains.hasNext())
         {
             temp = itTrains.next();
 
-            if(temp.getID() == ID)
+            if (temp.getID() == ID)
             {
-               trains.remove(temp);
-               return true;
+                trains.remove(temp);
+                return true;
             }
         }
 
@@ -119,12 +128,12 @@ public class TrainModel implements ITrainModelForCTCOffice{
 
         //Update each train iteratively
         Train thisTrain;
-        while(itTrains.hasNext())
+        while (itTrains.hasNext())
         {
             thisTrain = itTrains.next();
             thisTrain.update(elapsedTime);
 
-            if(thisTrain.getDelete())
+            if (thisTrain.getDelete())
             {
                 System.out.println("Train: Deleting: " + ID);
                 itTrains.remove();

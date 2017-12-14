@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Robert Taylor
+//**************************************************
 package CTCOffice.Models;
 
 import TrackModel.Models.Block;
@@ -9,7 +16,8 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Train {
+public class Train
+{
     private int id;
     private Line line;
     private Block previousBlock;
@@ -26,7 +34,8 @@ public class Train {
     private ListProperty<Block> suggestedAuthorityProperty;
     private ListProperty<Stop> scheduleProperty;
 
-    public Train(int id, Line line, Block previousBlock, Block currentBlock) {
+    public Train(int id, Line line, Block previousBlock, Block currentBlock)
+    {
         this.id = id;
         this.line = line;
         this.previousBlockProperty = new SimpleObjectProperty<>();
@@ -45,59 +54,73 @@ public class Train {
 
     //<editor-fold desc="Getters">
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public Line getLine() {
+    public Line getLine()
+    {
         return line;
     }
 
-    public Block getPreviousBlock() {
+    public Block getPreviousBlock()
+    {
         return previousBlock;
     }
 
-    public ObjectProperty<Block> getPreviousBlockProperty() {
+    public ObjectProperty<Block> getPreviousBlockProperty()
+    {
         return previousBlockProperty;
     }
 
-    public Block getCurrentBlock() {
+    public Block getCurrentBlock()
+    {
         return currentBlock;
     }
 
-    public ObjectProperty<Block> getCurrentBlockProperty() {
+    public ObjectProperty<Block> getCurrentBlockProperty()
+    {
         return currentBlockProperty;
     }
 
-    public Block getDestinationBlock() {
+    public Block getDestinationBlock()
+    {
         return destinationBlock;
     }
 
-    public ObjectProperty<Block> getDestinationBlockProperty() {
+    public ObjectProperty<Block> getDestinationBlockProperty()
+    {
         return destinationBlockProperty;
     }
 
-    public double getSuggestedSpeed() {
+    public double getSuggestedSpeed()
+    {
         return suggestedSpeed;
     }
 
-    public DoubleProperty getSuggestedSpeedProperty() {
+    public DoubleProperty getSuggestedSpeedProperty()
+    {
         return suggestedSpeedProperty;
     }
 
-    public List<Block> getSuggestedAuthority() {
+    public List<Block> getSuggestedAuthority()
+    {
         return suggestedAuthority;
     }
 
-    public ListProperty<Block> getSuggestedAuthorityProperty() {
+    public ListProperty<Block> getSuggestedAuthorityProperty()
+    {
         return suggestedAuthorityProperty;
     }
 
-    public List<Stop> getSchedule() {
+    public List<Stop> getSchedule()
+    {
         return schedule;
     }
 
-    public ObservableList<Stop> getScheduleProperty() {
+    public ObservableList<Stop> getScheduleProperty()
+    {
         return scheduleProperty;
     }
 
@@ -105,46 +128,57 @@ public class Train {
 
     //<editor-fold desc="Setters">
 
-    public void setPreviousBlock(Block previousBlock) {
+    public void setPreviousBlock(Block previousBlock)
+    {
         this.previousBlock = previousBlock;
         this.previousBlockProperty.setValue(previousBlock);
     }
 
-    public void setCurrentBlock(Block currentBlock) {
+    public void setCurrentBlock(Block currentBlock)
+    {
         this.currentBlock = currentBlock;
         this.currentBlockProperty.setValue(currentBlock);
     }
 
-    public void setDestinationBlock(Block destinationBlock) {
+    public void setDestinationBlock(Block destinationBlock)
+    {
         this.destinationBlock = destinationBlock;
         this.destinationBlockProperty.setValue(destinationBlock);
     }
 
-    public void setSuggestedSpeed(double suggestedSpeed) {
+    public void setSuggestedSpeed(double suggestedSpeed)
+    {
         this.suggestedSpeed = suggestedSpeed;
         this.suggestedSpeedProperty.setValue(suggestedSpeed);
 
-        if (previousBlock != null) {
+        if (previousBlock != null)
+        {
             currentBlock.setSuggestedSpeed(suggestedSpeed);
 
-            if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
+            if (suggestedAuthority != null && suggestedAuthority.size() > 1)
+            {
                 Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
-                if (!nextBlock.getIsOccupied()) {
+                if (!nextBlock.getIsOccupied())
+                {
                     nextBlock.setSuggestedSpeed(suggestedSpeed);
                 }
             }
         }
     }
 
-    public void setSuggestedAuthority(List<Block> suggestedAuthority) {
+    public void setSuggestedAuthority(List<Block> suggestedAuthority)
+    {
         this.suggestedAuthority = suggestedAuthority;
         this.suggestedAuthorityProperty.setValue(FXCollections.observableArrayList(suggestedAuthority));
 
-        if (previousBlock != null) {
+        if (previousBlock != null)
+        {
             currentBlock.setSuggestedAuthority(suggestedAuthority);
-            if (suggestedAuthority != null && suggestedAuthority.size() > 1) {
+            if (suggestedAuthority != null && suggestedAuthority.size() > 1)
+            {
                 Block nextBlock = suggestedAuthority.get(1); // Next block after train's current location
-                if (!nextBlock.getIsOccupied()) {
+                if (!nextBlock.getIsOccupied())
+                {
 
                     List<Block> newBlockAuthority = new ArrayList<>(suggestedAuthority);
                     newBlockAuthority.remove(0);
@@ -154,25 +188,29 @@ public class Train {
         }
     }
 
-    public void setSchedule(List<Stop> schedule) {
+    public void setSchedule(List<Stop> schedule)
+    {
         this.schedule = schedule;
         this.scheduleProperty.setValue(FXCollections.observableArrayList(schedule));
     }
 
     //</editor-fold>
 
-    public void addStop(Stop stop) {
+    public void addStop(Stop stop)
+    {
         scheduleProperty.getValue().add(stop);
         schedule.add(stop);
     }
 
-    public void removeStop(Stop stop) {
+    public void removeStop(Stop stop)
+    {
         scheduleProperty.getValue().remove(stop);
         schedule.remove(stop);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return line + "-" + id;
     }
 }

@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Evan Ozaroff
+//**************************************************
 package TrainModel;
 
 import eu.hansolo.medusa.Gauge;
@@ -18,7 +25,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
-public class TrainViewController  {
+public class TrainViewController
+{
 
     //All values are are calculated within the program using SI units. Returned values will be converted to U.S customary units.
 
@@ -78,48 +86,56 @@ public class TrainViewController  {
     @FXML
     private void initialize()
     {
-        EMERGENCY_BRAKE.setOnAction(new EventHandler<ActionEvent>() {
+        EMERGENCY_BRAKE.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 setEmergencyBrake();
             }
         });
 
-        ENGINE_FAILURE.setOnAction(new EventHandler<ActionEvent>() {
+        ENGINE_FAILURE.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 setEngineFailure();
             }
         });
 
-        SIGNAL_FAILURE.setOnAction(new EventHandler<ActionEvent>() {
+        SIGNAL_FAILURE.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 setSignalPickupFailure();
             }
         });
 
-        BRAKE_FAILURE.setOnAction(new EventHandler<ActionEvent>() {
+        BRAKE_FAILURE.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 setBrakeFailure();
             }
         });
 
         //Set up gauges
         speedGauge = GaugeBuilder.create()
-                .title("Speed Gauge")
-                .subTitle("")
-                .unit("mph")
-                .build();
+                                 .title("Speed Gauge")
+                                 .subTitle("")
+                                 .unit("mph")
+                                 .build();
 
         SPEED_GAUGE_PANE.getChildren().add(speedGauge);
 
         accelerationGauge = GaugeBuilder.create()
-                .title("Acceleration Gauge")
-                .subTitle("")
-                .unit("mph^2")
-                .build();
+                                        .title("Acceleration Gauge")
+                                        .subTitle("")
+                                        .unit("mph^2")
+                                        .build();
         accelerationGauge.setMinValue(-15.0);
         accelerationGauge.setMaxValue(15.0);
 
@@ -143,11 +159,13 @@ public class TrainViewController  {
         AUTHORITY.textProperty().bind(train.getAuthorityRemainingProperty().multiply(0.000621371).asString("%.4f")); //Convert m to mi and truncate
         RIS.textProperty().bind(train.getRISProperty());
 
-        train.getLightsProperty().addListener(new ChangeListener<Boolean>() {
+        train.getLightsProperty().addListener(new ChangeListener<Boolean>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+            {
 
-                if(newValue)
+                if (newValue)
                 {
                     LIGHTS_INDICATOR.setFill(Color.YELLOW);
                 }
@@ -158,11 +176,13 @@ public class TrainViewController  {
             }
         });
 
-        train.getLeftDoorsProperty().addListener(new ChangeListener<Boolean>() {
+        train.getLeftDoorsProperty().addListener(new ChangeListener<Boolean>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+            {
 
-                if(newValue)
+                if (newValue)
                 {
                     LEFT_DOORS.setFill(Color.GREEN);
                 }
@@ -173,11 +193,13 @@ public class TrainViewController  {
             }
         });
 
-        train.getRightDoorsProperty().addListener(new ChangeListener<Boolean>() {
+        train.getRightDoorsProperty().addListener(new ChangeListener<Boolean>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+            {
 
-                if(newValue)
+                if (newValue)
                 {
                     RIGHT_DOORS.setFill(Color.GREEN);
                 }
@@ -188,13 +210,15 @@ public class TrainViewController  {
             }
         });
 
-        train.getBrakesProperty().addListener(new ChangeListener<Boolean>(){
+        train.getBrakesProperty().addListener(new ChangeListener<Boolean>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue){
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+            {
 
-                if(newValue)
+                if (newValue)
                 {
-                  BRAKE_INDICATOR.setFill(Color.RED);
+                    BRAKE_INDICATOR.setFill(Color.RED);
                 }
                 else
                 {
@@ -203,23 +227,29 @@ public class TrainViewController  {
             }
         });
 
-        train.getSpeedProperty().addListener(new ChangeListener<Number>() {
+        train.getSpeedProperty().addListener(new ChangeListener<Number>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
                 speedGauge.setValue(newValue.doubleValue() * 2.23694); //Convert m/s to mph
             }
         });
 
-        train.getAccelerationProperty().addListener(new ChangeListener<Number>() {
+        train.getAccelerationProperty().addListener(new ChangeListener<Number>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
                 accelerationGauge.setValue(newValue.doubleValue() * 2.23694); //Convert m/s^2 to mph^2
             }
         });
 
         train.getDeleteProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    if (newValue) {
+                (observable, oldValue, newValue) ->
+                {
+                    if (newValue)
+                    {
                         ((Stage) BRAKE_FAILURE.getScene().getWindow()).close();
                     }
                 }

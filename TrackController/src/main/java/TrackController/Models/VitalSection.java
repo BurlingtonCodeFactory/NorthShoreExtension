@@ -6,7 +6,8 @@ import TrackModel.Models.Block;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VitalSection {
+public class VitalSection
+{
 
     private boolean direction;
     private List<Block> blocks;
