@@ -443,7 +443,7 @@ public class TrainController {
         if(!brake) {
             stoppingDistance = Math.pow(current_velocity, 2) / 2.4;
             stoppingDistance +=15;
-            stoppingDistance *=1.2;
+            //stoppingDistance *=1.2;
 
         }
 ;
