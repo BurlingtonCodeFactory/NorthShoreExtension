@@ -29,8 +29,10 @@ public class CTCOffice extends Application {
 
         MainController controller = CTCModule.injector.getInstance(MainController.class);
         TrackModel.addClockTickUpdateListener(controller);
+        TrackModel.addThroughputUpdateListener(controller);
         Block.addOccupancyChangeListener(controller);
         Block.addMaintenanceChangeListener(controller);
+        Block.addSwitchStateChangeListener(controller);
         fxmlLoader.setController(controller);
 
         try {

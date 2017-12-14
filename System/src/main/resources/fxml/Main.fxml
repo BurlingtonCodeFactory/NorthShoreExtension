@@ -44,6 +44,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <HBox>
@@ -62,7 +63,9 @@
             <Label text="Automatic Mode" GridPane.rowIndex="3" />
             <CheckBox fx:id="mode" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Import Schedule" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" text="Browse..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="importSchedule" mnemonicParsing="false" text="Browse..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Throughput (passengers/hour)" wrapText="true" GridPane.rowIndex="5" />
+            <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -105,6 +108,8 @@
             <Label fx:id="blockSpeedLimit" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Under Maintenance" GridPane.rowIndex="5" />
             <Button fx:id="blockMaintenance" disable="true" mnemonicParsing="false" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Switch Operation" GridPane.rowIndex="6" />
+            <Button fx:id="blockSwitch" disable="true" mnemonicParsing="false" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <!--<Label text="Beacon" GridPane.rowIndex="6" />
             <Button fx:id="blockBeacon" mnemonicParsing="false" text="Set Beacon" GridPane.columnIndex="1" GridPane.rowIndex="6" />-->
          </children>

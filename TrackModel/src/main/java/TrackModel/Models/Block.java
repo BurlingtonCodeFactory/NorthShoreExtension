@@ -5,7 +5,6 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Block {
     private int id;
@@ -40,6 +39,7 @@ public class Block {
     private static List<SuggestedSpeedChangeListener> suggestedSpeedChangeListeners = new ArrayList<>();
     private static List<SuggestedAuthorityChangeListener> suggestedAuthorityChangeListeners = new ArrayList<>();
     private static List<FailureChangeListener> failureChangeListeners = new ArrayList<>();
+    private static List<SwitchStateManualChangeListener> switchStateManualChangeListeners = new ArrayList<>();
     private static List<SwitchStateChangeListener> switchStateChangeListeners = new ArrayList<>();
     private static List<MaintenanceRequestListener> maintenanceRequestListeners = new ArrayList<>();
     private static List<MaintenanceChangeListener> maintenanceChangeListeners = new ArrayList<>();
@@ -420,6 +420,26 @@ public class Block {
         }
     }
 
+    // Manual Switch Change
+    public static synchronized void addSwitchStateManualChangeListener(SwitchStateManualChangeListener l ) {
+        switchStateManualChangeListeners.add( l );
+    }
+
+    public static synchronized void removeSwitchStateManualChangeListener(SwitchStateManualChangeListener l ) {
+        switchStateManualChangeListeners.remove( l );
+    }
+
+    protected static synchronized void fireSwitchStateManualChangeEvent(Object source)
+    {
+        System.out.println("Fire manual switch change");
+
+        SwitchStateManualChangeEvent event = new SwitchStateManualChangeEvent(source);
+        for(SwitchStateManualChangeListener listener : switchStateManualChangeListeners)
+        {
+            listener.switchStateManualChangeReceived(event);
+        }
+    }
+
     // Switch Change
     public static synchronized void addSwitchStateChangeListener( SwitchStateChangeListener l ) {
         switchStateChangeListeners.add( l );
@@ -431,8 +451,6 @@ public class Block {
 
     protected static synchronized void fireSwitchStateChangeEvent(Object source)
     {
-        System.out.println("Fire switch change");
-
         SwitchStateChangeEvent event = new SwitchStateChangeEvent(source);
         for(SwitchStateChangeListener listener : switchStateChangeListeners)
         {
