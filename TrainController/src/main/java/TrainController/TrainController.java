@@ -610,7 +610,6 @@ public class TrainController {
         if(!serviceBrakeProperty.getValue()) {
             stoppingDistance = Math.pow(currentVelocityProperty.getValue(), 2) / 2.4;
             stoppingDistance +=15;
-            stoppingDistance *=1.2;
         }
     }
 
