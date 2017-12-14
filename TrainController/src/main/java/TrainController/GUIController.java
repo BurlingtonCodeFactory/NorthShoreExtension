@@ -2,6 +2,7 @@ package TrainController;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,9 +13,13 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class GUIController {
@@ -31,6 +36,8 @@ public class GUIController {
     private Gauge power_gauge;
     private ArrayList<TrainController> trainControllers;
     private ArrayList<String> trainNames;
+    private MediaPlayer mediaPlayer;
+    private AudioClip whistle;
 
     public GUIController(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames) {
         this.trainControllers = trainControllers;
@@ -39,10 +46,12 @@ public class GUIController {
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws Exception{
         groupViewGrid.setPrefWidth(groupViewScroll.getPrefWidth());
         groupViewScroll.setContent(groupViewGrid);
 
+        whistle = new AudioClip(new File("../TrainController/src/main/resources/whistle.mp3").toURI().toURL().toString());
+        
     }
 
 
@@ -274,7 +283,7 @@ public class GUIController {
         GridPane pane_two = new GridPane();
         pane_two.setPrefSize(200, 200);
 
-        setConst(pane_two, 6, 1);
+        setConst(pane_two, 7, 1);
 
         Label door_label = new Label();
         door_label.setText("The next station has doors on the:");
@@ -313,6 +322,18 @@ public class GUIController {
         pane_two.add(right_door, 0,3);
         pane_two.add(lights, 0, 4);
         pane_two.add(auto_button, 0, 5);
+        Button whistleButton = new Button("Train Whistle");
+        whistleButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                whistle.play();
+            }
+        });
+
+
+
+
+        pane_two.add(whistleButton, 0, 6);
 
         pane.add(pane_two, 4, 0);
 

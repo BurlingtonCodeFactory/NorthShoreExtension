@@ -18,6 +18,7 @@ import java.util.Timer;
 
 public class TrainController {
 
+
     SimpleBooleanProperty lightsProperty;
     SimpleBooleanProperty leftOpenDoorProperty;
     SimpleBooleanProperty rightOpenDoorProperty;
@@ -28,7 +29,7 @@ public class TrainController {
     SimpleDoubleProperty authorityProperty;
     SimpleDoubleProperty powerProperty;
     SimpleStringProperty cabinTempProperty;
-    SimpleBooleanProperty autoModeProperty;
+    SimpleBooleanProperty manualModeProperty;
     double prevAcceleration;
     double acceleration;
     double desiredCabinTemp;
@@ -86,6 +87,7 @@ public class TrainController {
         cabinTempProperty = new SimpleStringProperty();
         autoModeProperty = new SimpleBooleanProperty(true);
         doorSide = new SimpleStringProperty("");
+
 
 
 
@@ -251,18 +253,20 @@ public class TrainController {
 
     public void stopAtStation()
     {
-       
+       System.out.println("Door is " + door + " Left door is " + leftOpenDoorProperty.getValue() + " right door is " + rightOpenDoorProperty.getValue());
         serviceBrakeProperty.setValue(true);
-        if(autoModeProperty.getValue()){
+        if(!manualModeProperty.getValue()){
             if(door==1){
-                open_left_doors();
+                leftOpenDoorProperty.setValue(true);
             }else{
-                open_right_doors();
+                rightOpenDoorProperty.setValue(true);
             }
         }
 
         arriving=false;
     }
+
+
 
     public void nextBlock()
     {
@@ -493,7 +497,7 @@ public class TrainController {
     }
 
     public SimpleBooleanProperty getAutoModeProperty() {
-        return autoModeProperty;
+        return manualModeProperty;
     }
 
     public SimpleBooleanProperty getEmergencyBrakeProperty() {
