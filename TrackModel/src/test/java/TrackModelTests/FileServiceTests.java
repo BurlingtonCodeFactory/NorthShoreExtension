@@ -223,5 +223,4 @@ public class FileServiceTests {
         assertTrue(blocks != null);
         assertEquals(151, blocks.size());
     }
-<<<<<<< HEAD
 }*/
