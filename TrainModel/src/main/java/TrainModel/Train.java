@@ -3,12 +3,11 @@ package TrainModel;
 import TrackModel.Interfaces.ITrackModelForTrainModel;
 import TrackModel.Models.Line;
 import TrainController.TrainController;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.application.Platform;
+import javafx.beans.property.*;
 
 import java.lang.Math;
+import java.util.Random;
 
 public class Train {
 
@@ -28,13 +27,14 @@ public class Train {
     private SimpleDoubleProperty speedProperty;
     private SimpleDoubleProperty accelerationProperty;
     private SimpleDoubleProperty massProperty, lengthProperty, heightProperty, widthProperty;
-    private SimpleDoubleProperty authorityProperty;
+    private SimpleDoubleProperty authorityProperty, authorityRemainingProperty;
     private SimpleDoubleProperty cabinTempProperty;
     private SimpleStringProperty RISProperty;
     private SimpleBooleanProperty lightsProperty;
     private SimpleBooleanProperty leftDoorsProperty, rightDoorsProperty;
     private SimpleBooleanProperty brakesProperty;
     private SimpleIntegerProperty passengerCountProperty = new SimpleIntegerProperty();
+    private BooleanProperty deleteProperty;
 
     private double g = 9.8;
     private double coeffFriction = 0.001;
@@ -45,6 +45,9 @@ public class Train {
     private double previousAcceleration = 0, brakingAcceleration = 0;
     private double deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
+    private int capacity;
+    private boolean delete;
+    private int it = 0;
 
     public Train(int previousBlock, int currentBlock, int cars, TrainController trainController, boolean PIDSetupbypass, int ID, ITrackModelForTrainModel track, Line line)
     {
@@ -59,6 +62,7 @@ public class Train {
         this.carsProperty = new SimpleIntegerProperty();
         this.powerProperty = new SimpleDoubleProperty();
         this.authorityProperty = new SimpleDoubleProperty();
+        this.authorityRemainingProperty = new SimpleDoubleProperty();
         this.speedProperty = new SimpleDoubleProperty();
         this.massProperty = new SimpleDoubleProperty();
         this.heightProperty = new SimpleDoubleProperty();
@@ -66,11 +70,12 @@ public class Train {
         this.widthProperty = new SimpleDoubleProperty();
         this.accelerationProperty = new SimpleDoubleProperty();
         this.cabinTempProperty = new SimpleDoubleProperty();
-        this.leftDoorsProperty = new SimpleBooleanProperty();
-        this.rightDoorsProperty = new SimpleBooleanProperty();
+        this.leftDoorsProperty = new SimpleBooleanProperty(false);
+        this.rightDoorsProperty = new SimpleBooleanProperty(false);
         this.lightsProperty = new SimpleBooleanProperty();
         this.brakesProperty = new SimpleBooleanProperty();
         this.RISProperty = new SimpleStringProperty();
+        this.deleteProperty = new SimpleBooleanProperty(false);
         carsProperty.set(cars);
         speedProperty.set(0);
         accelerationProperty.set(0);
@@ -79,6 +84,7 @@ public class Train {
         widthProperty.set(8.69);
         lengthProperty.set(cars * 105);
         passengerCountProperty.set(0);
+        capacity = carsProperty.get() * 222;
 
         //Calculate Initial Train Mass
         setMass(carsProperty.getValue() * 37103);
@@ -105,12 +111,13 @@ public class Train {
             int temp = track.getNextBlock(previousBlock, currentBlock, line);
             if(temp == -2)
             {
-                System.out.println("This is not okay");
+                System.out.println("THISSNOTOKAYOHFUCKOHFUCKOHFUCK");
             }
             totalBlockLength = totalBlockLength + track.getLengthByID(temp, line);
 
             //Update Occupancy of (now) previous block to false
             track.setOccupancy(currentBlock, false, line);
+
             track.setOccupancy(temp, true, line);
 
             //Update current and previous blocks
@@ -121,29 +128,40 @@ public class Train {
         }
 
         //Check if train has just driven into yard
-        if(!(previousBlock == -1) && (currentBlock == 0))
+        if((previousBlock != -1) && (currentBlock == 0))
         {
-            delete();
+            if(it == 1)
+            {
+                delete();
+            }
+            it++;
         }
 
         //Get physical data from track
         coeffFriction = track.getFrictionByID(currentBlock, line);
         grade = track.getGradeByID(currentBlock, line);
 
-        //Get input data from train controller
-        setPower(trainController.getPower(deltaTmillis));
+        //Get input data from train controller, if engine has not failed
+        if(!engineFailure)
+        {
+            setPower(trainController.getPower(deltaTmillis));
+        }
+        else
+        {
+            setPower(0);
+        }
 
-        if(trainController.getServiceBrake())
+        if(trainController.getServiceBrake() && !brakeFailure)
         {
             brakingAcceleration = 1.2;
             setBrake(true);
         }
-        if(trainController.getEmergencyBrake())
+        if(trainController.getEmergencyBrake() && !brakeFailure)
         {
             brakingAcceleration = 2.3;
             setBrake(true);
         }
-        else if (!(trainController.getServiceBrake() || trainController.getEmergencyBrake()))
+        else if (!(trainController.getServiceBrake() || trainController.getEmergencyBrake()) || brakeFailure)
         {
             brakingAcceleration = 0;
             setBrake(false);
@@ -158,55 +176,129 @@ public class Train {
         velocity = velocity  + (((previousAcceleration + getAcceleration()) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
         setSpeed(Math.abs(velocity));
 
-        //System.out.println("Train Velocity="+velocity +" Power="+getPower() +" Location="+currentBlock + " Distance="+(totalDisplacement-totalBlockLength));
-
         //Relay data to Train Controller
-        setAuthority(track.getAuthorityByID(currentBlock, line));
+        if(!signalPickupFailure)
+        {
+            setAuthority(track.getAuthorityByID(currentBlock, line));
+            setAuthorityRemaining(getAuthorityProperty().doubleValue() - displacement);
+        }
+        else
+        {
+            setAuthority(0);
+            setAuthorityRemaining(0);
+        }
+
         trainController.updateVelocity(velocity);
-        trainController.setAuthority(track.getAuthorityByID(currentBlock, line));
-        trainController.calcSetpointVelocity(track.getSpeedByID(currentBlock, line));
+
+        if(!signalPickupFailure)
+        {
+            trainController.setAuthority(track.getAuthorityByID(currentBlock, line));
+            trainController.calcSetpointVelocity(track.getSpeedByID(currentBlock, line));
+        }
+        else
+        {
+            trainController.setAuthority(0);
+            trainController.calcSetpointVelocity(0);
+        }
+
         trainController.setBeacon(track.getBeaconByID(currentBlock, line));
         trainController.setUnderground(track.getUndergroundByID(currentBlock, line));
 
         //Other train processes
-        if(trainController.getLights())
+        if(trainController.getLights() && !lightsProperty.get())
         {
-
+            lightsProperty.setValue(true);
+        }
+        else if(!trainController.getLights() && lightsProperty.get())
+        {
+            lightsProperty.setValue(false);
         }
 
-        if(trainController.getLeftDoors())
+        if(trainController.getLeftDoors() && !leftDoorsProperty.get())
         {
-
+            leftDoorsProperty.setValue(true);
+        }
+        else if(!trainController.getLeftDoors() && leftDoorsProperty.get())
+        {
+            leftDoorsProperty.setValue(false);
         }
 
-        if(trainController.getRightDoors())
+        if(trainController.getRightDoors() && !rightDoorsProperty.get())
         {
-
+            rightDoorsProperty.setValue(true);
+        }
+        else if(!trainController.getRightDoors() && rightDoorsProperty.get())
+        {
+            rightDoorsProperty.setValue(false);
         }
 
-        if(getCabinTemp() != trainController.getCabinTemp()) //TODO: this
+        if(cabinTempProperty.get() < trainController.getCabinTemp())
         {
+            if ((trainController.getCabinTemp() - cabinTempProperty.get()) > 1) {
+                cabinTempProperty.set(cabinTempProperty.get() + 1);
+            }
+            else
+            {
+                cabinTempProperty.set(trainController.getCabinTemp());
+            }
+        }
+        else if(cabinTempProperty.get() > trainController.getCabinTemp())
+        {
+            if ((cabinTempProperty.get() - trainController.getCabinTemp()) > 1) {
+                cabinTempProperty.set(cabinTempProperty.get() - 1);
+            }
+            else
+            {
+                cabinTempProperty.set(trainController.getCabinTemp());
+            }
+        }
 
+        if(trainController.isStoppedAtStation())
+        {
+            embarkDebark();
         }
 
         setRIS(trainController.getRIS());
-
     }
 
-    public boolean delete() //TODO: How to implement?
+    public boolean delete()
     {
-        return false;
+        System.out.println("Train: Marking for deletion: " + ID);
+
+        track.setOccupancy(currentBlock, false, line);
+
+        setDelete(true);
+
+        it = 0;
+
+        return true;
+    }
+
+    private void setDelete(boolean delete) {
+        this.delete = delete;
+        Platform.runLater(() -> this.deleteProperty.setValue(delete));
+    }
+
+    public BooleanProperty getDeleteProperty() {
+        return this.deleteProperty;
     }
 
     public void embarkDebark()
     {
         //Debark passengers some value less than current passengers
+        Random rand = new Random();
+        int debark = rand.nextInt(passengerCountProperty.get() + 1);
+        passengerCountProperty.set(passengerCountProperty.get() - debark);
 
         //Embark passengers within capacity of train
+        int embark  = rand.nextInt(capacity - passengerCountProperty.get() + 1);
+        passengerCountProperty.set(passengerCountProperty.get() + embark);
 
         //Recalculate train mass
+        setMass((carsProperty.getValue() * 37103) + (passengerCountProperty.get() * 73)); //73 kg is estimated as the average weight of passengers
 
         //Relay throughput to CTC
+        track.disembarkPassengers(debark);
     }
 
     public double calculateAcceleration()
@@ -278,12 +370,12 @@ public class Train {
 
     public void setEngineFailure()
     {
-        setPower(0);
+        engineFailure = true;
     }
 
     public void setSignalPickupFailure()
     {
-
+        signalPickupFailure = true;
     }
 
     public void setBrakeFailure()
@@ -297,6 +389,7 @@ public class Train {
 
     public void setAuthority(double authority){ authorityProperty.setValue(authority);}
 
+    public void setAuthorityRemaining(double authority){ authorityRemainingProperty.setValue(authority);}
 
     public void setRIS(String RIS){RISProperty.setValue(RIS);}
 
@@ -332,6 +425,8 @@ public class Train {
 
     public double getMass(){return massProperty.doubleValue();}
 
+    public boolean getDelete(){return delete;}
+
     public double getCabinTemp(){return cabinTempProperty.doubleValue();}
 
     public SimpleDoubleProperty getPowerProperty() {
@@ -340,6 +435,10 @@ public class Train {
 
     public SimpleDoubleProperty getAuthorityProperty() {
         return authorityProperty;
+    }
+
+    public SimpleDoubleProperty getAuthorityRemainingProperty() {
+        return authorityRemainingProperty;
     }
 
     public SimpleDoubleProperty getCabinTempProperty(){return cabinTempProperty;}
@@ -371,6 +470,8 @@ public class Train {
     }
 
     public SimpleIntegerProperty getPassengerCountProperty(){return passengerCountProperty;}
+
+    public SimpleStringProperty getRISProperty(){return  RISProperty;}
 
     public double getSpeed(){ return speedProperty.doubleValue(); }
 }
