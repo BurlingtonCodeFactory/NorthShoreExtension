@@ -42,25 +42,25 @@ public class CTCEventHandler implements OccupancyChangeListener, MaintenanceChan
             changedBlock.setSuggestedSpeed(0);
             changedBlock.setSuggestedAuthority(new ArrayList<>());
 
-            if (findTrainOnBlock(changedBlock) == null) {
+            Train train = findTrainOnBlock(changedBlock);
+            if (train == null) {
                 System.out.println("CTC: Track failure must have been resolved on line - " + changedBlock.getLine() + " block - " + changedBlock.getId() + " rerouting trains.");
                 Platform.runLater(
                         () -> routeService.RouteTrains(changedBlock.getLine())
                 );
             }
-
-            /*// If train is on block and has authority to go into yard delete it
-            Train movedTrain = findTrainOnBlock(changedBlock);
-            if (movedTrain != null && movedTrain.getSuggestedAuthority().get(0).getId() == 0) {
-                trainRepository.removeTrain(movedTrain.getLine(), movedTrain.getId());
-            }*/
+            else if (changedBlock.getId() == 0 && train.getPreviousBlock().getId() != 0) {
+                // TODO: test to make sure this works, need to wait for Evan to implement deleting trains in Train Model
+                System.out.println("Train " + train.getId() + " was in yard after having been elsewhere previously. Removing train from CTC.");
+                trainRepository.removeTrain(train.getLine(), train.getId());
+            }
         }
         else {
-            System.out.println("Occupancy true for id "+changedBlock.getId());
+            System.out.println("Occupancy true for line "+ changedBlock.getLine() + " block "+changedBlock.getId());
             // Block is now occupied - determine if a train moved into it
             Train movedTrain = findTrainThatMoved(changedBlock);
             if (movedTrain != null) {
-                System.out.println("Train "+movedTrain.getId() + " moved to "+changedBlock.getId());
+                System.out.println("Train " + movedTrain.getId() + " moved to " + changedBlock.getId());
                 // The train moved into a new block, update the previous and current blocks
                 Platform.runLater(
                         () -> {
@@ -106,9 +106,11 @@ public class CTCEventHandler implements OccupancyChangeListener, MaintenanceChan
 
     private Train findTrainThatMoved(Block changedBlock) {
         for (Train train : trainRepository.getTrains(changedBlock.getLine())) {
-            for (int blockId : train.getCurrentBlock().getConnectedBlocks()) {
-                if (blockId == changedBlock.getId()) {
-                    return train;
+            if (train.getPreviousBlock() != null) {
+                for (int blockId : train.getCurrentBlock().getConnectedBlocks()) {
+                    if (blockId == changedBlock.getId()) {
+                        return train;
+                    }
                 }
             }
         }
@@ -118,7 +120,7 @@ public class CTCEventHandler implements OccupancyChangeListener, MaintenanceChan
 
     private Train findTrainOnBlock(Block changedBlock) {
         for (Train train : trainRepository.getTrains(changedBlock.getLine())) {
-            if (train.getCurrentBlock().getId() == changedBlock.getId()) {
+            if (train.getCurrentBlock().getId() == changedBlock.getId() && train.getPreviousBlock() != null) {
                 return train;
             }
         }

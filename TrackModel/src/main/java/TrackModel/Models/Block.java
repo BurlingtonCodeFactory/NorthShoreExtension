@@ -451,8 +451,6 @@ public class Block {
 
     protected static synchronized void fireSwitchStateChangeEvent(Object source)
     {
-        System.out.println("Fire switch change");
-
         SwitchStateChangeEvent event = new SwitchStateChangeEvent(source);
         for(SwitchStateChangeListener listener : switchStateChangeListeners)
         {

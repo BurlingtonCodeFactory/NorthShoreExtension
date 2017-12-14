@@ -10,4 +10,6 @@ public interface ITrackModelForCTCOffice {
     Block getBlock(Line line, int id);
     List<Block> getBlocks(Line line);
     void setMultiplier(double multiplier);
+    int getPassengersDisembarked();
+    double getTime();
 }

@@ -94,7 +94,7 @@ public class RouteService implements IRouteService {
 
             if (train.getPreviousBlock() == null) {
                 if (train.getDestinationBlock() != null && !trackModel.getBlock(train.getLine(), 0).getIsOccupied()) {
-                    System.out.println("Train " + line + "-" + train.getId() + "has not been dispatched and has a destination. Dispatching.");
+                    System.out.println("Train " + line + "-" + train.getId() + " has not been dispatched and has a destination. Dispatching.");
                     train.setPreviousBlock(trackModel.getBlock(train.getLine(), 0));
                     trainModel.createTrain(-1, 0, 2, true, train.getLine());
                 }
@@ -112,10 +112,6 @@ public class RouteService implements IRouteService {
                 train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit() < train.getSuggestedSpeed() ? train.getCurrentBlock().getSpeedLimit() : train.getSuggestedSpeed());
             }
             System.out.println("Setting " + line + "-" + train.getId() + " authority of " + newAuthority);
-            /*else if (trainRepository.getMode() && train.getSchedule().size() > 0) {
-                train.setSuggestedSpeed(train.getCurrentBlock().getSpeedLimit());
-                List<Block> newAuthority = getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), train.getSchedule().get(0).getBlock());
-            }*/
         }
     }
 

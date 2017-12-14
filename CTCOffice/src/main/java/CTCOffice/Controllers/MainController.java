@@ -19,13 +19,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
-public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener {
+public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener, ThroughputUpdateListener {
     @FXML
     public ChoiceBox<Integer> multiplier;
     @FXML
@@ -74,6 +75,10 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     public Label currentTime;
     @FXML
     public CheckBox mode;
+    @FXML
+    public Button importSchedule;
+    @FXML
+    public Label throughput;
 
     private ITrackModelForCTCOffice trackModel;
     private ITrainRepository trainRepository;
@@ -141,6 +146,9 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         // Set onAction handler for blockSwitch
         blockSwitch.setOnAction(this::blockSwitchButton);
+
+        // Set onAction handler for importSchedule
+        importSchedule.setOnAction(this::importScheduleButton);
 
         // Set trainLine options
         trainLine.setItems(FXCollections.observableArrayList(Line.values()));
@@ -304,6 +312,32 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         routeService.RouteTrains(train.getLine());
     }
 
+    public void importScheduleButton(ActionEvent e) {
+        Stage fileStage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select train schedule to import");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+
+        File trackLayoutFile = fileChooser.showOpenDialog(fileStage);
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(trackLayoutFile);
+        } catch (FileNotFoundException e1) {
+            System.out.println("Could not read file for train schedule import.");
+            return;
+        }
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        fileService.parseTrainSchedule(bufferedReader);
+
+        Line currentLine = trainLine.getSelectionModel().getSelectedItem();
+        trainIdentifier.setItems(FXCollections.observableArrayList(trainRepository.getTrains(currentLine)));
+        //trainIdentifier.getSelectionModel().select(train);
+
+        routeService.RouteTrains(Line.GREEN);
+        routeService.RouteTrains(Line.RED);
+    }
+
     @Override
     public void clockTickUpdateReceived(ClockTickUpdateEvent event) {
         currentTime.setText(Double.toString(((double) event.getSource()) / 1000));
@@ -349,6 +383,11 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         }
     }
 
+    @Override
+    public void throughputUpdateReceived(ThroughputUpdateEvent event) {
+        throughput.setText(Double.toString(trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60)));
+    }
+
     private Parent loadItemFxml(Stop stop, Train train) {
         FXMLLoader fxmlLoader = null;
         try {
@@ -369,6 +408,4 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     private String switchString(Switch block) {
         return block.getSwitchBase() + " <-> " + (block.getSwitchState() ? block.getSwitchOne() : block.getSwitchZero());
     }
-
-
 }
