@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.lang.Math;
+import java.util.Random;
 
 public class Train {
 
@@ -45,6 +46,9 @@ public class Train {
     private double previousAcceleration = 0, brakingAcceleration = 0;
     private double deltaTmillis;
     private boolean brakeFailure = false, signalPickupFailure = false, engineFailure = false;
+    private int capacity;
+    private boolean delete = false;
+    private int it = 0;
 
     public Train(int previousBlock, int currentBlock, int cars, TrainController trainController, boolean PIDSetupbypass, int ID, ITrackModelForTrainModel track, Line line)
     {
@@ -79,6 +83,7 @@ public class Train {
         widthProperty.set(8.69);
         lengthProperty.set(cars * 105);
         passengerCountProperty.set(0);
+        capacity = carsProperty.get() * 222;
 
         //Calculate Initial Train Mass
         setMass(carsProperty.getValue() * 37103);
@@ -111,6 +116,7 @@ public class Train {
 
             //Update Occupancy of (now) previous block to false
             track.setOccupancy(currentBlock, false, line);
+
             track.setOccupancy(temp, true, line);
 
             //Update current and previous blocks
@@ -119,9 +125,13 @@ public class Train {
         }
 
         //Check if train has just driven into yard
-        if(!(previousBlock == -1) && (currentBlock == 0))
+        if((previousBlock != -1) && (currentBlock == 0))
         {
-            delete();
+            if(it == 1)
+            {
+                delete();
+            }
+            it++;
         }
 
         //Get physical data from track
@@ -167,7 +177,7 @@ public class Train {
         trainController.setUnderground(track.getUndergroundByID(currentBlock, line));
 
         //Other train processes
-        if(trainController.getLights())
+        if(trainController.getLights()) //TODO: all of this
         {
 
         }
@@ -186,25 +196,44 @@ public class Train {
         {
 
         }
+//
+//        if(trainController.isStoppedAtStation())
+//        {
+//            embarkDebark();
+//        }
 
         setRIS(trainController.getRIS());
-
     }
 
     public boolean delete() //TODO: How to implement?
     {
-        return false;
+        System.out.println("Train: Marking for deletion: " + ID);
+
+        track.setOccupancy(currentBlock, false, line);
+
+        this.delete = true;
+
+        it = 0;
+
+        return true;
     }
 
     public void embarkDebark()
     {
         //Debark passengers some value less than current passengers
+        Random rand = new Random();
+        int debark = rand.nextInt(passengerCountProperty.get() + 1);
+        passengerCountProperty.set(passengerCountProperty.get() - debark);
 
         //Embark passengers within capacity of train
+        int embark  = rand.nextInt(capacity - passengerCountProperty.get() + 1);
+        passengerCountProperty.set(passengerCountProperty.get() + embark);
 
         //Recalculate train mass
+        setMass((carsProperty.getValue() * 37103) * (passengerCountProperty.get() * 73)); //73 kg is estimated as the average weight of passengers
 
         //Relay throughput to CTC
+        track.disembarkPassengers(debark);
     }
 
     public double calculateAcceleration()
@@ -329,6 +358,8 @@ public class Train {
     }
 
     public double getMass(){return massProperty.doubleValue();}
+
+    public boolean getDelete(){return delete;}
 
     public double getCabinTemp(){return cabinTempProperty.doubleValue();}
 

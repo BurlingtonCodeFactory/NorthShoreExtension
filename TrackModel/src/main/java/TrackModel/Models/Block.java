@@ -351,7 +351,7 @@ public class Block {
 
     private static synchronized void fireOccupancyChangeEvent(Object source)
     {
-        System.out.println("Fire occupancy change");
+        //System.out.println("Fire occupancy change");
         OccupancyChangeEvent event = new OccupancyChangeEvent(source);
         for(OccupancyChangeListener listener : occupancyChangeListeners)
         {
@@ -372,7 +372,7 @@ public class Block {
 
     private static synchronized void fireSuggestedSpeedChangeEvent(Object source)
     {
-        System.out.println("Fire suggested speed change");
+//        System.out.println("Fire suggested speed change");
         SuggestedSpeedChangeEvent event = new SuggestedSpeedChangeEvent(source);
         for(SuggestedSpeedChangeListener listener : suggestedSpeedChangeListeners)
         {
@@ -391,7 +391,7 @@ public class Block {
 
     private static synchronized void fireSuggestedAuthorityChangeEvent(Object source)
     {
-        System.out.println("Fire suggested authority change");
+ //       System.out.println("Fire suggested authority change");
 
         SuggestedAuthorityChangeEvent event = new SuggestedAuthorityChangeEvent(source);
         for(SuggestedAuthorityChangeListener listener : suggestedAuthorityChangeListeners)
