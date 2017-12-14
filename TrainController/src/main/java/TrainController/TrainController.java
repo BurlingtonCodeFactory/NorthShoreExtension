@@ -18,6 +18,7 @@ import java.util.Timer;
 
 public class TrainController {
 
+
     SimpleBooleanProperty lightsProperty;
     SimpleBooleanProperty leftOpenDoorProperty;
     SimpleBooleanProperty rightOpenDoorProperty;
@@ -28,7 +29,7 @@ public class TrainController {
     SimpleDoubleProperty authorityProperty;
     SimpleDoubleProperty powerProperty;
     SimpleStringProperty cabinTempProperty;
-    SimpleBooleanProperty autoModeProperty;
+    SimpleBooleanProperty manualModeProperty;
     double prevAcceleration;
     double acceleration;
     double desiredCabinTemp;
@@ -84,8 +85,9 @@ public class TrainController {
         authorityProperty = new SimpleDoubleProperty();
         powerProperty= new SimpleDoubleProperty();
         cabinTempProperty = new SimpleStringProperty();
-        autoModeProperty = new SimpleBooleanProperty(false);
+        manualModeProperty = new SimpleBooleanProperty(false);
         doorSide = new SimpleStringProperty("");
+
 
 
 
@@ -242,18 +244,19 @@ public class TrainController {
         if(stopped){
             stopped = false;
         }
+
         return temp;
     }
 
     public void stopAtStation()
     {
-       
+       System.out.println("Door is " + door + " Left door is " + leftOpenDoorProperty.getValue() + " right door is " + rightOpenDoorProperty.getValue());
         serviceBrakeProperty.setValue(true);
-        if(autoModeProperty.getValue()){
+        if(!manualModeProperty.getValue()){
             if(door==1){
-                open_left_doors();
+                leftOpenDoorProperty.setValue(true);
             }else{
-                open_right_doors();
+                rightOpenDoorProperty.setValue(true);
             }
         }
 
@@ -262,10 +265,13 @@ public class TrainController {
             stopped=false;
             stopWait = 0;
             close_doors();
+
         }
 
         arriving=false;
     }
+
+
 
     public void nextBlock()
     {
@@ -496,7 +502,7 @@ public class TrainController {
     }
 
     public SimpleBooleanProperty getAutoModeProperty() {
-        return autoModeProperty;
+        return manualModeProperty;
     }
 
     public SimpleBooleanProperty getEmergencyBrakeProperty() {
