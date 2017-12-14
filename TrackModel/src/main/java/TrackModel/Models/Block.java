@@ -6,7 +6,8 @@ import javafx.application.Platform;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Block {
+public class Block
+{
     private int id;
     private Line line;
     private BlockType blockType;
@@ -44,7 +45,8 @@ public class Block {
     private static List<MaintenanceRequestListener> maintenanceRequestListeners = new ArrayList<>();
     private static List<MaintenanceChangeListener> maintenanceChangeListeners = new ArrayList<>();
 
-    public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit){
+    public Block(int id, Line line, BlockType blockType, int beacon, double coefficientFriction, List<Integer> connectedBlocks, double elevation, double grade, boolean isBidirectional, boolean isUnderground, double length, double speedLimit)
+    {
         this.id = id;
         this.line = line;
         this.blockType = blockType;
@@ -75,156 +77,188 @@ public class Block {
 
     //<editor-fold desc="Getters">
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public Line getLine() {
+    public Line getLine()
+    {
         return line;
     }
 
-    public BlockType getBlockType() {
+    public BlockType getBlockType()
+    {
         return blockType;
     }
 
-    public int getBeacon() {
+    public int getBeacon()
+    {
         return beacon;
     }
 
-    public boolean getCircuitFailed() {
+    public boolean getCircuitFailed()
+    {
         return circuitFailed;
     }
 
-    public double getCoefficientFriction() {
+    public double getCoefficientFriction()
+    {
         return coefficientFriction;
     }
 
-    public List<Block> getCommandedAuthority() {
+    public List<Block> getCommandedAuthority()
+    {
         return commandedAuthority;
     }
 
-    public double getCommandedSpeed() {
+    public double getCommandedSpeed()
+    {
         return commandedSpeed;
     }
 
-    public List<Integer> getConnectedBlocks() {
+    public List<Integer> getConnectedBlocks()
+    {
         return connectedBlocks;
     }
 
-    public double getElevation() {
+    public double getElevation()
+    {
         return elevation;
     }
 
-    public boolean getFailed() {
+    public boolean getFailed()
+    {
         return failed;
     }
 
-    public double getGrade() {
+    public double getGrade()
+    {
         return grade;
     }
 
-    public boolean getHeaterOn() {
+    public boolean getHeaterOn()
+    {
         return heaterOn;
     }
 
-    public boolean getIsBidirectional() {
+    public boolean getIsBidirectional()
+    {
         return isBidirectional;
     }
 
-    public boolean getIsOccupied() {
+    public boolean getIsOccupied()
+    {
         return isOccupied;
     }
 
-    public boolean getIsUnderground() {
+    public boolean getIsUnderground()
+    {
         return isUnderground;
     }
 
-    public double getLength() {
+    public double getLength()
+    {
         return length;
     }
 
-    public boolean getLightGreen() {
+    public boolean getLightGreen()
+    {
         return lightGreen;
     }
 
-    public boolean getPowerFailed() {
+    public boolean getPowerFailed()
+    {
         return powerFailed;
     }
 
-    public boolean getRailBroken() {
+    public boolean getRailBroken()
+    {
         return railBroken;
     }
 
-    public double getSpeedLimit() {
+    public double getSpeedLimit()
+    {
         return speedLimit;
     }
 
-    public List<Block> getSuggestedAuthority() {
+    public List<Block> getSuggestedAuthority()
+    {
         return suggestedAuthority;
     }
 
-    public double getSuggestedSpeed() {
+    public double getSuggestedSpeed()
+    {
         return suggestedSpeed;
     }
 
-    public boolean getSuggestMaintenance() {
+    public boolean getSuggestMaintenance()
+    {
         return suggestMaintenance;
     }
 
-    public boolean getUnderMaintenance() {
+    public boolean getUnderMaintenance()
+    {
         return underMaintenance;
     }
 
-    public Boolean getLock(){ return lock; }
-
-    public String getCommandedAuthorityString(){
-        if(commandedAuthority.size() == 0)
-        {
-            return "";
-        }
-
-        String authority = "";
-        for(Block block : commandedAuthority)
-        {
-            authority += block.getId()+",";
-        }
-        return authority.substring(0, authority.length()-1);
+    public Boolean getLock()
+    {
+        return lock;
     }
 
-    public String getSuggestedAuthorityString(){
-        if(suggestedAuthority.size() == 0)
+    public String getCommandedAuthorityString()
+    {
+        if (commandedAuthority.size() == 0)
         {
             return "";
         }
 
         String authority = "";
-        for(Block block : suggestedAuthority)
+        for (Block block : commandedAuthority)
         {
-            authority += block.getId()+",";
+            authority += block.getId() + ",";
         }
-        return authority.substring(0, authority.length()-1);
+        return authority.substring(0, authority.length() - 1);
+    }
+
+    public String getSuggestedAuthorityString()
+    {
+        if (suggestedAuthority.size() == 0)
+        {
+            return "";
+        }
+
+        String authority = "";
+        for (Block block : suggestedAuthority)
+        {
+            authority += block.getId() + ",";
+        }
+        return authority.substring(0, authority.length() - 1);
     }
 
     public String getConnectedBlocksString()
     {
-        if(connectedBlocks.size() == 0)
+        if (connectedBlocks.size() == 0)
         {
             return "";
         }
 
         String blocks = "";
-        for(int block : connectedBlocks)
+        for (int block : connectedBlocks)
         {
-            blocks += block+",";
+            blocks += block + ",";
         }
-        return blocks.substring(0, blocks.length()-1);
+        return blocks.substring(0, blocks.length() - 1);
     }
 
 
-    public int getNextBlock() {
+    public int getNextBlock()
+    {
         int maxID = -1;
-        for (int block : connectedBlocks) {
-            if(block > maxID)
+        for (int block : connectedBlocks)
+        {
+            if (block > maxID)
             {
                 maxID = block;
             }
@@ -232,109 +266,126 @@ public class Block {
         return maxID;
     }
 
-    public int getPreviousBlock() {
-        return id == 0 ? 0 : id-1;
+    public int getPreviousBlock()
+    {
+        return id == 0 ? 0 : id - 1;
     }
 
     //</editor-fold>
 
     //<editor-fold desc="Setters">
 
-        public void setCircuitFailed(boolean circuitFailed) {
-            this.circuitFailed = circuitFailed;
-            updateFailure();
-        }
+    public void setCircuitFailed(boolean circuitFailed)
+    {
+        this.circuitFailed = circuitFailed;
+        updateFailure();
+    }
 
-        public void setCoefficientFriction(double coefficientFriction) {
-            this.coefficientFriction = coefficientFriction;
-        }
+    public void setCoefficientFriction(double coefficientFriction)
+    {
+        this.coefficientFriction = coefficientFriction;
+    }
 
-        public void setCommandedAuthority(List<Block> commandedAuthority) {
-            this.commandedAuthority = commandedAuthority;
-        }
+    public void setCommandedAuthority(List<Block> commandedAuthority)
+    {
+        this.commandedAuthority = commandedAuthority;
+    }
 
-        public void setCommandedSpeed(double commandedSpeed) {
-            this.commandedSpeed = commandedSpeed;
-        }
+    public void setCommandedSpeed(double commandedSpeed)
+    {
+        this.commandedSpeed = commandedSpeed;
+    }
 
-        public void setFailed(boolean failed) {
-            this.failed = failed;
-            this.setIsOccupied(failed);
-        }
+    public void setFailed(boolean failed)
+    {
+        this.failed = failed;
+        this.setIsOccupied(failed);
+    }
 
-        public void setHeaterOn(boolean heaterOn) {
-            this.heaterOn = heaterOn;
-        }
+    public void setHeaterOn(boolean heaterOn)
+    {
+        this.heaterOn = heaterOn;
+    }
 
-        public void setIsOccupied(boolean isOccupied) {
-            this.isOccupied = isOccupied;
-            fireOccupancyChangeEvent(this);
-        }
+    public void setIsOccupied(boolean isOccupied)
+    {
+        this.isOccupied = isOccupied;
+        fireOccupancyChangeEvent(this);
+    }
 
-        public void setLightGreen(boolean lightGreen) {
-            this.lightGreen = lightGreen;
-        }
+    public void setLightGreen(boolean lightGreen)
+    {
+        this.lightGreen = lightGreen;
+    }
 
-        public void setPowerFailed(boolean powerFailed) {
-            this.powerFailed = powerFailed;
-            updateFailure();
-        }
+    public void setPowerFailed(boolean powerFailed)
+    {
+        this.powerFailed = powerFailed;
+        updateFailure();
+    }
 
-        public void setRailBroken(boolean railBroken) {
-            this.railBroken = railBroken;
-            updateFailure();
-        }
+    public void setRailBroken(boolean railBroken)
+    {
+        this.railBroken = railBroken;
+        updateFailure();
+    }
 
-        public void updateFailure()
+    public void updateFailure()
+    {
+        this.failed = railBroken || powerFailed || circuitFailed;
+        if (this.failed)
         {
-            this.failed = railBroken || powerFailed || circuitFailed;
-            if(this.failed)
-            {
-                setIsOccupied(true);
-            }
-            else
-            {
-                setIsOccupied(false);
-            }
+            setIsOccupied(true);
         }
-
-        public void setSuggestedAuthority(List<Block> suggestedAuthority) {
-            this.suggestedAuthority = suggestedAuthority;
-            fireSuggestedAuthorityChangeEvent(this);
-
+        else
+        {
+            setIsOccupied(false);
         }
+    }
 
-        public void setSuggestedSpeed(double suggestedSpeed) {
-            this.suggestedSpeed = suggestedSpeed;
-            fireSuggestedSpeedChangeEvent(this);
-        }
+    public void setSuggestedAuthority(List<Block> suggestedAuthority)
+    {
+        this.suggestedAuthority = suggestedAuthority;
+        fireSuggestedAuthorityChangeEvent(this);
 
-        public void setSuggestMaintenance(boolean suggestMaintenance) {
-            this.suggestMaintenance = suggestMaintenance;
-            fireMaintenanceRequestEvent(this);
-        }
+    }
 
-        public void setUnderMaintenance(boolean underMaintenance) {
-            if (this.underMaintenance != underMaintenance) {
-                this.underMaintenance = underMaintenance;
-                fireMaintenanceChangeEvent(this);
-            }
+    public void setSuggestedSpeed(double suggestedSpeed)
+    {
+        this.suggestedSpeed = suggestedSpeed;
+        fireSuggestedSpeedChangeEvent(this);
+    }
+
+    public void setSuggestMaintenance(boolean suggestMaintenance)
+    {
+        this.suggestMaintenance = suggestMaintenance;
+        fireMaintenanceRequestEvent(this);
+    }
+
+    public void setUnderMaintenance(boolean underMaintenance)
+    {
+        if (this.underMaintenance != underMaintenance)
+        {
             this.underMaintenance = underMaintenance;
+            fireMaintenanceChangeEvent(this);
         }
+        this.underMaintenance = underMaintenance;
+    }
 
-        public void setLock(boolean lock)
+    public void setLock(boolean lock)
+    {
+        if (this.lock != null)
         {
-            if(this.lock != null)
-            {
-                this.lock = lock;
-            }
+            this.lock = lock;
         }
+    }
 
-        //</editor-fold>
+    //</editor-fold>
 
     @Override
-    public String toString() {
-        return blockType == BlockType.STATION ? ((Station)this).getStationName() : Integer.toString(getId());
+    public String toString()
+    {
+        return blockType == BlockType.STATION ? ((Station) this).getStationName() : Integer.toString(getId());
     }
 
     public void createLock()
@@ -350,18 +401,20 @@ public class Block {
     // Events
 
     // Occupancy Change
-    public static synchronized void addOccupancyChangeListener( OccupancyChangeListener l ) {
-        occupancyChangeListeners.add( l );
+    public static synchronized void addOccupancyChangeListener(OccupancyChangeListener l)
+    {
+        occupancyChangeListeners.add(l);
     }
 
-    public static synchronized void removeOccupancyChangeListener( OccupancyChangeListener l ) {
-        occupancyChangeListeners.remove( l );
+    public static synchronized void removeOccupancyChangeListener(OccupancyChangeListener l)
+    {
+        occupancyChangeListeners.remove(l);
     }
 
     private static synchronized void fireOccupancyChangeEvent(Object source)
     {
         OccupancyChangeEvent event = new OccupancyChangeEvent(source);
-        for(OccupancyChangeListener listener : occupancyChangeListeners)
+        for (OccupancyChangeListener listener : occupancyChangeListeners)
         {
             Platform.runLater(
                     () -> listener.occupancyChangeReceived(event)
@@ -370,128 +423,142 @@ public class Block {
     }
 
     // Suggested Speed Change
-    public static synchronized void addSuggestedSpeedChangeListener( SuggestedSpeedChangeListener l ) {
-        suggestedSpeedChangeListeners.add( l );
+    public static synchronized void addSuggestedSpeedChangeListener(SuggestedSpeedChangeListener l)
+    {
+        suggestedSpeedChangeListeners.add(l);
     }
 
-    public static synchronized void removeSuggestedSpeedChangeListener( SuggestedSpeedChangeListener l ) {
-        suggestedSpeedChangeListeners.remove( l );
+    public static synchronized void removeSuggestedSpeedChangeListener(SuggestedSpeedChangeListener l)
+    {
+        suggestedSpeedChangeListeners.remove(l);
     }
 
     private static synchronized void fireSuggestedSpeedChangeEvent(Object source)
     {
         SuggestedSpeedChangeEvent event = new SuggestedSpeedChangeEvent(source);
-        for(SuggestedSpeedChangeListener listener : suggestedSpeedChangeListeners)
+        for (SuggestedSpeedChangeListener listener : suggestedSpeedChangeListeners)
         {
             listener.suggestedSpeedChangeReceived(event);
         }
     }
 
     // Suggested Speed Change
-    public static synchronized void addSuggestedAuthorityChangeListener( SuggestedAuthorityChangeListener l ) {
-        suggestedAuthorityChangeListeners.add( l );
+    public static synchronized void addSuggestedAuthorityChangeListener(SuggestedAuthorityChangeListener l)
+    {
+        suggestedAuthorityChangeListeners.add(l);
     }
 
-    public static synchronized void removeSuggestedAuthorityChangeListener( SuggestedAuthorityChangeListener l ) {
-        suggestedAuthorityChangeListeners.remove( l );
+    public static synchronized void removeSuggestedAuthorityChangeListener(SuggestedAuthorityChangeListener l)
+    {
+        suggestedAuthorityChangeListeners.remove(l);
     }
 
     private static synchronized void fireSuggestedAuthorityChangeEvent(Object source)
     {
         SuggestedAuthorityChangeEvent event = new SuggestedAuthorityChangeEvent(source);
-        for(SuggestedAuthorityChangeListener listener : suggestedAuthorityChangeListeners)
+        for (SuggestedAuthorityChangeListener listener : suggestedAuthorityChangeListeners)
         {
             listener.suggestedAuthorityChangeReceived(event);
         }
     }
 
     // Failure Change
-    public static synchronized void addFailureChangeListener( FailureChangeListener l ) {
-        failureChangeListeners.add( l );
+    public static synchronized void addFailureChangeListener(FailureChangeListener l)
+    {
+        failureChangeListeners.add(l);
     }
 
-    public static synchronized void removeFailureChangeListener( FailureChangeListener l ) {
-        failureChangeListeners.remove( l );
+    public static synchronized void removeFailureChangeListener(FailureChangeListener l)
+    {
+        failureChangeListeners.remove(l);
     }
 
     private static synchronized void fireFailureChangeEvent(Object source)
     {
         FailureChangeEvent event = new FailureChangeEvent(source);
-        for(FailureChangeListener listener : failureChangeListeners)
+        for (FailureChangeListener listener : failureChangeListeners)
         {
             listener.failureChangeReceived(event);
         }
     }
 
     // Manual Switch Change
-    public static synchronized void addSwitchStateManualChangeListener(SwitchStateManualChangeListener l ) {
-        switchStateManualChangeListeners.add( l );
+    public static synchronized void addSwitchStateManualChangeListener(SwitchStateManualChangeListener l)
+    {
+        switchStateManualChangeListeners.add(l);
     }
 
-    public static synchronized void removeSwitchStateManualChangeListener(SwitchStateManualChangeListener l ) {
-        switchStateManualChangeListeners.remove( l );
+    public static synchronized void removeSwitchStateManualChangeListener(SwitchStateManualChangeListener l)
+    {
+        switchStateManualChangeListeners.remove(l);
     }
 
     protected static synchronized void fireSwitchStateManualChangeEvent(Object source)
     {
 
         SwitchStateManualChangeEvent event = new SwitchStateManualChangeEvent(source);
-        for(SwitchStateManualChangeListener listener : switchStateManualChangeListeners)
+        for (SwitchStateManualChangeListener listener : switchStateManualChangeListeners)
         {
             listener.switchStateManualChangeReceived(event);
         }
     }
 
     // Switch Change
-    public static synchronized void addSwitchStateChangeListener( SwitchStateChangeListener l ) {
-        switchStateChangeListeners.add( l );
+    public static synchronized void addSwitchStateChangeListener(SwitchStateChangeListener l)
+    {
+        switchStateChangeListeners.add(l);
     }
 
-    public static synchronized void removeSwitchStateChangeListener( SwitchStateChangeListener l ) {
-        switchStateChangeListeners.remove( l );
+    public static synchronized void removeSwitchStateChangeListener(SwitchStateChangeListener l)
+    {
+        switchStateChangeListeners.remove(l);
     }
 
     protected static synchronized void fireSwitchStateChangeEvent(Object source)
     {
         SwitchStateChangeEvent event = new SwitchStateChangeEvent(source);
-        for(SwitchStateChangeListener listener : switchStateChangeListeners)
+        for (SwitchStateChangeListener listener : switchStateChangeListeners)
         {
             listener.switchStateChangeReceived(event);
         }
     }
 
     // Request Maintenance Change
-    public static synchronized void addMaintenanceRequestListener( MaintenanceRequestListener l ) {
-        maintenanceRequestListeners.add( l );
+    public static synchronized void addMaintenanceRequestListener(MaintenanceRequestListener l)
+    {
+        maintenanceRequestListeners.add(l);
     }
 
-    public static synchronized void removeMaintenanceRequestListener( MaintenanceRequestListener l ) {
-        maintenanceRequestListeners.remove( l );
+    public static synchronized void removeMaintenanceRequestListener(MaintenanceRequestListener l)
+    {
+        maintenanceRequestListeners.remove(l);
     }
 
     protected static synchronized void fireMaintenanceRequestEvent(Object source)
     {
 
         MaintenanceRequestEvent event = new MaintenanceRequestEvent(source);
-        for(MaintenanceRequestListener listener : maintenanceRequestListeners)
+        for (MaintenanceRequestListener listener : maintenanceRequestListeners)
         {
             listener.maintenanceRequestReceived(event);
         }
     }
 
     // Maintenance Change
-    public static synchronized void addMaintenanceChangeListener( MaintenanceChangeListener l ) {
-        maintenanceChangeListeners.add( l );
+    public static synchronized void addMaintenanceChangeListener(MaintenanceChangeListener l)
+    {
+        maintenanceChangeListeners.add(l);
     }
 
-    public static synchronized void removeMaintenanceChangeListener( MaintenanceChangeListener l ) {
-        maintenanceChangeListeners.remove( l );
+    public static synchronized void removeMaintenanceChangeListener(MaintenanceChangeListener l)
+    {
+        maintenanceChangeListeners.remove(l);
     }
 
     protected static synchronized void fireMaintenanceChangeEvent(Object source)
     {
         MaintenanceChangeEvent event = new MaintenanceChangeEvent(source);
-        for(MaintenanceChangeListener listener : maintenanceChangeListeners)
+        for (MaintenanceChangeListener listener : maintenanceChangeListeners)
         {
             listener.maintenanceChangeReceived(event);
         }

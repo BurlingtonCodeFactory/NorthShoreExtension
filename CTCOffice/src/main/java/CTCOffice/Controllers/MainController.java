@@ -26,7 +26,8 @@ import javafx.util.Callback;
 import java.io.*;
 import java.util.List;
 
-public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener, ThroughputUpdateListener {
+public class MainController implements ClockTickUpdateListener, OccupancyChangeListener, MaintenanceChangeListener, SwitchStateChangeListener, ThroughputUpdateListener
+{
     @FXML
     public ChoiceBox<Integer> multiplier;
     @FXML
@@ -87,7 +88,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     private IFileService fileService;
 
     @Inject
-    public MainController(ITrackModelForCTCOffice trackModel, ITrainRepository trainRepository, ITrainModelForCTCOffice trainModel, IRouteService routeService, IFileService fileService) {
+    public MainController(ITrackModelForCTCOffice trackModel, ITrainRepository trainRepository, ITrainModelForCTCOffice trainModel, IRouteService routeService, IFileService fileService)
+    {
         this.trackModel = trackModel;
         this.trainRepository = trainRepository;
         this.trainModel = trainModel;
@@ -96,7 +98,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     }
 
     @FXML
-    public void initialize() {
+    public void initialize()
+    {
         // Set multiplier options
         multiplier.setItems(FXCollections.observableArrayList(0, 1, 2, 5, 10, 20, 50, 100));
         // Set handler for multiplier selection changes
@@ -108,7 +111,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         // Set handler for mode change
         mode.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> {
+                (observable, oldValue, newValue) ->
+                {
                     trainRepository.setMode(newValue);
                     routeService.RouteTrains(Line.GREEN);
                     routeService.RouteTrains(Line.RED);
@@ -124,17 +128,20 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         // Set handler for blockName selection changes
         blockName.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
+                (observable, oldValue, newValue) ->
+                {
                     blockOccupied.setText(Boolean.toString(newValue.getIsOccupied()));
                     blockSpeedLimit.setText(String.format("%1$.2f", newValue.getSpeedLimit() * 2.23694));
                     blockMaintenance.setText(Boolean.toString(newValue.getUnderMaintenance()));
                     blockMaintenance.setDisable(false);
 
-                    if (newValue.getBlockType() == BlockType.SWITCH) {
+                    if (newValue.getBlockType() == BlockType.SWITCH)
+                    {
                         blockSwitch.setDisable(false);
                         blockSwitch.setText(switchString((Switch) newValue));
                     }
-                    else {
+                    else
+                    {
                         blockSwitch.setDisable(true);
                         blockSwitch.setText("N/A");
                     }
@@ -154,7 +161,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         trainLine.setItems(FXCollections.observableArrayList(Line.values()));
         // Set handler for trainLine selection changes
         trainLine.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
+                (observable, oldValue, newValue) ->
+                {
                     trainIdentifier.setItems(FXCollections.observableArrayList(trainRepository.getTrains(newValue)));
                     trainStopBlock.setItems(FXCollections.observableArrayList(trackModel.getBlocks(newValue)));
                     trainAuthoritySelect.setItems(FXCollections.observableArrayList(trackModel.getBlocks(newValue)));
@@ -165,8 +173,10 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         // Set handler for trainIdentifier selection changes
         trainIdentifier.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    if (newValue != null) {
+                (observable, oldValue, newValue) ->
+                {
+                    if (newValue != null)
+                    {
                         trainLocation.textProperty().bind(newValue.getCurrentBlockProperty().asString());
                         trainDestination.textProperty().bind(newValue.getDestinationBlockProperty().asString());
                         trainSpeed.textProperty().bind(newValue.getSuggestedSpeedProperty().multiply(2.23694).asString("%.2f"));
@@ -175,16 +185,20 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
                         trainStopButton.setDisable(false);
 
-                        if (newValue.getPreviousBlock() == null) {
-                            if (!trackModel.getBlock(newValue.getLine(), 0).getIsOccupied()) {
+                        if (newValue.getPreviousBlock() == null)
+                        {
+                            if (!trackModel.getBlock(newValue.getLine(), 0).getIsOccupied())
+                            {
                                 trainDispatch.setDisable(false);
                             }
-                            else {
+                            else
+                            {
                                 trainDispatch.setDisable(true);
                             }
                             trainAuthorityButton.setDisable(true);
                         }
-                        else {
+                        else
+                        {
                             trainDispatch.setDisable(true);
                             trainAuthorityButton.setDisable(false);
                         }
@@ -193,18 +207,24 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         );
 
         // Set cell factory for trainStops
-        trainStops.setCellFactory(new Callback<ListView<Stop>, ListCell<Stop>>() {
+        trainStops.setCellFactory(new Callback<ListView<Stop>, ListCell<Stop>>()
+        {
             @Override
-            public ListCell<Stop> call(ListView<Stop> param) {
-                return new ListCell<Stop>() {
+            public ListCell<Stop> call(ListView<Stop> param)
+            {
+                return new ListCell<Stop>()
+                {
                     @Override
-                    protected void updateItem(Stop stop, boolean empty) {
+                    protected void updateItem(Stop stop, boolean empty)
+                    {
                         super.updateItem(stop, empty);
-                        if (empty) {
+                        if (empty)
+                        {
                             setText(null);
                             setGraphic(null);
                         }
-                        else {
+                        else
+                        {
                             setText(null);
 
                             final Parent parent = loadItemFxml(stop, trainIdentifier.getSelectionModel().getSelectedItem());
@@ -222,20 +242,24 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         trainCreate.setOnAction(this::trainCreateButton);
     }
 
-    public void blockMaintenanceButton(ActionEvent e) {
+    public void blockMaintenanceButton(ActionEvent e)
+    {
         Block block = blockName.getSelectionModel().selectedItemProperty().getValue();
 
-        if (block == null) {
+        if (block == null)
+        {
             return;
         }
 
         block.setSuggestMaintenance(!block.getUnderMaintenance());
     }
 
-    public void blockSwitchButton(ActionEvent e) {
+    public void blockSwitchButton(ActionEvent e)
+    {
         Block block = blockName.getSelectionModel().getSelectedItem();
 
-        if (block == null || block.getBlockType() != BlockType.SWITCH) {
+        if (block == null || block.getBlockType() != BlockType.SWITCH)
+        {
             return;
         }
 
@@ -243,7 +267,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         blockSwitch.setText(switchString((Switch) block));
     }
 
-    public void trainCreateButton(ActionEvent e) {
+    public void trainCreateButton(ActionEvent e)
+    {
         Line currentLine = trainLine.getSelectionModel().getSelectedItem();
         int newIdentifier = trainRepository.getTrains(currentLine).size() + 1;
         Train train = new Train(newIdentifier, currentLine, null, trackModel.getBlock(currentLine, 0));
@@ -254,9 +279,11 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         trainIdentifier.getSelectionModel().select(train);
     }
 
-    public void trainDispatchButton(ActionEvent e) {
+    public void trainDispatchButton(ActionEvent e)
+    {
         Line line = trainLine.getSelectionModel().getSelectedItem();
-        if (trackModel.getBlock(line, 0).getIsOccupied()) {
+        if (trackModel.getBlock(line, 0).getIsOccupied())
+        {
             return;
         }
 
@@ -270,40 +297,49 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         trainAuthorityButton.setDisable(false);
     }
 
-    public void trainSpeedSet(ActionEvent e) {
+    public void trainSpeedSet(ActionEvent e)
+    {
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
-        try {
-            double speed = Double.parseDouble(trainSpeedValue.textProperty().getValue())*0.44704;
+        try
+        {
+            double speed = Double.parseDouble(trainSpeedValue.textProperty().getValue()) * 0.44704;
             double speedLimit = train.getCurrentBlock().getSpeedLimit();
-            if (speed > speedLimit) {
+            if (speed > speedLimit)
+            {
                 train.setSuggestedSpeed(speedLimit);
 
             }
-            else if (speed < 0) {
+            else if (speed < 0)
+            {
                 train.setSuggestedSpeed(0);
             }
-            else {
+            else
+            {
                 train.setSuggestedSpeed(speed);
             }
         }
-        catch (NumberFormatException exception) {
+        catch (NumberFormatException exception)
+        {
             trainSpeedValue.textProperty().setValue("Double speed only");
         }
     }
 
-    public void trainAuthoritySet(ActionEvent e) {
+    public void trainAuthoritySet(ActionEvent e)
+    {
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
         train.setDestinationBlock(trainAuthoritySelect.getSelectionModel().getSelectedItem());
         List<Block> authority = routeService.getShortestPath(train.getPreviousBlock(), train.getCurrentBlock(), train.getDestinationBlock());
 
-        if (authority != null) {
+        if (authority != null)
+        {
             train.setSuggestedAuthority(authority);
         }
     }
 
-    public void trainStopAdd(ActionEvent e) {
+    public void trainStopAdd(ActionEvent e)
+    {
         Block block = trainStopBlock.getSelectionModel().getSelectedItem();
         Train train = trainIdentifier.getSelectionModel().getSelectedItem();
 
@@ -312,7 +348,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         routeService.RouteTrains(train.getLine());
     }
 
-    public void importScheduleButton(ActionEvent e) {
+    public void importScheduleButton(ActionEvent e)
+    {
         Stage fileStage = new Stage();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select train schedule to import");
@@ -320,9 +357,12 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
 
         File trackLayoutFile = fileChooser.showOpenDialog(fileStage);
         FileReader fileReader = null;
-        try {
+        try
+        {
             fileReader = new FileReader(trackLayoutFile);
-        } catch (FileNotFoundException e1) {
+        }
+        catch (FileNotFoundException e1)
+        {
             System.out.println("Could not read file for train schedule import.");
             return;
         }
@@ -339,66 +379,80 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
     }
 
     @Override
-    public void clockTickUpdateReceived(ClockTickUpdateEvent event) {
+    public void clockTickUpdateReceived(ClockTickUpdateEvent event)
+    {
         currentTime.setText(Double.toString(((double) event.getSource()) / 1000));
     }
 
     @Override
-    public void occupancyChangeReceived(OccupancyChangeEvent event) {
+    public void occupancyChangeReceived(OccupancyChangeEvent event)
+    {
         Block changedBlock = (Block) event.getSource();
         Block selectedBlock = blockName.getSelectionModel().getSelectedItem();
 
-        if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine()) {
+        if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine())
+        {
             blockOccupied.setText(Boolean.toString(changedBlock.getIsOccupied()));
         }
 
         Train selectedTrain = trainIdentifier.getSelectionModel().getSelectedItem();
 
-        if (selectedTrain != null && selectedTrain.getPreviousBlock() == null && !trackModel.getBlock(selectedTrain.getLine(), 0).getIsOccupied()) {
+        if (selectedTrain != null && selectedTrain.getPreviousBlock() == null && !trackModel.getBlock(selectedTrain.getLine(), 0).getIsOccupied())
+        {
             trainDispatch.setDisable(false);
         }
-        else {
+        else
+        {
             trainDispatch.setDisable(true);
         }
     }
 
     @Override
-    public void maintenanceChangeReceived(MaintenanceChangeEvent event) {
+    public void maintenanceChangeReceived(MaintenanceChangeEvent event)
+    {
         Block changedBlock = (Block) event.getSource();
         Block selectedBlock = blockName.getSelectionModel().getSelectedItem();
 
-        if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine()) {
+        if (selectedBlock != null && changedBlock.getId() == selectedBlock.getId() && changedBlock.getLine() == selectedBlock.getLine())
+        {
             blockMaintenance.setText(Boolean.toString(changedBlock.getUnderMaintenance()));
         }
     }
 
     @Override
-    public void switchStateChangeReceived(SwitchStateChangeEvent event) {
+    public void switchStateChangeReceived(SwitchStateChangeEvent event)
+    {
         Switch changedSwitch = (Switch) event.getSource();
         Block selectedBlock = blockName.getSelectionModel().getSelectedItem();
 
-        if (selectedBlock != null && changedSwitch.getId() == selectedBlock.getId() && changedSwitch.getLine() == selectedBlock.getLine()) {
+        if (selectedBlock != null && changedSwitch.getId() == selectedBlock.getId() && changedSwitch.getLine() == selectedBlock.getLine())
+        {
             System.out.println("Setting output for switch " + changedSwitch.getId());
             blockSwitch.setText(switchString(changedSwitch));
         }
     }
 
     @Override
-    public void throughputUpdateReceived(ThroughputUpdateEvent event) {
+    public void throughputUpdateReceived(ThroughputUpdateEvent event)
+    {
         System.out.println(trackModel.getPassengersDisembarked() + " / " + trackModel.getTime() / 1000 / 60 / 60 + " = " + trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60));
-        throughput.setText(String.format("%.2f",trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60)));
+        throughput.setText(String.format("%.2f", trackModel.getPassengersDisembarked() / (trackModel.getTime() / 1000 / 60 / 60)));
     }
 
-    private Parent loadItemFxml(Stop stop, Train train) {
+    private Parent loadItemFxml(Stop stop, Train train)
+    {
         FXMLLoader fxmlLoader = null;
-        try {
+        try
+        {
             fxmlLoader = new FXMLLoader(new File("./build/resources/main/fxml/StopView.fxml").toURI().toURL());
 
             StopController stopController = new StopController(stop, train);
             fxmlLoader.setController(stopController);
 
             fxmlLoader.load();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
             return null;
         }
@@ -406,7 +460,8 @@ public class MainController implements ClockTickUpdateListener, OccupancyChangeL
         return fxmlLoader.getRoot();
     }
 
-    private String switchString(Switch block) {
+    private String switchString(Switch block)
+    {
         return block.getSwitchBase() + " <-> " + (block.getSwitchState() ? block.getSwitchOne() : block.getSwitchZero());
     }
 }

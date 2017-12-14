@@ -13,15 +13,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-public class CTCOffice extends Application {
+public class CTCOffice extends Application
+{
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage)
+    {
         FXMLLoader fxmlLoader;
         try
         {
             fxmlLoader = new FXMLLoader(new File("./build/resources/main/fxml/Main.fxml").toURI().toURL());
         }
-        catch(MalformedURLException e)
+        catch (MalformedURLException e)
         {
             System.out.println("CTCOffice - .fxml malformed URL.");
             return;
@@ -35,7 +37,8 @@ public class CTCOffice extends Application {
         Block.addSwitchStateChangeListener(controller);
         fxmlLoader.setController(controller);
 
-        try {
+        try
+        {
             fxmlLoader.load();
         }
         catch (IOException e)

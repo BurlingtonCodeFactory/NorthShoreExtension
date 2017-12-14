@@ -14,13 +14,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
-public class Main extends Application {
-    public static void main(String[] args) throws Exception {
+public class Main extends Application
+{
+    public static void main(String[] args) throws Exception
+    {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception
+    {
         Stage fileStage = new Stage();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select track layout");
@@ -39,7 +42,8 @@ public class Main extends Application {
 
         TrackModel trackModel = injector.getInstance(TrackModel.class);
 
-        for (Block block : blocks) {
+        for (Block block : blocks)
+        {
             trackModel.addBlock(block);
         }
 

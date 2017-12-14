@@ -2,12 +2,16 @@ package TrackController.Models;
 
 import TrackModel.Models.Block;
 import TrackModel.TrackModel;
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockProperties {
+public class BlockProperties
+{
     private final Block block;
     private final TrackModel track;
 
@@ -17,29 +21,35 @@ public class BlockProperties {
         this.track = track;
     }
 
-    private BooleanProperty occupied = new SimpleBooleanProperty() {
+    private BooleanProperty occupied = new SimpleBooleanProperty()
+    {
         @Override
-        public void set(boolean v) {
+        public void set(boolean v)
+        {
             super.set(v);
             block.setIsOccupied(v);
         }
     };
 
-    private StringProperty suggestedSpeed = new SimpleStringProperty() {
+    private StringProperty suggestedSpeed = new SimpleStringProperty()
+    {
         @Override
-        public void set(String v) {
+        public void set(String v)
+        {
             super.set(v);
             block.setSuggestedSpeed(Double.parseDouble(v));
         }
     };
 
-    private StringProperty suggestedAuthority = new SimpleStringProperty() {
+    private StringProperty suggestedAuthority = new SimpleStringProperty()
+    {
         @Override
-        public void setValue(String v) {
+        public void setValue(String v)
+        {
             super.setValue(v);
             String[] blocks = v.split(",");
             List<Block> authority = new ArrayList<>();
-            for(String b : blocks)
+            for (String b : blocks)
             {
                 int number = Integer.parseInt(b);
                 authority.add(track.getBlock(block.getLine(), number));
@@ -49,51 +59,73 @@ public class BlockProperties {
         }
     };
 
-    private BooleanProperty failure = new SimpleBooleanProperty() {
+    private BooleanProperty failure = new SimpleBooleanProperty()
+    {
         @Override
-        public void set(boolean v) {
+        public void set(boolean v)
+        {
             super.set(v);
             block.setFailed(v);
         }
     };
 
-    public final boolean getOccupied() {
+    public final boolean getOccupied()
+    {
         return occupied.get();
     }
-    public final void setOccupied(boolean value) {
+
+    public final void setOccupied(boolean value)
+    {
         occupied.set(value);
     }
-    public BooleanProperty occupiedProperty() {
+
+    public BooleanProperty occupiedProperty()
+    {
         return occupied;
     }
 
-    public final String getSuggestedSpeed() {
+    public final String getSuggestedSpeed()
+    {
         return suggestedSpeed.get();
     }
-    public final void setSuggestedSpeed(String value) {
+
+    public final void setSuggestedSpeed(String value)
+    {
         suggestedSpeed.set(value);
     }
-    public StringProperty suggestedSpeedProperty() {
+
+    public StringProperty suggestedSpeedProperty()
+    {
         return suggestedSpeed;
     }
 
-    public final String getSuggestedAuthority() {
+    public final String getSuggestedAuthority()
+    {
         return suggestedAuthority.get();
     }
-    public final void setOccupied(String value) {
+
+    public final void setOccupied(String value)
+    {
         suggestedAuthority.set(value);
     }
-    public StringProperty suggestedAuthorityProperty() {
+
+    public StringProperty suggestedAuthorityProperty()
+    {
         return suggestedAuthority;
     }
 
-    public final boolean getFailure() {
+    public final boolean getFailure()
+    {
         return failure.get();
     }
-    public final void setFailure(boolean value) {
+
+    public final void setFailure(boolean value)
+    {
         failure.set(value);
     }
-    public BooleanProperty failureProperty() {
+
+    public BooleanProperty failureProperty()
+    {
         return failure;
     }
 

@@ -1,5 +1,6 @@
 package TrackModel.Events;
 
-public interface ThroughputUpdateListener {
+public interface ThroughputUpdateListener
+{
     void throughputUpdateReceived(ThroughputUpdateEvent event);
 }

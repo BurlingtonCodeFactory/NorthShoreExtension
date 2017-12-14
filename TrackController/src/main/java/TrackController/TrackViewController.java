@@ -2,30 +2,28 @@ package TrackController;
 
 import TrackController.Events.RefreshUIEvent;
 import TrackController.Events.RefreshUIListener;
-import TrackModel.*;
+import TrackController.Models.TrackController;
+import TrackController.PLC.PLC;
 import TrackModel.Models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import TrackController.Models.*;
-import TrackController.PLC.PLC;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
-import javax.sound.midi.Track;
-
-public class TrackViewController implements RefreshUIListener{
+public class TrackViewController implements RefreshUIListener
+{
 
     @FXML
     ListView<TrackController> controllerList;
@@ -113,7 +111,8 @@ public class TrackViewController implements RefreshUIListener{
     {
         System.out.println("Here in TRack Controller init");
         List<TrackController> controllersList = new ArrayList<>();
-        for (TrackController controller: manager.controllers) {
+        for (TrackController controller : manager.controllers)
+        {
             controllersList.add(controller);
         }
         controllersView.addAll(controllersList);
@@ -121,18 +120,19 @@ public class TrackViewController implements RefreshUIListener{
         selectedController = manager.controllers.get(0);
 
         lineColumn.setCellValueFactory(new PropertyValueFactory<Block, Line>("line"));
-        numberColumn.setCellValueFactory(new PropertyValueFactory<Block,Integer>("id"));
+        numberColumn.setCellValueFactory(new PropertyValueFactory<Block, Integer>("id"));
         infrastructureColumn.setCellValueFactory(new PropertyValueFactory<Block, BlockType>("BlockType"));
 
         controllerSelected(null);
 
     }
 
-    @FXML public void controllerSelected(MouseEvent arg0)
+    @FXML
+    public void controllerSelected(MouseEvent arg0)
     {
         selectedController = controllerList.getSelectionModel().getSelectedItem();
 
-        if(selectedController == null)
+        if (selectedController == null)
         {
             selectedController = manager.controllers.get(0);
         }
@@ -144,7 +144,7 @@ public class TrackViewController implements RefreshUIListener{
 
         String plcString = "";
         File file;
-        if(System.getProperty("user.dir").endsWith("System"))
+        if (System.getProperty("user.dir").endsWith("System"))
         {
             file = new File("./build/resources/main/" + selectedController.plc.filename);
         }
@@ -152,12 +152,13 @@ public class TrackViewController implements RefreshUIListener{
         {
             file = new File("./build/resources/main/" + selectedController.plc.filename);
         }
-        try {
+        try
+        {
             Scanner scanner = new Scanner(file);
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
             System.out.println("File not found");
@@ -173,7 +174,8 @@ public class TrackViewController implements RefreshUIListener{
         blockSelected = blockList.getItems().get(0);
     }
 
-    @FXML public void blockSelected(MouseEvent arg0)
+    @FXML
+    public void blockSelected(MouseEvent arg0)
     {
         blockSelected = blockList.getSelectionModel().getSelectedItem();
         refreshUI();
@@ -182,19 +184,19 @@ public class TrackViewController implements RefreshUIListener{
     @FXML
     public void refreshUI()
     {
-        if(blockSelected == null)
+        if (blockSelected == null)
         {
             blockSelected = blockList.getItems().get(0);
         }
         blockNumber.setText(String.valueOf(blockSelected.getId()));
         blockLine.setText(blockSelected.getLine().toString());
         blockInfrastructure.setText(blockSelected.getBlockType().toString());
-        blockSize.setText(String.valueOf(blockSelected.getLength())+" feet");
-        blockSpeed.setText(String.valueOf(blockSelected.getCommandedSpeed()*2.23694)+"mph");
-        if(blockSelected.getCommandedAuthority() != null)
+        blockSize.setText(String.valueOf(blockSelected.getLength()) + " feet");
+        blockSpeed.setText(String.valueOf(blockSelected.getCommandedSpeed() * 2.23694) + "mph");
+        if (blockSelected.getCommandedAuthority() != null)
         {
             blockAuthority.setText(String.valueOf(blockSelected.getCommandedAuthority().size()) +
-                    (blockSelected.getCommandedAuthority().size() == 1 ? " block" : " blocks" ));
+                                   (blockSelected.getCommandedAuthority().size() == 1 ? " block" : " blocks"));
         }
         else
         {
@@ -207,19 +209,19 @@ public class TrackViewController implements RefreshUIListener{
         blockPowerFailure.setText(blockSelected.getPowerFailed() ? "Yes" : "No");
         blockOccupancy.setText(blockSelected.getIsOccupied() ? "Train" : "Free");
 
-        if(blockSelected.getBlockType() == BlockType.SWITCH)
+        if (blockSelected.getBlockType() == BlockType.SWITCH)
         {
             Switch switchBlock = (Switch) blockSelected;
             blockSwitchPosition.setText(switchBlock.getSwitchState() ?
-                    String.valueOf(switchBlock.getSwitchOne()):
-                    String.valueOf(switchBlock.getSwitchZero()));
+                                        String.valueOf(switchBlock.getSwitchOne()) :
+                                        String.valueOf(switchBlock.getSwitchZero()));
         }
         else
         {
             blockSwitchPosition.setText("N/A");
         }
 
-        if(blockSelected.getBlockType() == BlockType.CROSSING)
+        if (blockSelected.getBlockType() == BlockType.CROSSING)
         {
             Crossing crossingBlock = (Crossing) blockSelected;
             blockCrossingBar.setText(crossingBlock.isCrossingOn() == true ? "On" : "Off");
@@ -233,13 +235,15 @@ public class TrackViewController implements RefreshUIListener{
 
     }
 
-    @FXML public void switchOccupancy(MouseEvent arg0)
+    @FXML
+    public void switchOccupancy(MouseEvent arg0)
     {
 
 
     }
 
-    @FXML public void switchFailure(MouseEvent arg0)
+    @FXML
+    public void switchFailure(MouseEvent arg0)
     {
         /*
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
@@ -250,7 +254,8 @@ public class TrackViewController implements RefreshUIListener{
         */
     }
 
-    @FXML public void switchAuthority(MouseEvent arg0)
+    @FXML
+    public void switchAuthority(MouseEvent arg0)
     {
         /*
         Block blockSelected = blockList.getSelectionModel().getSelectedItem();
@@ -276,11 +281,12 @@ public class TrackViewController implements RefreshUIListener{
                 */
     }
 
-    @FXML public void plcSelected(MouseEvent arg0)
+    @FXML
+    public void plcSelected(MouseEvent arg0)
     {
         String plcName = plcList.getSelectionModel().getSelectedItem();
         File file;
-        if(System.getProperty("user.dir").endsWith("System"))
+        if (System.getProperty("user.dir").endsWith("System"))
         {
             file = new File("./build/resources/main/" + plcName);
         }
@@ -291,12 +297,13 @@ public class TrackViewController implements RefreshUIListener{
 
 
         String plcString = "";
-        try {
+        try
+        {
             Scanner scanner = new Scanner(file);
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }
-        catch(FileNotFoundException e)
+        catch (FileNotFoundException e)
         {
             System.out.println("File not found");
         }
@@ -313,16 +320,16 @@ public class TrackViewController implements RefreshUIListener{
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PLC files (*.plc)", "*.plc"));
 
         File plcFile = fileChooser.showOpenDialog(fileStage);
-        if(plcFile == null)
+        if (plcFile == null)
         {
             return;
         }
-        File destSystem = new File("./build/resources/main/"+plcFile.getName());
-        File destTC = new File("./build/resources/main/"+plcFile.getName());
+        File destSystem = new File("./build/resources/main/" + plcFile.getName());
+        File destTC = new File("./build/resources/main/" + plcFile.getName());
 
         try
         {
-            if(!destSystem.exists())
+            if (!destSystem.exists())
             {
                 Files.copy(plcFile.toPath(), destSystem.toPath());
                 Files.copy(plcFile.toPath(), destTC.toPath());
@@ -334,13 +341,14 @@ public class TrackViewController implements RefreshUIListener{
             plcNames.addAll(plcFileNames);
             plcList.setItems(plcNames);
         }
-        catch(IOException e)
+        catch (IOException e)
         {
             System.out.println("File not found");
         }
     }
 
-    @FXML public void plcActivated(MouseEvent arg0)
+    @FXML
+    public void plcActivated(MouseEvent arg0)
     {
 
         String plcName = plcList.getSelectionModel().getSelectedItem();
@@ -348,11 +356,12 @@ public class TrackViewController implements RefreshUIListener{
         selectedController.evaluateBlocks();
     }
 
-    @FXML public void flipSwitch(MouseEvent arg0)
+    @FXML
+    public void flipSwitch(MouseEvent arg0)
     {
-        if(blockSelected instanceof Switch)
+        if (blockSelected instanceof Switch)
         {
-            System.out.println("Flipping switch "+blockSelected.getId());
+            System.out.println("Flipping switch " + blockSelected.getId());
             Switch switchBlock = (Switch) blockSelected;
             switchBlock.setSwitchStateManual(!switchBlock.getSwitchState());
         }
@@ -362,7 +371,8 @@ public class TrackViewController implements RefreshUIListener{
 
 
     @Override
-    public void refreshUIReceived(RefreshUIEvent event) {
+    public void refreshUIReceived(RefreshUIEvent event)
+    {
         refreshUI();
     }
 }

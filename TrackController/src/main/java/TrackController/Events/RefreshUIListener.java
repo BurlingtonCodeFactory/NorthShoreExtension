@@ -1,5 +1,6 @@
 package TrackController.Events;
 
-public interface RefreshUIListener {
+public interface RefreshUIListener
+{
     void refreshUIReceived(RefreshUIEvent event);
 }

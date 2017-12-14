@@ -2,8 +2,6 @@ package TrainController;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,10 +17,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-public class GUIController {
+public class GUIController
+{
 
     @FXML
     public GridPane individual_view_pane;
@@ -39,41 +37,44 @@ public class GUIController {
     private MediaPlayer mediaPlayer;
     private AudioClip whistle;
 
-    public GUIController(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames) {
+    public GUIController(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames)
+    {
         this.trainControllers = trainControllers;
         this.trainNames = trainNames;
 
     }
 
     @FXML
-    public void initialize() throws Exception{
+    public void initialize() throws Exception
+    {
         groupViewGrid.setPrefWidth(groupViewScroll.getPrefWidth());
         groupViewScroll.setContent(groupViewGrid);
 
         whistle = new AudioClip(new File("../TrainController/src/main/resources/whistle.mp3").toURI().toURL().toString());
-        
+
     }
 
 
-    private void addGauges() {
+    private void addGauges()
+    {
         commanded_velocity_gauge = GaugeBuilder.create()
-                .title("Commanded Velocity")
-                .unit("MPH")
-                .maxValue(44)
-                .build();
+                                               .title("Commanded Velocity")
+                                               .unit("MPH")
+                                               .maxValue(44)
+                                               .build();
 
         current_velocity_gauge = GaugeBuilder.create()
-                .title("Current Velocity")
-                .unit("MPH")
-                .maxValue(44)
-                .build();
+                                             .title("Current Velocity")
+                                             .unit("MPH")
+                                             .maxValue(44)
+                                             .build();
 
 
         power_gauge = GaugeBuilder.create()
-                .title("Power Output")
-                .unit("KW")
-                .maxValue(120)
-                .build();
+                                  .title("Power Output")
+                                  .unit("KW")
+                                  .maxValue(120)
+                                  .build();
 
         individual_view_pane.add(commanded_velocity_gauge, 1, 1);
         individual_view_pane.add(current_velocity_gauge, 2, 1);
@@ -81,31 +82,36 @@ public class GUIController {
     }
 
 
+    public void changeDisplay(String trainName)
+    {
 
-
-
-    public void changeDisplay(String trainName){
-
-        try {
+        try
+        {
             commanded_velocity_gauge.valueProperty().unbind();
             current_velocity_gauge.valueProperty().unbind();
             power_gauge.valueProperty().unbind();
-        } catch (NullPointerException n){}
+        }
+        catch (NullPointerException n)
+        {
+        }
 
         int i = trainNames.indexOf(trainName);
 
-        try {
+        try
+        {
             TrainController trainController = trainControllers.get(i);
 
 
-
-        }catch (ArrayIndexOutOfBoundsException e){}
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+        }
 
     }
 
 
-
-    public void addTrainController(TrainController train) {
+    public void addTrainController(TrainController train)
+    {
         System.out.println("addtrain");
 
         trainControllers.add(train);
@@ -120,13 +126,14 @@ public class GUIController {
 
         groupViewGrid.getRowConstraints().add(constraints);
         groupViewGrid.addRow(trainControllers.size());
-        groupViewGrid.add(anchor, 0, trainControllers.size()-1);
+        groupViewGrid.add(anchor, 0, trainControllers.size() - 1);
         createIndividualDisplay(anchor, train);
 
 
-
     }
-    public void deleteTrainController(TrainController train) {
+
+    public void deleteTrainController(TrainController train)
+    {
         trainControllers.remove(train);
         trainNames.remove(train.name);
         /*for(TrainControllerGroupDisplay d : trainControllerDisplayObservableList){
@@ -138,7 +145,8 @@ public class GUIController {
 
     }
 
-    public void createIndividualDisplay(AnchorPane anchor, TrainController trainController){
+    public void createIndividualDisplay(AnchorPane anchor, TrainController trainController)
+    {
         Gauge command_gauge;
         Gauge speed_gauge;
         Gauge power_gauge;
@@ -154,59 +162,65 @@ public class GUIController {
         String trainName;
         trainName = trainController.name;
         pane = new GridPane();
-        setConst(pane, 1,6);
+        setConst(pane, 1, 6);
         pane.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         String com_gauge_str = "Commanded Velocity";
         String vel_gauge_str = "Current Velocity";
         String pwr_gauge_str = "Power Output";
 
         command_gauge = GaugeBuilder.create()
-                .maxValue(44.0)
-                .title(com_gauge_str)
-                .unit("MPH")
-                .prefHeight(200)
-                .prefWidth(200)
-                .build();
+                                    .maxValue(44.0)
+                                    .title(com_gauge_str)
+                                    .unit("MPH")
+                                    .prefHeight(200)
+                                    .prefWidth(200)
+                                    .build();
 
         speed_gauge = GaugeBuilder.create()
-                .maxValue(44.0)
-                .title(vel_gauge_str)
-                .unit("MPH")
-                .prefHeight(200)
-                .prefWidth(200)
-                .build();
+                                  .maxValue(44.0)
+                                  .title(vel_gauge_str)
+                                  .unit("MPH")
+                                  .prefHeight(200)
+                                  .prefWidth(200)
+                                  .build();
 
         power_gauge = GaugeBuilder.create()
-                .maxValue(120)
-                .title(pwr_gauge_str)
-                .unit("KW")
-                .prefHeight(200)
-                .prefWidth(200)
-                .build();
+                                  .maxValue(120)
+                                  .title(pwr_gauge_str)
+                                  .unit("KW")
+                                  .prefHeight(200)
+                                  .prefWidth(200)
+                                  .build();
 
-        trainController.getCurrentVelocityProperty().addListener(new ChangeListener<Number>() {
+        trainController.getCurrentVelocityProperty().addListener(new ChangeListener<Number>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                speed_gauge.setValue(newValue.doubleValue()*2.2369);
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
+                speed_gauge.setValue(newValue.doubleValue() * 2.2369);
             }
         });
 
-        trainController.getPowerProperty().addListener(new ChangeListener<Number>() {
+        trainController.getPowerProperty().addListener(new ChangeListener<Number>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                power_gauge.setValue(newValue.doubleValue()/1000);
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
+                power_gauge.setValue(newValue.doubleValue() / 1000);
             }
         });
 
-        trainController.getSetpointVelocityProperty().addListener(new ChangeListener<Number>() {
+        trainController.getSetpointVelocityProperty().addListener(new ChangeListener<Number>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                command_gauge.setValue(newValue.doubleValue()*2.2369);
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
+                command_gauge.setValue(newValue.doubleValue() * 2.2369);
             }
         });
         pane.add(command_gauge, 0, 0);
-        pane.add(speed_gauge, 1,0);
-        pane.add(power_gauge, 2,0);
+        pane.add(speed_gauge, 1, 0);
+        pane.add(power_gauge, 2, 0);
 
         GridPane pane_one = new GridPane();
         ColumnConstraints col_one = new ColumnConstraints();
@@ -222,14 +236,14 @@ public class GUIController {
         pane_one.addRow(6);
         pane_one.setPrefSize(200, 200);
 
-        setConst(pane, 2,1);
+        setConst(pane, 2, 1);
         Font font = new Font("Arial", 16);
 
         Label train_name = new Label();
         train_name.setText("Train Name:");
         train_name.setFont(font);
 
-        pane_one.add(train_name, 0,0);
+        pane_one.add(train_name, 0, 0);
         train_name.setAlignment(Pos.TOP_CENTER);
         name = new TextField(trainController.name);
 
@@ -244,11 +258,10 @@ public class GUIController {
         authority = new TextField();
 
         authority.textProperty().bind(trainController.getAuthorityProperty().multiply(1.09).asString("%.3f"));
-        pane_one.add(auth_label, 0,2);
+        pane_one.add(auth_label, 0, 2);
 
 
         pane_one.add(authority, 0, 3);
-
 
 
         TextField temp = new TextField();
@@ -259,17 +272,22 @@ public class GUIController {
         tempValue.setAlignment(Pos.CENTER);
         Button tempSubmit = new Button("Change Temp");
 
-        tempSubmit.setOnAction(new EventHandler<ActionEvent>() {
+        tempSubmit.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
-               try {
-                   double temp = Double.parseDouble(tempValue.getText());
+            public void handle(ActionEvent event)
+            {
+                try
+                {
+                    double temp = Double.parseDouble(tempValue.getText());
 
 
-                   trainController.setDesiredCabinTemp(temp);
-               } catch (NumberFormatException n){
+                    trainController.setDesiredCabinTemp(temp);
+                }
+                catch (NumberFormatException n)
+                {
 
-               }
+                }
             }
         });
         tempSubmit.setAlignment(Pos.CENTER);
@@ -278,7 +296,7 @@ public class GUIController {
         pane_one.add(tempValue, 0, 5);
         pane_one.add(tempSubmit, 0, 6);
 
-        pane.add(pane_one, 3,0);
+        pane.add(pane_one, 3, 0);
 
         GridPane pane_two = new GridPane();
         pane_two.setPrefSize(200, 200);
@@ -287,7 +305,7 @@ public class GUIController {
 
         Label door_label = new Label();
         door_label.setText("The next station has doors on the:");
-        Font font_two = new Font("Arial",  12);
+        Font font_two = new Font("Arial", 12);
         door_label.setFont(font_two);
         door_label.setAlignment(Pos.CENTER);
         pane_two.add(door_label, 0, 0);
@@ -295,7 +313,7 @@ public class GUIController {
 
         TextField door_field = new TextField();
         door_field.textProperty().bind(trainController.getDoorSide());
-        pane_two.add(door_field,0,1);
+        pane_two.add(door_field, 0, 1);
         door_field.setAlignment(Pos.CENTER);
 
         left_door = new ToggleButton();
@@ -318,19 +336,19 @@ public class GUIController {
         lights.setText("Lights On");
         lights.setAlignment(Pos.CENTER);
 
-        pane_two.add(left_door,0,2);
-        pane_two.add(right_door, 0,3);
+        pane_two.add(left_door, 0, 2);
+        pane_two.add(right_door, 0, 3);
         pane_two.add(lights, 0, 4);
         pane_two.add(auto_button, 0, 5);
         Button whistleButton = new Button("Train Whistle");
-        whistleButton.setOnAction(new EventHandler<ActionEvent>() {
+        whistleButton.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 whistle.play();
             }
         });
-
-
 
 
         pane_two.add(whistleButton, 0, 6);
@@ -365,10 +383,13 @@ public class GUIController {
         velocity_select.setSnapToTicks(true);
         velocity_select.orientationProperty().setValue(Orientation.VERTICAL);
 
-        velocity_select.valueProperty().addListener(new ChangeListener<Number>() {
+        velocity_select.valueProperty().addListener(new ChangeListener<Number>()
+        {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if(!trainController.getAutoModeProperty().getValue()) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
+                if (!trainController.getAutoModeProperty().getValue())
+                {
                     trainController.calcSetpointVelocity(newValue.doubleValue());
                 }
             }
@@ -399,33 +420,36 @@ public class GUIController {
         serviceBrake.selectedProperty().bindBidirectional(trainController.getServiceBrakeProperty());
 
 
-        smallPane.add(e_brake, 0,0);
-        smallPane.add(serviceBrake,0,1);
+        smallPane.add(e_brake, 0, 0);
+        smallPane.add(serviceBrake, 0, 1);
 
 
-        pane_three.add(smallPane, 1,0);
+        pane_three.add(smallPane, 1, 0);
 
         RowConstraints row_three_two = new RowConstraints();
         row_three_two.setPercentHeight(10);
         pane_three.getRowConstraints().add(row_three_two);
-        pane_three.add(vel_label, 0,1);
+        pane_three.add(vel_label, 0, 1);
 
-        pane.add(pane_three, 5,0);
+        pane.add(pane_three, 5, 0);
 
         anchor.getChildren().add(pane);
     }
 
-    public void setConst(GridPane pane, int rowNum, int colNum){
+    public void setConst(GridPane pane, int rowNum, int colNum)
+    {
         double height = pane.getPrefHeight();
         double width = pane.getPrefWidth();
-        for(int i =0; i< rowNum; i++){
+        for (int i = 0; i < rowNum; i++)
+        {
             RowConstraints rowConst = new RowConstraints();
             rowConst.setPercentHeight(height / rowNum);
             pane.getRowConstraints().add(rowConst);
         }
-        for(int i =0; i< colNum; i++){
+        for (int i = 0; i < colNum; i++)
+        {
             ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(width /colNum);
+            colConst.setPercentWidth(width / colNum);
             pane.getColumnConstraints().add(colConst);
         }
     }

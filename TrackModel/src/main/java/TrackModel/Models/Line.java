@@ -1,5 +1,6 @@
 package TrackModel.Models;
 
-public enum Line {
+public enum Line
+{
     GREEN, RED
 }

@@ -2,7 +2,8 @@ package TrackModel.Interfaces;
 
 import TrackModel.Models.Line;
 
-public interface ITrackModelForTrainModel {
+public interface ITrackModelForTrainModel
+{
 
     public double getLengthByID(int ID, Line line);
 

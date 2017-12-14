@@ -1,5 +1,6 @@
 package TrackModel.Events;
 
-public interface MaintenanceChangeListener {
+public interface MaintenanceChangeListener
+{
     void maintenanceChangeReceived(MaintenanceChangeEvent event);
 }

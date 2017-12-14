@@ -2,10 +2,10 @@ package TrackController;
 
 
 import com.google.inject.Injector;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class TrackControllerModule {
+public class TrackControllerModule
+{
     protected static Injector injector;
 
     public TrackControllerModule(Injector injector)

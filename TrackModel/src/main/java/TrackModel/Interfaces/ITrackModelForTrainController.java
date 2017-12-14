@@ -5,6 +5,7 @@ import TrackModel.Models.Line;
 
 import java.util.List;
 
-public interface ITrackModelForTrainController {
+public interface ITrackModelForTrainController
+{
     List<Block> getBlocks(Line line);
 }

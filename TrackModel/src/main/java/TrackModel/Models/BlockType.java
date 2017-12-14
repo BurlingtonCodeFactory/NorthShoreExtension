@@ -1,5 +1,6 @@
 package TrackModel.Models;
 
-public enum BlockType {
+public enum BlockType
+{
     STANDARD, SWITCH, CROSSING, STATION
 }

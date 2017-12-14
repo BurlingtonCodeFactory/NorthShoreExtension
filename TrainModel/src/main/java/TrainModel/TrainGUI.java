@@ -4,13 +4,13 @@ package TrainModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.File;
 
-public class TrainGUI extends Application{
+public class TrainGUI extends Application
+{
 
     private Train train;
 
@@ -20,7 +20,8 @@ public class TrainGUI extends Application{
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage)
+    {
         //Open and Initialize Train UI
         try
         {
@@ -44,7 +45,7 @@ public class TrainGUI extends Application{
             primaryStage.setTitle("Train " + train.getID());
             primaryStage.show();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

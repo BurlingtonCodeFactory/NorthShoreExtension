@@ -3,7 +3,8 @@ package TrackModel.Models;
 import java.util.List;
 import java.util.Objects;
 
-public class Switch extends Block {
+public class Switch extends Block
+{
     private boolean switchState;
     private int switchZero;
     private int switchOne;
@@ -18,7 +19,8 @@ public class Switch extends Block {
         this.switchBase = switchBase;
     }
 
-    public Switch(Block block, int switchZero, int switchOne, int switchBase) {
+    public Switch(Block block, int switchZero, int switchOne, int switchBase)
+    {
         super(block.getId(), block.getLine(), block.getBlockType(), block.getBeacon(), block.getCoefficientFriction(), block.getConnectedBlocks(), block.getElevation(), block.getGrade(), block.getIsBidirectional(), block.getIsUnderground(), block.getLength(), block.getSpeedLimit());
         this.switchState = false;
         this.switchZero = switchZero;
@@ -43,7 +45,8 @@ public class Switch extends Block {
         return switchOne;
     }
 
-    public int getSwitchBase() {
+    public int getSwitchBase()
+    {
         return switchBase;
     }
 
@@ -66,19 +69,30 @@ public class Switch extends Block {
     //</editor-fold>
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        if (!super.equals(o))
+        {
+            return false;
+        }
         Switch aSwitch = (Switch) o;
         return switchState == aSwitch.switchState &&
-                switchZero == aSwitch.switchZero &&
-                switchOne == aSwitch.switchOne &&
-                switchBase == aSwitch.switchBase;
+               switchZero == aSwitch.switchZero &&
+               switchOne == aSwitch.switchOne &&
+               switchBase == aSwitch.switchBase;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(super.hashCode(), switchState, switchZero, switchOne, switchBase);
     }
 }

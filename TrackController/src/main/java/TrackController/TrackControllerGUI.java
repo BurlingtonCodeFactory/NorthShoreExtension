@@ -31,36 +31,33 @@
  */
 package TrackController;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import TrackModel.Models.Block;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import TrackController.Models.*;
 
-public class TrackControllerGUI extends Application {
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class TrackControllerGUI extends Application
+{
 
     private final TrackControllerManager manager;
 
     public TrackControllerGUI(TrackControllerManager manager)
     {
-        this.manager =  manager;
+        this.manager = manager;
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
+    public void start(Stage primaryStage)
+    {
+        try
+        {
             FXMLLoader loader;
-            if(System.getProperty("user.dir").endsWith("System"))
+            if (System.getProperty("user.dir").endsWith("System"))
             {
                 loader = new FXMLLoader(new File("./build/resources/main/fxml/TrackController.fxml").toURI().toURL());
             }
@@ -76,7 +73,9 @@ public class TrackControllerGUI extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Track Controller");
             primaryStage.show();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             Logger.getLogger(TrackControllerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

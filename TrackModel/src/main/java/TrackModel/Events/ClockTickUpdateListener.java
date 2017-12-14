@@ -1,5 +1,6 @@
 package TrackModel.Events;
 
-public interface ClockTickUpdateListener {
+public interface ClockTickUpdateListener
+{
     void clockTickUpdateReceived(ClockTickUpdateEvent event);
 }

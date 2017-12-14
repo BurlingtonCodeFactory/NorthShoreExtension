@@ -2,30 +2,28 @@ package TrainController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import static javafx.application.Application.launch;
-
-public class LaunchGUI extends Application {
+public class LaunchGUI extends Application
+{
     private ArrayList<TrainController> trainControllers;
     private ArrayList<String> trainNames;
     private GUIController controller;
 
-    public LaunchGUI(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames) {
+    public LaunchGUI(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames)
+    {
         this.trainControllers = trainControllers;
         this.trainNames = trainNames;
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception
+    {
 
 
         FXMLLoader loader = new FXMLLoader(new File("./build/resources/main/fxml/TrainControllerUI.fxml").toURI().toURL());
@@ -38,7 +36,8 @@ public class LaunchGUI extends Application {
         primaryStage.show();
     }
 
-    public GUIController getController(){
+    public GUIController getController()
+    {
         return controller;
     }
 }

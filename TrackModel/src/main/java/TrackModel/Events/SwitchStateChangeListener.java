@@ -1,6 +1,7 @@
 package TrackModel.Events;
 
-public interface SwitchStateChangeListener {
+public interface SwitchStateChangeListener
+{
     void switchStateChangeReceived(SwitchStateChangeEvent event);
 }
 

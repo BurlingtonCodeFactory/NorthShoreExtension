@@ -8,7 +8,8 @@ import TrackModel.Models.Line;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackController {
+public class TrackController
+{
     public int id;
     public String name;
     public List<Block> blocks;

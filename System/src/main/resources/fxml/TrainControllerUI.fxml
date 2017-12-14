@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.collections.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: &quot;lightblue&quot;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
-  <children>
-    <TabPane layoutX="0.0" layoutY="0.0" prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
-      <tabs>
-        <Tab id="group_tab" style="-fx-background-color: &quot;lightblue&quot;" text="Group View">
-          <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: &quot;lightblue&quot;">
-              <children>
-                <ScrollPane fx:id="groupViewScroll" content="$null" layoutX="0.0" layoutY="0.0" prefHeight="769.0" prefWidth="1200.0" style="-fx-background-color: &quot;lightblue&quot;" />
-              </children>
-            </AnchorPane>
-          </content>
-        </Tab>
-      </tabs>
-    </TabPane>
-  </children>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+            prefWidth="1200.0" style="-fx-background-color: &quot;lightblue&quot;" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/2.2">
+    <children>
+        <TabPane layoutX="0.0" layoutY="0.0" prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab id="group_tab" style="-fx-background-color: &quot;lightblue&quot;" text="Group View">
+                    <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
+                                    style="-fx-background-color: &quot;lightblue&quot;">
+                            <children>
+                                <ScrollPane fx:id="groupViewScroll" content="$null" layoutX="0.0" layoutY="0.0"
+                                            prefHeight="769.0" prefWidth="1200.0"
+                                            style="-fx-background-color: &quot;lightblue&quot;"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
 </AnchorPane>
