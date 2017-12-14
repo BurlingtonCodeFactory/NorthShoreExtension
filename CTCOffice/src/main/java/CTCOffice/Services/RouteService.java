@@ -59,7 +59,7 @@ public class RouteService implements IRouteService {
                 }
 
                 Block neighbor = trackModel.getBlock(currentBlock.getLine(), neighborId);
-                if (!distance.containsKey(neighbor) && !neighbor.getIsOccupied() && !neighbor.getUnderMaintenance()) {
+                if (!distance.containsKey(neighbor) && !neighbor.getIsOccupied() && !neighbor.getUnderMaintenance() && (neighbor.getId() != 0 || destination.getId() == 0)) {
                     distance.put(neighbor, distance.get(u) + 1);
                     previous.put(neighbor, u);
                     queue.offer(neighbor);

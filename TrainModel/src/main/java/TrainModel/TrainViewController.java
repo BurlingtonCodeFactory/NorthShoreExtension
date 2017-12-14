@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 
 public class TrainViewController  {
@@ -32,6 +33,10 @@ public class TrainViewController  {
     public TextField CARS;
     @FXML
     public TextField CABIN_TEMP;
+    @FXML
+    public TextField RIS;
+    @FXML
+    public Slider CABIN_TEMP_SLIDER;
     @FXML
     public Circle BRAKE_INDICATOR;
     @FXML
@@ -51,7 +56,7 @@ public class TrainViewController  {
     @FXML
     Rectangle LEFT_DOORS;
     @FXML
-    Rectangle RIGHTS_DOORS;
+    Rectangle RIGHT_DOORS;
     @FXML
     TextField ID;
     @FXML
@@ -73,7 +78,6 @@ public class TrainViewController  {
     @FXML
     private void initialize()
     {
-        System.out.println("Here in init");
         EMERGENCY_BRAKE.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -114,25 +118,30 @@ public class TrainViewController  {
         accelerationGauge = GaugeBuilder.create()
                 .title("Acceleration Gauge")
                 .subTitle("")
-                .unit("mph/s")
+                .unit("mph^2")
                 .build();
         accelerationGauge.setMinValue(-15.0);
         accelerationGauge.setMaxValue(15.0);
 
         ACCELERATION_GAUGE_PANE.getChildren().add(accelerationGauge);
 
+        CABIN_TEMP_SLIDER.setMin(0);
+        CABIN_TEMP_SLIDER.setMax(100);
+
         //Binding
         ID.textProperty().setValue(Integer.toString(train.getID()));
         CREW_COUNT.textProperty().setValue("1");
-        POWER.textProperty().bind(train.getPowerProperty().multiply(0.001).asString());
+        POWER.textProperty().bind(train.getPowerProperty().multiply(0.001).asString("%.2f")); //Convert W to kW and truncate
         CABIN_TEMP.textProperty().bind(train.getCabinTempProperty().asString());
-        MASS.textProperty().bind(train.getMassProperty().asString());
+        CABIN_TEMP_SLIDER.valueProperty().bind(train.getCabinTempProperty());
+        MASS.textProperty().bind(train.getMassProperty().multiply(2.2).asString("%.3f")); //Convert Kg to lbs
         CARS.textProperty().bind(train.getCarsProperty().asString());
         HEIGHT.textProperty().bind(train.getHeightProperty().asString());
         WIDTH.textProperty().bind(train.getWidthProperty().asString());
         LENGTH.textProperty().bind(train.getLengthProperty().asString());
         PASSENGER_COUNT.textProperty().bind(train.getPassengerCountProperty().asString());
-        AUTHORITY.textProperty().bind(train.getAuthorityProperty().asString());
+        AUTHORITY.textProperty().bind(train.getAuthorityRemainingProperty().multiply(0.000621371).asString("%.4f")); //Convert m to mi and truncate
+        RIS.textProperty().bind(train.getRISProperty());
 
         train.getLightsProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -170,11 +179,11 @@ public class TrainViewController  {
 
                 if(newValue)
                 {
-                    RIGHTS_DOORS.setFill(Color.GREEN);
+                    RIGHT_DOORS.setFill(Color.GREEN);
                 }
                 else
                 {
-                    RIGHTS_DOORS.setFill(Color.WHITE);
+                    RIGHT_DOORS.setFill(Color.WHITE);
                 }
             }
         });
@@ -197,16 +206,24 @@ public class TrainViewController  {
         train.getSpeedProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                speedGauge.setValue(newValue.doubleValue() * 2.23694);
+                speedGauge.setValue(newValue.doubleValue() * 2.23694); //Convert m/s to mph
             }
         });
 
         train.getAccelerationProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                accelerationGauge.setValue(newValue.doubleValue() * 2.23694);
+                accelerationGauge.setValue(newValue.doubleValue() * 2.23694); //Convert m/s^2 to mph^2
             }
         });
+
+        train.getDeleteProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue) {
+                        ((Stage) BRAKE_FAILURE.getScene().getWindow()).close();
+                    }
+                }
+        );
     }
 
     @FXML

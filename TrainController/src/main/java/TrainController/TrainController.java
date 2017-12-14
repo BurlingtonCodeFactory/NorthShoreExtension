@@ -85,7 +85,7 @@ public class TrainController {
         authorityProperty = new SimpleDoubleProperty();
         powerProperty= new SimpleDoubleProperty();
         cabinTempProperty = new SimpleStringProperty();
-        manualModeProperty = new SimpleBooleanProperty(false);
+        autoModeProperty = new SimpleBooleanProperty(true);
         doorSide = new SimpleStringProperty("");
 
 
@@ -220,18 +220,19 @@ public class TrainController {
 
 
     public void updateVelocity(double velocity){
-        //System.out.println("update stopped="+stopped + "stopwait is " + stopWait);
+        //System.out.println("update stopped="+stopped + "stopwait is " + stopWait + " velocity " + velocity);
+        //System.out.println("authority is " + authorityProperty.getValue() + " brake is " + serviceBrakeProperty.getValue() + " dist in block is " + distInBlock);
         if(stopped && velocity==0){
             stopAtStation();
             stopWait++;
             serviceBrakeProperty.setValue(true);
 
 
-        } else if (!stopped){
-            setStoppingDistance();
-            checkStopping();
         }
-        currentVelocityProperty.set(velocity);
+        setStoppingDistance();
+        checkStopping();
+
+        currentVelocityProperty.setValue(velocity);
     }
 
     public void setUnderground(boolean underground){
@@ -240,12 +241,14 @@ public class TrainController {
     }
 
     public boolean isStoppedAtStation(){
-        boolean temp = stopped;
-        if(stopped){
+        if (stopped && stopWait == 120) {
             stopped = false;
+            stopWait = 0;
+            close_doors();
+            return true;
         }
 
-        return temp;
+        return false;
     }
 
     public void stopAtStation()
@@ -258,14 +261,6 @@ public class TrainController {
             }else{
                 rightOpenDoorProperty.setValue(true);
             }
-        }
-
-
-        if(stopWait==120){
-            stopped=false;
-            stopWait = 0;
-            close_doors();
-
         }
 
         arriving=false;
@@ -295,8 +290,8 @@ public class TrainController {
 
         int prev = currentSkinnyBlock.getID();
         int next = currentSkinnyBlock.getNext();
-        //System.out.println("Moving to block " + next);
-        if(next !=-2 && next !=-1)
+        System.out.println("Moving to block " + next);
+        if(next >=0)
         {
             currentSkinnyBlock = track.get(next);
             currentSkinnyBlock.setPrev(prev);
@@ -626,7 +621,11 @@ public class TrainController {
         if(authorityProperty.getValue() ==0 && distInBlock ==0 && currentVelocityProperty.getValue()==0 ){
         }else {
             double travelDistance = currentVelocityProperty.getValue()*1.5;
-            serviceBrakeProperty.setValue(((authorityProperty.getValue() - (distInBlock + travelDistance)) <= stoppingDistance));
+            if(stopped){
+                serviceBrakeProperty.setValue(true);
+            } else {
+                serviceBrakeProperty.setValue(((authorityProperty.getValue() - (distInBlock + travelDistance)) <= stoppingDistance));
+            }
 
         }
     }
