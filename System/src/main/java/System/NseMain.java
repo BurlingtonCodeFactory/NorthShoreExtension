@@ -51,6 +51,7 @@ public class NseMain extends Application {
 
 
         for (Block block : blocks) {
+
             trackModel.addBlock(block);
         }
 

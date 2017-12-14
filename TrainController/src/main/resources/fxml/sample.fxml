@@ -8,69 +8,111 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: &quot;lightblue&quot;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="TrainController.ControllerManager">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: &quot;lightblue&quot;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
-    <GridPane fx:id="pane" layoutX="-1.0" layoutY="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0">
-      <children>
-        <ComboBox fx:id="train_select" prefHeight="41.0" prefWidth="238.0" promptText="Select A Train" GridPane.columnIndex="0" GridPane.rowIndex="0">
-          <items>
-            <FXCollections fx:factory="observableArrayList">
-              <String fx:value="Item 1" />
-              <String fx:value="Item 2" />
-              <String fx:value="Item 3" />
-            </FXCollections>
-          </items>
-        </ComboBox>
-        <Slider fx:id="emergency_brake" blockIncrement="1.0" max="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="0" orientation="VERTICAL" prefHeight="309.0" prefWidth="42.0" style="-fx-show-tick-marks: true;-fx-major-tick-unit: 1;-fx-snap-to-ticks: true;-fx-background-color: &quot;red&quot;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
-        <Label prefHeight="36.0" prefWidth="84.0" text="ON" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-        <Label prefHeight="31.0" prefWidth="84.0" text="OFF" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-          <font>
-            <Font size="14.0" fx:id="x4" />
-          </font>
-        </Label>
-        <ToggleButton fx:id="left_doors_open" mnemonicParsing="false" prefHeight="52.0" prefWidth="178.0" text="Open Left Doors" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-          <font>
-            <Font size="18.0" fx:id="x1" />
-          </font>
-        </ToggleButton>
-        <ToggleButton fx:id="Right_doors_open" font="$x1" mnemonicParsing="false" prefHeight="52.0" prefWidth="186.0" text="Open Right Doors" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BASELINE" />
-        <ToggleButton fx:id="lights_select" mnemonicParsing="false" prefHeight="64.0" prefWidth="120.0" text="Lights On" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-          <font>
-            <Font size="16.0" fx:id="x2" />
-          </font>
-        </ToggleButton>
-        <ToggleButton fx:id="Auto_button" font="$x2" mnemonicParsing="false" prefHeight="52.0" prefWidth="170.0" text="Automatic Mode" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-        <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" font="$x1" prefHeight="87.0" prefWidth="135.0" text="Authority" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-        <Label alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" font="$x1" prefHeight="52.0" prefWidth="120.0" text="Current Train" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP" />
-        <Slider fx:id="velocity_select" blockIncrement="1.0" majorTickUnit="2.0" max="44.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="108.0" showTickLabels="true" snapToTicks="true" style="-fx-show-tick-marks: true;-fx-tick-major-unit: 10;-fx-minor-tick-count: 1;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="3" GridPane.valignment="CENTER" />
-        <Label text="EMERGENCY BRAKE" textFill="#cc0000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-          <font>
-            <Font name="System Bold" size="12.0" />
-          </font>
-        </Label>
-        <TextField fx:id="current_train" prefHeight="52.0" prefWidth="240.0" style="-fx-font-size: 18px;" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-        <TextField fx:id="authority_display" prefHeight="52.0" prefWidth="240.0" style="-fx-font-size: 18px;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <Label alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="84.0" text="Velocity Select (MPH)" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-          <font>
-            <Font name="System Bold" size="18.0" />
-          </font>
-        </Label>
-        <Label font="$x1" style="-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: black;" text="The Next Station has Doors on the Left Side" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
-      </children>
-      <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="20.0" prefHeight="60.0" vgrow="ALWAYS" />
-        <RowConstraints maxHeight="140.0" minHeight="10.0" percentHeight="30.0" prefHeight="140.0" vgrow="ALWAYS" />
-        <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="10.0" prefHeight="100.0" vgrow="ALWAYS" />
-        <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="20.0" prefHeight="100.0" vgrow="ALWAYS" />
-        <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="20.0" prefHeight="100.0" vgrow="ALWAYS" />
-      </rowConstraints>
-    </GridPane>
+    <TabPane layoutX="0.0" layoutY="0.0" prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab id="group_tab" style="-fx-background-color: &quot;lightblue&quot;" text="Group View">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: &quot;lightblue&quot;">
+              <children>
+                <ScrollPane layoutX="0.0" layoutY="0.0" prefHeight="769.0" prefWidth="1200.0" style="-fx-background-color: &quot;lightblue&quot;">
+                  <content>
+
+                  </content>
+                </ScrollPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab id="individual_tab" style="-fx-background-color: &quot;aqua&quot;" text="Individual View">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <GridPane fx:id="individual_view_pane" layoutX="0.0" layoutY="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" prefWidth="1200.0" style="-fx-background-color: &quot;lightblue&quot;">
+                  <children>
+                    <ComboBox fx:id="train_select" prefHeight="41.0" prefWidth="238.0" promptText="Select A Train" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Item 1" />
+                          <String fx:value="Item 2" />
+                          <String fx:value="Item 3" />
+                        </FXCollections>
+                      </items>
+                    </ComboBox>
+                    <Slider fx:id="emergency_brake" blockIncrement="1.0" max="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="0" orientation="VERTICAL" prefHeight="309.0" prefWidth="42.0" style="-fx-show-tick-marks: true;-fx-major-tick-unit: 1;-fx-snap-to-ticks: true;-fx-background-color: &quot;red&quot;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+                    <Label prefHeight="36.0" prefWidth="84.0" text="ON" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+                    <Label prefHeight="31.0" prefWidth="84.0" text="OFF" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+                      <font>
+                        <Font size="14.0" />
+                      </font>
+                    </Label>
+                    <ToggleButton fx:id="left_doors_open" mnemonicParsing="false" prefHeight="52.0" prefWidth="178.0" text="Open Left Doors" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                      <font>
+                        <Font size="18.0" fx:id="x1" />
+                      </font>
+                    </ToggleButton>
+                    <ToggleButton fx:id="right_doors_open" font="$x1" mnemonicParsing="false" prefHeight="52.0" prefWidth="186.0" text="Open Right Doors" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BASELINE" />
+                    <ToggleButton fx:id="lights_select" mnemonicParsing="false" prefHeight="64.0" prefWidth="120.0" text="Lights On" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                      <font>
+                        <Font size="16.0" fx:id="x2" />
+                      </font>
+                    </ToggleButton>
+                    <ToggleButton fx:id="Auto_button" font="$x2" mnemonicParsing="false" prefHeight="52.0" prefWidth="170.0" text="Automatic Mode" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                    <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" font="$x1" prefHeight="87.0" prefWidth="135.0" text="Authority" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                    <Label alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" font="$x1" prefHeight="52.0" prefWidth="120.0" text="Current Train" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+                    <Slider fx:id="velocity_select" blockIncrement="1.0" majorTickUnit="2.0" max="44.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="108.0" showTickLabels="true" snapToTicks="true" style="-fx-show-tick-marks: true;-fx-tick-major-unit: 10;-fx-minor-tick-count: 1;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="3" GridPane.valignment="CENTER" />
+                    <Label text="EMERGENCY BRAKE" textFill="#cc0000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                      <font>
+                        <Font name="System Bold" size="12.0" />
+                      </font>
+                    </Label>
+                    <TextField fx:id="current_train" prefHeight="52.0" prefWidth="240.0" style="-fx-font-size: 18px;" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                    <TextField fx:id="authority_display" prefHeight="52.0" prefWidth="240.0" style="-fx-font-size: 18px;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="84.0" text="Velocity Select (MPH)" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                      <font>
+                        <Font name="System Bold" size="18.0" />
+                      </font>
+                    </Label>
+                    <Label font="$x1" style="-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: black;" text="The Next Station has Doors on the Left Side" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+                    <GridPane GridPane.columnIndex="4" GridPane.rowIndex="2">
+                      <children>
+                        <Button fx:id="change_temp" mnemonicParsing="false" prefHeight="31.0" prefWidth="238.0" text="Submit New Cabin Temp" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <TextField prefHeight="41.0" prefWidth="240.0" style="-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: black;" text="Cabin Temp is 67 degrees" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="temp_input" prefHeight="31.0" prefWidth="240.0" promptText="Input new Temperature here:" style="-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: black;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                      </children>
+                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                    </GridPane>
+
+                  </children>
+                  <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="20.0" prefHeight="60.0" vgrow="ALWAYS" />
+                    <RowConstraints maxHeight="140.0" minHeight="10.0" percentHeight="30.0" prefHeight="140.0" vgrow="ALWAYS" />
+                    <RowConstraints maxHeight="140.0" minHeight="10.0" percentHeight="30.0" prefHeight="140.0" vgrow="ALWAYS" />
+                    <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="10.0" prefHeight="100.0" vgrow="ALWAYS" />
+                    <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="20.0" prefHeight="100.0" vgrow="ALWAYS" />
+                    <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="20.0" prefHeight="100.0" vgrow="ALWAYS" />
+                  </rowConstraints>
+                </GridPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
   </children>
 </AnchorPane>
