@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Evan Ozaroff
+//**************************************************
 package TrackModel.Interfaces;
 
 import TrackModel.Models.Line;

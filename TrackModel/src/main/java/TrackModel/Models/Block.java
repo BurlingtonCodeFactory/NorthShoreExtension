@@ -1,3 +1,8 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//**************************************************
 package TrackModel.Models;
 
 import TrackModel.Events.*;

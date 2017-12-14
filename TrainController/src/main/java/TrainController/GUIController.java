@@ -1,3 +1,10 @@
+//**************************************************
+//  COE 1186 - Software Engineering
+//
+//  Burlington Code Factory
+//
+//  Chris Duncan
+//**************************************************
 package TrainController;
 
 import eu.hansolo.medusa.Gauge;
