@@ -251,7 +251,7 @@ public class TrainController {
     {
        System.out.println("Door is " + door + " Left door is " + leftOpenDoorProperty.getValue() + " right door is " + rightOpenDoorProperty.getValue());
         serviceBrakeProperty.setValue(true);
-        if(!autoModeProperty.getValue()){
+        if(autoModeProperty.getValue()){
             if(door==1){
                 leftOpenDoorProperty.setValue(true);
             }else{
