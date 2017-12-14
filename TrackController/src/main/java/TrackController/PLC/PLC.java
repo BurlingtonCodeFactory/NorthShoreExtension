@@ -91,6 +91,7 @@ public class PLC {
                 field.equals("lock") ||
                 field.equals("failure") ||
                 field.equals("maintenance") ||
+                field.equals("switchCorrect") ||
                 field.equals("route");
     }
 
@@ -117,10 +118,11 @@ public class PLC {
         String field;
         String value;
         String action;
+        List<Integer> validBlocks = new ArrayList<>();
 
         public PLCRule(String[] command)
         {
-            switch(command[0])
+            switch(command[0].split("-")[0])
             {
                 case "switch":
                     infrastructure = BlockType.SWITCH;
@@ -136,11 +138,19 @@ public class PLC {
                     break;
             }
 
+            String[] splitType = command[0].split("-");
 
             offset = command[1];
             field = command[2];
             value = command[3];
             action = command[4];
+            if(splitType.length > 1)
+            {
+                for (String b : splitType[1].split(","))
+                {
+                    validBlocks.add(Integer.parseInt(b));
+                }
+            }
         }
 
         public void evaluateStandardRule(Block block)
@@ -164,10 +174,6 @@ public class PLC {
                 }
             }
 
-            /*if(field.equals("failure"))
-            {
-                System.out.println(block.getId() + " failure " + block.getFailed() + " " + value);
-            }*/
             switch(field)
             {
                 case "occupied":
@@ -194,6 +200,17 @@ public class PLC {
                         performAction(action, block);
                     }
                     break;
+                case "switchCorrect":
+                    if(intendedBlock.getBlockType() == BlockType.SWITCH)
+                    {
+                        Switch switchBlock = (Switch)intendedBlock;
+                        if(block.getSuggestedAuthority().contains(track.getBlock(block.getLine(), switchBlock.getSwitchOne())) && !switchBlock.getSwitchState()
+                                || block.getSuggestedAuthority().contains(track.getBlock(block.getLine(), switchBlock.getSwitchZero())) && switchBlock.getSwitchState())
+                        {
+                            performAction(action, block);
+                        }
+                    }
+                    break;
             }
 
         }
@@ -217,6 +234,10 @@ public class PLC {
             }
 
             Block intendedBlock = track.getBlock(block.getLine(), blockNum);
+            if(validBlocks.size() > 0 && !validBlocks.contains(block))
+            {
+                return;
+            }
 
             switch(field)
             {
@@ -314,7 +335,6 @@ public class PLC {
                     block.setLightGreen(true);
                     break;
                 case "stop":
-                    System.out.println("stop on "+block.getId());
                     block.setCommandedSpeed(0);
                     block.setCommandedAuthority(new ArrayList<>());
                     block.setLightGreen(false);
@@ -347,6 +367,7 @@ public class PLC {
                     return newAuthority;
                 }
             }
+
             return newAuthority;
         }
 
@@ -377,7 +398,7 @@ public class PLC {
 
     public boolean evaluateBlock(Block block)
     {
-        if(block.getSuggestedAuthority().size() == 0 && block.getSuggestMaintenance() == block.getUnderMaintenance() &&
+        if(block.getSuggestedAuthority().size() == 0 && !block.getIsOccupied() && block.getSuggestMaintenance() == block.getUnderMaintenance() &&
                 !block.getFailed() && block.getBlockType() == BlockType.STANDARD)
             return true;
 

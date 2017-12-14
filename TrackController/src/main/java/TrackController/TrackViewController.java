@@ -157,7 +157,7 @@ public class TrackViewController implements RefreshUIListener{
             plcString = scanner.useDelimiter("\\A").next();
             scanner.close();
         }
-        catch(FileNotFoundException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             System.out.println("File not found");
