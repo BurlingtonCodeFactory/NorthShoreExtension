@@ -2,23 +2,15 @@ package TrainController;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.binding.StringBinding;
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -29,14 +21,7 @@ public class GUIController {
 
     @FXML
     public GridPane individual_view_pane;
-    @FXML
-    public ComboBox train_select;
-    @FXML
-    public TextField authority_display;
-    @FXML
-    public TextField current_train;
-    @FXML
-    public Slider velocity_select;
+
     @FXML
     public ScrollPane groupViewScroll;
 
@@ -44,14 +29,8 @@ public class GUIController {
     private Gauge commanded_velocity_gauge;
     private Gauge current_velocity_gauge;
     private Gauge power_gauge;
-
     private ArrayList<TrainController> trainControllers;
     private ArrayList<String> trainNames;
-
-
-
-
-
 
     public GUIController(ArrayList<TrainController> trainControllers, ArrayList<String> trainNames) {
         this.trainControllers = trainControllers;
@@ -61,21 +40,9 @@ public class GUIController {
 
     @FXML
     public void initialize() {
-
-        train_select.setValue("Select a Train");
         groupViewGrid.setPrefWidth(groupViewScroll.getPrefWidth());
         groupViewScroll.setContent(groupViewGrid);
 
-        train_select.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                changeDisplay((String)newValue);
-            }
-        });
-
-
-
-        addGauges();
     }
 
 
@@ -146,7 +113,7 @@ public class GUIController {
         groupViewGrid.addRow(trainControllers.size());
         groupViewGrid.add(anchor, 0, trainControllers.size()-1);
         createIndividualDisplay(anchor, train);
-        train_select.getItems().add(train.name);
+
 
 
     }
@@ -158,7 +125,7 @@ public class GUIController {
                 trainControllerDisplayObservableList.remove(d);
             }
         }*/
-        train_select.getItems().remove(train.name);
+
 
     }
 
@@ -180,9 +147,9 @@ public class GUIController {
         pane = new GridPane();
         setConst(pane, 1,6);
         pane.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        String com_gauge_str = trainController.name.concat(" Commanded Velocity");
-        String vel_gauge_str = trainController.name.concat(" Current Velocity");
-        String pwr_gauge_str = trainController.name.concat(" Power Output");
+        String com_gauge_str = "Commanded Velocity";
+        String vel_gauge_str = "Current Velocity";
+        String pwr_gauge_str = "Power Output";
 
         command_gauge = GaugeBuilder.create()
                 .maxValue(44.0)
@@ -264,16 +231,15 @@ public class GUIController {
         auth_label.setText("Authority (yards)");
         auth_label.setFont(font);
         auth_label.setAlignment(Pos.TOP_CENTER);
+
         authority = new TextField();
-        SimpleDoubleProperty auth = new SimpleDoubleProperty();
-        auth.set(trainController.getAuthorityProperty().getValue()*1.09);
-        authority.textProperty().bind( auth.asString());
+
+        authority.textProperty().bind(trainController.getAuthorityProperty().multiply(1.09).asString("%.3f"));
         pane_one.add(auth_label, 0,2);
 
-        name = new TextField(trainController.name);
-        name.setAlignment(Pos.CENTER);
-        pane_one.add(name, 0, 3);
-        name.setAlignment(Pos.CENTER);
+
+        pane_one.add(authority, 0, 3);
+
 
 
         TextField temp = new TextField();
@@ -318,7 +284,8 @@ public class GUIController {
         pane_two.add(door_label, 0, 0);
         door_label.setAlignment(Pos.CENTER);
 
-        TextField door_field = new TextField("Left Side");
+        TextField door_field = new TextField();
+        door_field.textProperty().bind(trainController.getDoorSide());
         pane_two.add(door_field,0,1);
         door_field.setAlignment(Pos.CENTER);
 

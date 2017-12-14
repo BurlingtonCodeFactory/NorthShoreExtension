@@ -39,7 +39,7 @@ public class TrainController {
 
     double previousTime;
 
-    String doorSide="";
+    SimpleStringProperty doorSide;
 
     double switchBeaconNext;
     double input_velocity;
@@ -63,7 +63,7 @@ public class TrainController {
 
     String RIS;
     boolean arriving;
-
+    int door;
     String name;
     int ID;
     SkinnyBlock currentSkinnyBlock;
@@ -84,8 +84,8 @@ public class TrainController {
         authorityProperty = new SimpleDoubleProperty();
         powerProperty= new SimpleDoubleProperty();
         cabinTempProperty = new SimpleStringProperty();
-        autoModeProperty = new SimpleBooleanProperty();
-        autoModeProperty.setValue(false);
+        autoModeProperty = new SimpleBooleanProperty(false);
+        doorSide = new SimpleStringProperty("");
 
 
 
@@ -218,13 +218,18 @@ public class TrainController {
 
 
     public void updateVelocity(double velocity){
-
-        currentVelocityProperty.set(velocity);
+        //System.out.println("update stopped="+stopped + "stopwait is " + stopWait);
         if(stopped && velocity==0){
             stopAtStation();
+            stopWait++;
+            serviceBrakeProperty.setValue(true);
+
+
+        } else if (!stopped){
+            setStoppingDistance();
+            checkStopping();
         }
-        setStoppingDistance();
-        checkStopping();
+        currentVelocityProperty.set(velocity);
     }
 
     public void setUnderground(boolean underground){
@@ -242,18 +247,23 @@ public class TrainController {
 
     public void stopAtStation()
     {
-
-
+       
         serviceBrakeProperty.setValue(true);
-        boolean temp = stopped;
-        while(temp){
-            if(stopWait==120){
-                temp=false;
+        if(autoModeProperty.getValue()){
+            if(door==1){
+                open_left_doors();
+            }else{
+                open_right_doors();
             }
         }
-        stopWait=0;
 
-        serviceBrakeProperty.setValue(false);
+
+        if(stopWait==120){
+            stopped=false;
+            stopWait = 0;
+            close_doors();
+        }
+
         arriving=false;
     }
 
@@ -290,6 +300,7 @@ public class TrainController {
         if(currentSkinnyBlock.station && !stopped){
             RIS = "Now Passing " + stations[currentSkinnyBlock.getID()];
         }
+
     }
 
 
@@ -340,20 +351,21 @@ public class TrainController {
                 stationOne = stationOne >> 22;
                 int stationTwo=beacon &2088960;
                 stationTwo = stationTwo >>13;
-                int door = beacon&2097152;
+                int doors = beacon&2097152;
 
-                if(door==0){
-
-                    doorSide="Right Side";
+                if(doors==0){
+                    door = 0;
+                    doorSide.setValue("Right Side");
                 }else{
-                    doorSide = "Left Side";
+                    door=1;
+                    doorSide.setValue("Left Side");
                 }
                 if(switchBeacon==1){
                     int block = beacon&8160;
                     block = block >> 5;
                     currentSkinnyBlock = track.get(block);
                 }
-                System.out.println("Station two " + stationTwo + " connected blocks " + currentSkinnyBlock.getConnected());
+                //System.out.println("Station two " + stationTwo + " connected blocks " + currentSkinnyBlock.getConnected());
                 if(currentSkinnyBlock.getConnected().contains(stationTwo)){
                    /* System.out.println("Station beacon authority is " + authorityProperty.getValue() + " distance to end of station " +
                             ( currentSkinnyBlock.getLength()+track.get(stationTwo).getLength()) );*/
@@ -428,7 +440,7 @@ public class TrainController {
 
     public double getPower()
     {
-        stopWait++;
+
         return powerProperty.getValue();
     }
 
@@ -521,6 +533,9 @@ public class TrainController {
 
     public SimpleDoubleProperty getSetpointVelocityProperty() {
         return setpointVelocityProperty;
+    }
+    public SimpleStringProperty getDoorSide(){
+        return doorSide;
     }
 
     public void open_left_doors()
