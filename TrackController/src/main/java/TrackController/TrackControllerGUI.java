@@ -66,7 +66,7 @@ public class TrackControllerGUI extends Application {
             }
             else
             {
-                loader = new FXMLLoader(new File("./TrackController/build/resources/main/fxml/TrackController.fxml").toURI().toURL());
+                loader = new FXMLLoader(new File("./build/resources/main/fxml/TrackController.fxml").toURI().toURL());
             }
             TrackViewController controller = new TrackViewController(manager);
             manager.addRefreshUIListener(controller);

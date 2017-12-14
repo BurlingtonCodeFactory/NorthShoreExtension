@@ -286,6 +286,7 @@ public class TrainController {
 
         int prev = currentSkinnyBlock.getID();
         int next = currentSkinnyBlock.getNext();
+
         System.out.println("Moving to block " + next);
         if(next >=0)
         {
