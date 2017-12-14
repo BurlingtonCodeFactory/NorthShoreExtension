@@ -177,24 +177,52 @@ public class Train {
         trainController.setUnderground(track.getUndergroundByID(currentBlock, line));
 
         //Other train processes
-        if(trainController.getLights()) //TODO: all of this
+        if(trainController.getLights() && !lightsProperty.get())
         {
-
+            lightsProperty.setValue(true);
+        }
+        else if(!trainController.getLights() && lightsProperty.get())
+        {
+            lightsProperty.setValue(false);
         }
 
-        if(trainController.getLeftDoors())
+        if(trainController.getLeftDoors() && !leftDoorsProperty.get())
         {
-
+            leftDoorsProperty.setValue(true);
+        }
+        else if(!trainController.getLeftDoors() && leftDoorsProperty.get())
+        {
+            leftDoorsProperty.setValue(false);
         }
 
-        if(trainController.getRightDoors())
+        if(trainController.getRightDoors() && !rightDoorsProperty.get())
         {
-
+            rightDoorsProperty.setValue(true);
+        }
+        else if(!trainController.getRightDoors() && rightDoorsProperty.get())
+        {
+            rightDoorsProperty.setValue(false);
         }
 
-        if(getCabinTemp() != trainController.getCabinTemp()) //TODO: this
+        if(cabinTempProperty.get() < trainController.getCabinTemp())
         {
-
+            if ((trainController.getCabinTemp() - cabinTempProperty.get()) > 1) {
+                cabinTempProperty.set(cabinTempProperty.get() + 1);
+            }
+            else
+            {
+                cabinTempProperty.set(trainController.getCabinTemp());
+            }
+        }
+        else if(cabinTempProperty.get() > trainController.getCabinTemp())
+        {
+            if ((cabinTempProperty.get() - trainController.getCabinTemp()) > 1) {
+                cabinTempProperty.set(cabinTempProperty.get() - 1);
+            }
+            else
+            {
+                cabinTempProperty.set(trainController.getCabinTemp());
+            }
         }
 //
 //        if(trainController.isStoppedAtStation())
@@ -205,7 +233,7 @@ public class Train {
         setRIS(trainController.getRIS());
     }
 
-    public boolean delete() //TODO: How to implement?
+    public boolean delete()
     {
         System.out.println("Train: Marking for deletion: " + ID);
 

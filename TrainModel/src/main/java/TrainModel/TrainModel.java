@@ -112,7 +112,7 @@ public class TrainModel implements ITrainModelForCTCOffice{
         return false;
     }
 
-    public void updateTrains(double elapsedTime) //TODO: check for deleted trains
+    public void updateTrains(double elapsedTime)
     {
         //Get iterator for trains
         Iterator<Train> itTrains = trains.iterator();
