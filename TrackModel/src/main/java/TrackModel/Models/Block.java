@@ -232,7 +232,9 @@ public class Block {
         return maxID;
     }
 
-    public int getPreviousBlock() { return id-1; }
+    public int getPreviousBlock() {
+        return id == 0 ? 0 : id-1;
+    }
 
     //</editor-fold>
 
@@ -286,7 +288,14 @@ public class Block {
         public void updateFailure()
         {
             this.failed = railBroken || powerFailed || circuitFailed;
-            fireFailureChangeEvent(this);
+            if(this.failed)
+            {
+                setIsOccupied(true);
+            }
+            else
+            {
+                setIsOccupied(false);
+            }
         }
 
         public void setSuggestedAuthority(List<Block> suggestedAuthority) {
@@ -351,7 +360,6 @@ public class Block {
 
     private static synchronized void fireOccupancyChangeEvent(Object source)
     {
-        System.out.println("Fire occupancy change");
         OccupancyChangeEvent event = new OccupancyChangeEvent(source);
         for(OccupancyChangeListener listener : occupancyChangeListeners)
         {
@@ -372,7 +380,6 @@ public class Block {
 
     private static synchronized void fireSuggestedSpeedChangeEvent(Object source)
     {
-        System.out.println("Fire suggested speed change");
         SuggestedSpeedChangeEvent event = new SuggestedSpeedChangeEvent(source);
         for(SuggestedSpeedChangeListener listener : suggestedSpeedChangeListeners)
         {
@@ -391,8 +398,6 @@ public class Block {
 
     private static synchronized void fireSuggestedAuthorityChangeEvent(Object source)
     {
-        System.out.println("Fire suggested authority change");
-
         SuggestedAuthorityChangeEvent event = new SuggestedAuthorityChangeEvent(source);
         for(SuggestedAuthorityChangeListener listener : suggestedAuthorityChangeListeners)
         {
@@ -411,8 +416,6 @@ public class Block {
 
     private static synchronized void fireFailureChangeEvent(Object source)
     {
-        System.out.println("Fire suggested failure change");
-
         FailureChangeEvent event = new FailureChangeEvent(source);
         for(FailureChangeListener listener : failureChangeListeners)
         {
@@ -431,7 +434,6 @@ public class Block {
 
     protected static synchronized void fireSwitchStateManualChangeEvent(Object source)
     {
-        System.out.println("Fire manual switch change");
 
         SwitchStateManualChangeEvent event = new SwitchStateManualChangeEvent(source);
         for(SwitchStateManualChangeListener listener : switchStateManualChangeListeners)
@@ -469,7 +471,6 @@ public class Block {
 
     protected static synchronized void fireMaintenanceRequestEvent(Object source)
     {
-        System.out.println("Fire suggested maintenance change");
 
         MaintenanceRequestEvent event = new MaintenanceRequestEvent(source);
         for(MaintenanceRequestListener listener : maintenanceRequestListeners)
@@ -489,8 +490,6 @@ public class Block {
 
     protected static synchronized void fireMaintenanceChangeEvent(Object source)
     {
-        //System.out.println("Fire maintenance change");
-
         MaintenanceChangeEvent event = new MaintenanceChangeEvent(source);
         for(MaintenanceChangeListener listener : maintenanceChangeListeners)
         {

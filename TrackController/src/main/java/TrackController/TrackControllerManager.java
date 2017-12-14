@@ -21,7 +21,7 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
     public List<TrackController> controllers;
     private ITrackModelForTrackController track;
     private final ArrayList<Integer> GREENLOCKS = new ArrayList<>(Arrays.asList(29,76));
-    private final ArrayList<Integer> REDLOCKS = new ArrayList<>();
+    private final ArrayList<Integer> REDLOCKS = new ArrayList<>(Arrays.asList(9, 15, 27, 32, 38, 43, 52));
     private static ArrayList<RefreshUIListener> listeners = new ArrayList<>();
 
     public TrackControllerManager() //TODO: Inject Track Model and create controllers
@@ -31,30 +31,36 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
         if(track.getBlocks(Line.GREEN).size() > 0)
         {
             controllers = new ArrayList<>();
-            TrackController controller = new TrackController(id, "Vital Section " + id, "file" + id + ".plc", track);
+            TrackController controller1 = new TrackController(id, "Controller 1", "green" + id + ".plc", track);
+            TrackController controller2 = new TrackController(id, "Controller 2", "green" + id + ".plc", track);
             for (Block block : track.getBlocks(Line.GREEN))
             {
-                controller.addBlock(block);
+                controller1.addBlock(block);
+                controller2.addBlock(block);
                 if(GREENLOCKS.contains(block.getId()))
                 {
                     System.out.println("Creating lock on "+block.getId());
                     block.createLock();
                 }
             }
-            controllers.add(controller);
+            controllers.add(controller1);
+            controllers.add(controller2);
         }
         else {
             controllers = new ArrayList<>();
             id = 1;
-            TrackController controller = new TrackController(id, "Vital Section " + id, "file" + id + ".plc", track);
+            TrackController controller1 = new TrackController(id, "Controller 1", "red" + id + ".plc", track);
+            TrackController controller2 = new TrackController(id, "Controller 2", "red" + id + ".plc", track);
             for (Block block : track.getBlocks(Line.RED)) {
-                controller.addBlock(block);
+                controller1.addBlock(block);
+                controller2.addBlock(block);
                 if (REDLOCKS.contains(block.getId())) {
                     System.out.println("Creating lock on " + block.getId());
                     block.createLock();
                 }
             }
-            controllers.add(controller);
+            controllers.add(controller1);
+            controllers.add(controller2);
         }
     }
 
@@ -94,7 +100,6 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
 
     public void failureChangeReceived(FailureChangeEvent event)
     {
-        System.out.println("Fired");
         runRules();
         fireRefreshUIEvent(this);
     }
@@ -107,7 +112,6 @@ public class TrackControllerManager implements OccupancyChangeListener, Suggeste
 
     public void maintenanceRequestReceived(MaintenanceRequestEvent event)
     {
-        System.out.println("Fired");
         runRules();
         fireRefreshUIEvent(this);
     }
