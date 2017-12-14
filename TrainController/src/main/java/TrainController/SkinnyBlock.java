@@ -26,7 +26,7 @@ public class SkinnyBlock {
         this.ID = id;
 
     }
-    public List getConnected(){
+    public List getConnected() {
         return connectedBlocks;
     }
 

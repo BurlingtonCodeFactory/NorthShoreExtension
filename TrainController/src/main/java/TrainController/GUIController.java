@@ -3,6 +3,7 @@ package TrainController;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -47,7 +48,7 @@ public class GUIController {
     private ArrayList<TrainController> trainControllers;
     private ArrayList<String> trainNames;
 
-    private ObservableList<TrainControllerGroupDisplay> trainControllerDisplayObservableList = FXCollections.observableArrayList();
+
 
 
 
@@ -65,11 +66,6 @@ public class GUIController {
         groupViewGrid.setPrefWidth(groupViewScroll.getPrefWidth());
         groupViewScroll.setContent(groupViewGrid);
 
-
-
-
-
-    
         train_select.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -125,26 +121,7 @@ public class GUIController {
         try {
             TrainController trainController = trainControllers.get(i);
 
-            commanded_velocity_gauge.valueProperty().bind(new DoubleBinding() {
-                @Override
-                protected double computeValue() {
-                    return trainController.commanded_velocity;
-                }
-            });
 
-            power_gauge.valueProperty().bind(new DoubleBinding() {
-                @Override
-                protected double computeValue() {
-                    return trainController.getPower();
-                }
-            });
-
-            current_velocity_gauge.valueProperty().bind(new DoubleBinding() {
-                @Override
-                protected double computeValue() {
-                    return trainController.current_velocity;
-                }
-            });
 
         }catch (ArrayIndexOutOfBoundsException e){}
 
@@ -157,17 +134,17 @@ public class GUIController {
 
         trainControllers.add(train);
         trainNames.add(train.name);
-        TrainControllerGroupDisplay display = new TrainControllerGroupDisplay(train);
-        trainControllerDisplayObservableList.add(display);
+
+
         RowConstraints constraints = new RowConstraints();
-        constraints.setPrefHeight(display.getHeight());
+        constraints.setPrefHeight(200);
         AnchorPane anchor = new AnchorPane();
         anchor.setPrefHeight(200);
-        anchor.setPrefWidth(display.getWidth());
+        anchor.setPrefWidth(groupViewGrid.getPrefWidth());
 
         groupViewGrid.getRowConstraints().add(constraints);
-        groupViewGrid.addRow(trainControllerDisplayObservableList.size());
-        groupViewGrid.add(anchor, 0, trainControllerDisplayObservableList.size()-1);
+        groupViewGrid.addRow(trainControllers.size());
+        groupViewGrid.add(anchor, 0, trainControllers.size()-1);
         createIndividualDisplay(anchor, train);
         train_select.getItems().add(train.name);
 
@@ -176,11 +153,11 @@ public class GUIController {
     public void deleteTrainController(TrainController train) {
         trainControllers.remove(train);
         trainNames.remove(train.name);
-        for(TrainControllerGroupDisplay d : trainControllerDisplayObservableList){
+        /*for(TrainControllerGroupDisplay d : trainControllerDisplayObservableList){
             if(d.trainName == train.name){
                 trainControllerDisplayObservableList.remove(d);
             }
-        }
+        }*/
         train_select.getItems().remove(train.name);
 
     }
@@ -231,16 +208,26 @@ public class GUIController {
                 .prefWidth(200)
                 .build();
 
-        SimpleDoubleProperty commandBind = new SimpleDoubleProperty();
-        commandBind.set(trainController.commanded_velocity);
-        SimpleDoubleProperty currentBind = new SimpleDoubleProperty();
-        commandBind.set(trainController.current_velocity);
-        SimpleDoubleProperty powerBind = new SimpleDoubleProperty();
-        commandBind.set(trainController.getPower());
+        trainController.getCurrentVelocityProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                speed_gauge.setValue(newValue.doubleValue()*2.2369);
+            }
+        });
 
-        command_gauge.valueProperty().bind(commandBind);
-        speed_gauge.valueProperty().bind(currentBind);
-        power_gauge.valueProperty().bind(powerBind);
+        trainController.getPowerProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                power_gauge.setValue(newValue.doubleValue()/1000);
+            }
+        });
+
+        trainController.getSetpointVelocityProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                command_gauge.setValue(newValue.doubleValue()*2.2369);
+            }
+        });
         pane.add(command_gauge, 0, 0);
         pane.add(speed_gauge, 1,0);
         pane.add(power_gauge, 2,0);
@@ -274,19 +261,23 @@ public class GUIController {
         name.setAlignment(Pos.CENTER);
 
         Label auth_label = new Label();
-        auth_label.setText("Authority");
+        auth_label.setText("Authority (yards)");
         auth_label.setFont(font);
         auth_label.setAlignment(Pos.TOP_CENTER);
-        authority = new TextField(Double.toString(trainController.authority));
+        authority = new TextField();
+        SimpleDoubleProperty auth = new SimpleDoubleProperty();
+        auth.set(trainController.getAuthorityProperty().getValue()*1.09);
+        authority.textProperty().bind( auth.asString());
         pane_one.add(auth_label, 0,2);
 
         name = new TextField(trainController.name);
         name.setAlignment(Pos.CENTER);
         pane_one.add(name, 0, 3);
         name.setAlignment(Pos.CENTER);
-        String tempString = "Cabin temp is " + Double.toString(trainController.cabinTemp);
 
-        TextField temp = new TextField(tempString);
+
+        TextField temp = new TextField();
+        temp.textProperty().bind(trainController.getCabinTempProperty());
         temp.setAlignment(Pos.CENTER);
         TextField tempValue = new TextField();
         tempValue.setPromptText("Input new Temperature here:");
@@ -296,9 +287,14 @@ public class GUIController {
         tempSubmit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                double temp = Double.parseDouble(tempValue.getText());
+               try {
+                   double temp = Double.parseDouble(tempValue.getText());
 
-                trainController.setCabinTemp(temp);
+
+                   trainController.setDesiredCabinTemp(temp);
+               } catch (NumberFormatException n){
+
+               }
             }
         });
         tempSubmit.setAlignment(Pos.CENTER);
@@ -327,49 +323,22 @@ public class GUIController {
         door_field.setAlignment(Pos.CENTER);
 
         left_door = new ToggleButton();
-
-        left_door.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(trainController.doorsOpenLeft){
-                    trainController.doorsOpenLeft = false;
-                }else{
-                    trainController.open_left_doors();
-                }
-            }
-        });
+        left_door.selectedProperty().bindBidirectional(trainController.getLeleftOpenDoorProperty());
         left_door.setText("Open Left Door");
         left_door.setAlignment(Pos.CENTER);
 
         right_door = new ToggleButton();
-        right_door.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(trainController.doorsOpenRight){
-                    trainController.doorsOpenRight = false;
-                }else{
-                    trainController.open_right_doors();
-                }
-            }
-        });
+        right_door.selectedProperty().bindBidirectional(trainController.getRightOpenDoorProperty());
         right_door.setText("Open Right Door");
         right_door.setAlignment(Pos.CENTER);
 
         auto_button = new ToggleButton();
         auto_button.setAlignment(Pos.CENTER);
-        auto_button.setText("Start Automatic Mode");
+        auto_button.setText("Start Manual Mode");
+        auto_button.selectedProperty().bindBidirectional(trainController.getAutoModeProperty());
 
         lights = new ToggleButton();
-        lights.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(trainController.lights){
-                    trainController.lights = false;
-                }else{
-                    trainController.lights=true;
-                }
-            }
-        });
+        lights.selectedProperty().bindBidirectional(trainController.getLightsProperty());
         lights.setText("Lights On");
         lights.setAlignment(Pos.CENTER);
 
@@ -411,39 +380,42 @@ public class GUIController {
         velocity_select.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                trainController.setpoint_velocity = velocity_select.getValue();
+                if(!trainController.getAutoModeProperty().getValue()) {
+                    trainController.calcSetpointVelocity(newValue.doubleValue());
+                }
             }
         });
 
         pane_three.add(velocity_select, 0, 0);
 
+        GridPane smallPane = new GridPane();
+        smallPane.setPrefWidth(100);
+        smallPane.setPrefHeight(200);
+        RowConstraints smallRow = new RowConstraints();
+        smallRow.setPrefHeight(100);
+        smallPane.getRowConstraints().add(smallRow);
+        smallPane.addRow(0);
+        smallPane.addRow(1);
 
-
+        ToggleButton serviceBrake = new ToggleButton();
+        serviceBrake.setText("Turn on Service Brake");
+        serviceBrake.setPrefHeight(80);
+        serviceBrake.setWrapText(true);
         e_brake = new ToggleButton();
         e_brake.setText("Turn on \nEmergency \nBrake");
 
         e_brake.setAlignment(Pos.CENTER);
-        e_brake.setPrefHeight(100);
-
-        e_brake.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(trainController.emergency_brake){
-                    trainController.setEBrake(false);
-                }else{
-                    trainController.setEBrake(true);
-                }
-            }
-        });
+        e_brake.setPrefHeight(80);
+        e_brake.setWrapText(true);
+        e_brake.selectedProperty().bindBidirectional(trainController.getEmergencyBrakeProperty());
+        serviceBrake.selectedProperty().bindBidirectional(trainController.getServiceBrakeProperty());
 
 
+        smallPane.add(e_brake, 0,0);
+        smallPane.add(serviceBrake,0,1);
 
 
-        Label onLabel = new Label();
-        onLabel.setText("ON");
-        Label offLabel = new Label();
-        offLabel.setText("OFF");
-        pane_three.add(e_brake, 1,0);
+        pane_three.add(smallPane, 1,0);
 
         RowConstraints row_three_two = new RowConstraints();
         row_three_two.setPercentHeight(10);

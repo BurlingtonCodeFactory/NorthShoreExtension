@@ -3,32 +3,48 @@ package TrainController;
 import TrackModel.Interfaces.ITrackModelForTrainController;
 import TrackModel.Models.Block;
 import TrackModel.Models.Line;
+import com.sun.org.apache.bcel.internal.generic.SIPUSH;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Skin;
 
 import javax.swing.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
+import java.util.Timer;
 
 public class TrainController {
 
+    SimpleBooleanProperty lightsProperty;
+    SimpleBooleanProperty leftOpenDoorProperty;
+    SimpleBooleanProperty rightOpenDoorProperty;
+    SimpleBooleanProperty emergencyBrakeProperty;
+    SimpleBooleanProperty serviceBrakeProperty;
+    SimpleDoubleProperty currentVelocityProperty;
+    SimpleDoubleProperty setpointVelocityProperty;
+    SimpleDoubleProperty authorityProperty;
+    SimpleDoubleProperty powerProperty;
+    SimpleStringProperty cabinTempProperty;
+    SimpleBooleanProperty autoModeProperty;
     double prevAcceleration;
     double acceleration;
+    double desiredCabinTemp;
     List<SkinnyBlock> track;
-    double current_velocity;
-    double commanded_velocity;
-    double authority;
+    int previousStation;
+
+    double commandedVelocity;
+
     double previousTime;
-    boolean auto;
-    boolean emergency_brake;
-    boolean brake;
-    boolean doorsOpenLeft;
-    boolean doorsOpenRight;
-    boolean lights;
-    double power_out;
+
+    String doorSide="";
+
+    double switchBeaconNext;
     double input_velocity;
     double distInBlock;
-    double setpoint_velocity;
+
     double distToStop;
     int previousBlock;
     double kp;
@@ -37,33 +53,47 @@ public class TrainController {
     String [] stations = new String[226];
     boolean departing;
     String nextStation;
-    double blockLength;
-    double distToStation;
-    boolean stopping;
+
+    boolean stopped;
     double speedLimit;
     double stoppingDistance;
     double speed;
     int beacon;
     boolean knowStop = false;
-    SkinnyBlock greenYard;
-    SkinnyBlock redYard;
+
     String RIS;
     boolean arriving;
-    int searchBlock;
+
     String name;
     int ID;
     SkinnyBlock currentSkinnyBlock;
+    boolean stopping;
+    int stopWait = 0;
 
 
 
     public TrainController(boolean pidInputBypass, int previous, int current, int ID, ITrackModelForTrainController trackInterface, Line line){
 
-        System.out.println("Creating train controller "+ID);
+        lightsProperty = new SimpleBooleanProperty();
+        leftOpenDoorProperty =new SimpleBooleanProperty();
+        rightOpenDoorProperty =new SimpleBooleanProperty();
+        emergencyBrakeProperty=new SimpleBooleanProperty();
+        serviceBrakeProperty=new SimpleBooleanProperty();
+        currentVelocityProperty = new SimpleDoubleProperty();
+        setpointVelocityProperty = new SimpleDoubleProperty();
+        authorityProperty = new SimpleDoubleProperty();
+        powerProperty= new SimpleDoubleProperty();
+        cabinTempProperty = new SimpleStringProperty();
+        autoModeProperty = new SimpleBooleanProperty();
+        autoModeProperty.setValue(false);
 
+
+
+        switchBeaconNext =0;
         this.ID = ID;
 
         List<Block> trackInput = trackInterface.getBlocks(line);
-
+        stopped = false;
 
         this.name = "Train Controller " + Integer.toString(ID);
         prevAcceleration = 0;
@@ -73,24 +103,33 @@ public class TrainController {
         previousBlock = previous;
         stopping = false;
 
-        doorsOpenLeft = false;
-        doorsOpenRight = false;
 
-        emergency_brake = false;
+        leftOpenDoorProperty.setValue(false);
+        rightOpenDoorProperty.setValue(false);
 
-        brake = false;
-        current_velocity =0.0;
-        power_out=0.0;
+
+        emergencyBrakeProperty.setValue(false);
+
+
+        serviceBrakeProperty.setValue(false);
+
+
+        currentVelocityProperty.set(0.0);
+
+        powerProperty.set(0.0);
         previousTime = System.currentTimeMillis();
 
 
         input_velocity  = 0.0;
-        authority =0.0;
+
+        authorityProperty.set(0.0*1.09);
         distInBlock=0.0;
 
 
 
         this.cabinTemp = 67.0;
+        this.desiredCabinTemp= 67.0;
+        cabinTempProperty.set("Cabin temp is " + cabinTemp);
 
         if(line.equals(Line.GREEN)){
             stations[0] = "green yard";
@@ -173,118 +212,199 @@ public class TrainController {
 
         kp = pid.getKP();
 
+        RIS = "Next station will be announced shortly";
+
     }
 
 
     public void updateVelocity(double velocity){
-        current_velocity = velocity;
+
+        currentVelocityProperty.set(velocity);
+        if(stopped && velocity==0){
+            stopAtStation();
+        }
         setStoppingDistance();
         checkStopping();
     }
 
     public void setUnderground(boolean underground){
-        lights = underground;
+
+        lightsProperty.setValue(underground);
+    }
+
+    public boolean isStoppedAtStation(){
+        boolean temp = stopped;
+        if(stopped){
+            stopped = false;
+        }
+        return temp;
+    }
+
+    public void stopAtStation()
+    {
+
+
+        serviceBrakeProperty.setValue(true);
+        boolean temp = stopped;
+        while(temp){
+            if(stopWait==120){
+                temp=false;
+            }
+        }
+        stopWait=0;
+
+        serviceBrakeProperty.setValue(false);
+        arriving=false;
     }
 
     public void nextBlock()
     {
         System.out.println("Next Block");
+
+        if(arriving){
+            arriving =false;
+            stopped = true;
+            RIS = "Now arriving at " + nextStation;
+        } else{
+            stopped=false;
+        }
         distInBlock=0.0;
         if(departing) {
-            if (knowStop) {
-                RIS = "Next stop is " + nextStation;
 
-            } else {
-                RIS = "Next station is " + nextStation;
-            }
+            departing = false;
         }
+        if (!knowStop) {
+          RIS = "Next station will be announced shortly";
+        }
+
         int prev = currentSkinnyBlock.getID();
         int next = currentSkinnyBlock.getNext();
+        //System.out.println("Moving to block " + next);
         if(next !=-2 && next !=-1)
         {
             currentSkinnyBlock = track.get(next);
             currentSkinnyBlock.setPrev(prev);
         }
         speedLimit = currentSkinnyBlock.getSpeedLimit();
+        //System.out.println("Current block is " + currentSkinnyBlock.getID() + " The previous block was " +prev);
+        if(currentSkinnyBlock.station && !stopped){
+            RIS = "Now Passing " + stations[currentSkinnyBlock.getID()];
+        }
     }
 
 
 
     public void set_power_out(double power){
-        this.power_out = power;
+        powerProperty.set(power);
     }
 
-    public void setBeacon(int beacon){
-        this.beacon = beacon;
-        int type = beacon & 1073741824;
-        if (type == 0)
-        {
-            int block = beacon &1072693248;
-            block = block >> 20;
-            currentSkinnyBlock = track.get(block);
-            block = currentSkinnyBlock.getID();
-            double searchAuthority = authority;
-            searchAuthority -= distInBlock;
-            block = currentSkinnyBlock.getNext();
-            while(searchAuthority >0 && block != -2 && block !=1){
-                searchAuthority -= track.get(block).getLength();
-                block = track.get(block).getNext();
-            }
+    public void setBeacon(int beacon) {
+        if(beacon != 0){
 
-            if (block != -2 && stations[block] !=null && block != -1){
-                RIS = "Next stop is " + nextStation;
-                distToStop = authority;
-                knowStop=true;
-            }else{
-                knowStop = false;
-            }
+            this.beacon = beacon;
+            int type = beacon & 1073741824;
+            type = type >> 30;
+            if(type == 1){
 
-        }
-        else
-        {
-            int stationOne = beacon & 1056964608;
-            stationOne = stationOne >> 24;
-            int doorsOne = stationOne & 1;
-            stationOne  = stationOne >> 1;
+                int station = beacon & 536870912;
+                station = station >> 29;
+                if(station == 1){
 
-            int stationTwo = beacon & 16515072;
-            stationTwo = stationTwo >> 18;
-            int doorsTwo = stationTwo & 1;
-            stationTwo = stationTwo >> 1;
+                    int block = beacon & 534773760;
+                    block = block >>21;
+                    currentSkinnyBlock = track.get(block);
 
-            int id = -1;
-
-            SkinnyBlock skinnyBlock = track.get(stationOne);
-
-            if(skinnyBlock.getID() == previousBlock){
+                    arriving = true;
+                    if(authorityProperty.getValue() <= currentSkinnyBlock.getLength()){
+                        arriving = false;
+                        stopped = true;
+                        knowStop=true;
+                        nextStation = stations[currentSkinnyBlock.getID()];
+                        RIS = "Now Arriving at " + nextStation;
+                    }
+                } else {
+                    knowStop=false;
+                    int block = beacon & 534773760;
+                    block = block >>21;
+                    currentSkinnyBlock = track.get(block);
+                    double searchAuthority = authorityProperty.getValue();
+                    int searchBlock =currentSkinnyBlock.getID();
+                    searchAuthority -= distInBlock;
 
 
-                departing = true;
-                nextStation = stations[stationTwo];
-                RIS = "Now departing " + stations[stationOne];
-                int block = currentSkinnyBlock.getID();
-                double searchAuthority = authority;
-                searchAuthority -= distInBlock;
-                block = currentSkinnyBlock.getNext();
-                while(searchAuthority >0 && block != -2 && block !=1){
-                    searchAuthority -= track.get(block).getLength();
-                    block = track.get(block).getNext();
                 }
 
-                if (block != -2 && stations[block] !=null && block != -1){
-                    nextStation = stations[block];
-                    distToStop=authority;
-                    knowStop = true;
+            }else {
+                int switchBeacon = beacon & 1;
+                int stationOne= beacon&1069547520;
+                stationOne = stationOne >> 22;
+                int stationTwo=beacon &2088960;
+                stationTwo = stationTwo >>13;
+                int door = beacon&2097152;
+
+                if(door==0){
+
+                    doorSide="Right Side";
                 }else{
-                    knowStop = false;
+                    doorSide = "Left Side";
+                }
+                if(switchBeacon==1){
+                    int block = beacon&8160;
+                    block = block >> 5;
+                    currentSkinnyBlock = track.get(block);
+                }
+                System.out.println("Station two " + stationTwo + " connected blocks " + currentSkinnyBlock.getConnected());
+                if(currentSkinnyBlock.getConnected().contains(stationTwo)){
+                   /* System.out.println("Station beacon authority is " + authorityProperty.getValue() + " distance to end of station " +
+                            ( currentSkinnyBlock.getLength()+track.get(stationTwo).getLength()) );*/
+                    if(authorityProperty.getValue() ==( currentSkinnyBlock.getLength()+track.get(stationTwo).getLength())){
+
+                        arriving = true;
+                        nextStation = stations[stationTwo];
+                        RIS = "Approaching Stop at " + nextStation;
+                        knowStop = true;
+                    }else{
+                        arriving = false;
+                        knowStop=false;
+                        RIS = "Approaching " + stations[stationTwo];
+                        /*double searchAuthority = authorityProperty.getValue();
+                        int searchBlock =currentSkinnyBlock.getID();
+                        searchAuthority -= distInBlock;
+                        knowStop=false;
+                        while(searchAuthority>0 && searchBlock != -1 && searchBlock != -2 ){
+                            searchBlock=track.get(searchBlock).getNext();
+                            if(searchBlock != -1 && searchBlock != -2){
+                                searchAuthority -= track.get(searchBlock).getLength();
+                                if(searchAuthority <= 0){
+                                    nextStation = stations[searchBlock];
+                                    knowStop = true;
+                                    System.out.println("station for next stop is " + searchBlock);
+                                }
+                            }
+                        }*/
+                    }
+                }else{
+                    departing = true;
+                    arriving=false;
+                    knowStop=false;
+                    RIS = "Now departing " +  stations[stationOne];
+                    /*double searchAuthority = authorityProperty.getValue();
+                    int searchBlock =currentSkinnyBlock.getID();
+                    searchAuthority -= distInBlock;
+                    knowStop=false;
+                    while(searchAuthority>0 && searchBlock != -1 && searchBlock != -2 ){
+                        searchBlock=track.get(searchBlock).getNext();
+                        if(searchBlock != -1 && searchBlock != -2){
+                            searchAuthority -= track.get(searchBlock).getLength();
+                            if(searchAuthority <= 0){
+                                nextStation = stations[searchBlock];
+                                knowStop = true;
+                                System.out.println("station for next stop is " + searchBlock);
+                            }
+                        }
+                    }*/
                 }
 
-
-            }
-            else
-            {
-                arriving = true;
-                RIS = "Arriving at " +stations[stationOne];
             }
         }
     }
@@ -293,93 +413,140 @@ public class TrainController {
 
     public void setAuthority(double a)
     {
-        this.authority = a;
+
+        authorityProperty.set(a);
         if(knowStop)
         {
-            double currentDist = distToStop;
-            distToStop-=a;
-            distToStop = currentDist-distToStop;
-            if(distToStop<100)
-            {
-                RIS = "Now approaching " + nextStation;
-            }
+
         }
 
     }
 
     public boolean getLights(){
-        return lights;
+        return lightsProperty.getValue();
     }
 
-    public double getPower(){
-        return power_out;
+    public double getPower()
+    {
+        stopWait++;
+        return powerProperty.getValue();
     }
 
     public double getPower(double period){
-        if (brake || emergency_brake)
+        if (serviceBrakeProperty.getValue() || emergencyBrakeProperty.getValue())
         {
-            power_out =0.0;
+            powerProperty.set(0.0);
+
         }
         else
         {
-            power_out = pid.getPower(current_velocity, setpoint_velocity, period);
+            double p = pid.getPower(currentVelocityProperty.getValue(), setpointVelocityProperty.getValue(), period);
+            powerProperty.set(p);
         }
-        distInBlock += current_velocity*(period/1000);
-        //System.out.println("Controller Velocity="+current_velocity +" Power="+getPower() + " Setpoint="+setpoint_velocity +" Distance="+distInBlock+" Brake="+brake);
-
+        distInBlock += currentVelocityProperty.getValue()*(period/1000);
+        //System.out.println("Controller Velocity="+currentVelocity +" Power="+getPower() + " Setpoint="+setpointVelocity +" Distance="+distInBlock+" Brake="+brake);
        // System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
-        //System.out.println("Controller e brake" + emergency_brake + " Controller left door =" + doorsOpenLeft + " Controller right door " + doorsOpenRight + " Cabin Temp " + cabinTemp);
-        System.out.println(RIS + " Current block is " + currentSkinnyBlock.getID() + " previous block is " + currentSkinnyBlock.previous + " The connected blocks are " );
-        for(int i = 0; i< currentSkinnyBlock.getConnected().size(); i++){
+        //System.out.println("Controller e brake" + emergencyBrakeProperty.getValue() + " Controller left door =" + leftOpenDoorProperty.getValue() + " Controller right door " + rightOpenDoorProperty.getValue() + " Cabin Temp " + cabinTemp);
+        //System.out.println(RIS + " Current block is " + currentSkinnyBlock.getID() + " previous block is " + currentSkinnyBlock.previous + " The connected blocks are " );
+       /* for(int i = 0; i< currentSkinnyBlock.getConnected().size(); i++){
             System.out.print(" "+currentSkinnyBlock.getConnected().get(i) + " ");
-        }
-
+        }*/
         //System.out.println("Controller x="+(authority-distInBlock) + " Stop Dist="+stoppingDistance + " Authority="+authority);
 
-
-
-        return power_out;
+        return powerProperty.getValue();
     }
+
+    public void setDesiredCabinTemp(double temp){
+        this.desiredCabinTemp = temp;
+    }
+
 
     public void calcSetpointVelocity(double v){
 
-        this.commanded_velocity = v;
-        if(v < current_velocity){
-            brake = true;
+        this.commandedVelocity = v;
+        if(v < currentVelocityProperty.getValue()){
+
+            serviceBrakeProperty.setValue(true);
         }
 
         if(v > speedLimit){
-            this.commanded_velocity = speedLimit;
+            this.commandedVelocity = speedLimit;
 
         } else;{
-            this.commanded_velocity = v;
+            this.commandedVelocity = v;
         }
-        this.setpoint_velocity = this.commanded_velocity;
+
+        setpointVelocityProperty.set(commandedVelocity);
+    }
+
+    public SimpleBooleanProperty getLightsProperty(){
+        return lightsProperty;
+    }
+
+    public SimpleBooleanProperty getAutoModeProperty() {
+        return autoModeProperty;
+    }
+
+    public SimpleBooleanProperty getEmergencyBrakeProperty() {
+        return emergencyBrakeProperty;
+    }
+
+    public SimpleBooleanProperty getLeleftOpenDoorProperty() {
+        return leftOpenDoorProperty;
+    }
+
+    public SimpleBooleanProperty getRightOpenDoorProperty() {
+        return rightOpenDoorProperty;
+    }
+
+    public SimpleBooleanProperty getServiceBrakeProperty() {
+        return serviceBrakeProperty;
+    }
+
+    public SimpleDoubleProperty getAuthorityProperty() {
+        return authorityProperty;
+    }
+
+    public SimpleStringProperty getCabinTempProperty() {
+        return cabinTempProperty;
+    }
+
+    public SimpleDoubleProperty getCurrentVelocityProperty() {
+        return currentVelocityProperty;
+    }
+
+    public SimpleDoubleProperty getPowerProperty() {
+        return powerProperty;
+    }
+
+    public SimpleDoubleProperty getSetpointVelocityProperty() {
+        return setpointVelocityProperty;
+    }
+
+    public void open_left_doors()
+    {
+
+        leftOpenDoorProperty.setValue(true);
     }
 
 
 
+    public void open_right_doors()
+    {
 
-
-
-
-
-
-    public void open_left_doors(){doorsOpenLeft = true;}
-
-
-
-    public void open_right_doors(){doorsOpenRight = true;}
+        rightOpenDoorProperty.setValue(true);
+    }
 
 
 
     public void close_doors(){
-        doorsOpenLeft = false;
-        doorsOpenRight = false;
+
+        leftOpenDoorProperty.setValue(false);
+        rightOpenDoorProperty.setValue(false);
     }
 
     public boolean getServiceBrake(){
-        return brake;
+        return serviceBrakeProperty.getValue();
     }
 
 
@@ -387,23 +554,23 @@ public class TrainController {
 
 
     public void setEmergencyBrake(){
-        emergency_brake = true;
+
+        emergencyBrakeProperty.setValue(true);
     }
 
-    public void setEBrake( boolean brake){
-        this.emergency_brake = brake;
-    }
+
 
     public boolean getEmergencyBrake(){
-        return this.emergency_brake;
+        return emergencyBrakeProperty.getValue();
     }
 
     public void setCabinTemp(double temp){
         this.cabinTemp = temp;
+        cabinTempProperty.set("Cabin temp is " + cabinTemp);
     }
 
     public double getCabinTemp(){
-        return this.cabinTemp;
+        return this.desiredCabinTemp;
     }
 
     public String getRIS(){
@@ -412,111 +579,43 @@ public class TrainController {
 
     public boolean getLeftDoors()
     {
-        return  doorsOpenLeft;
+        return  leftOpenDoorProperty.getValue();
     }
 
     public boolean getRightDoors()
     {
-        return  doorsOpenRight;
+        return  rightOpenDoorProperty.getValue();
     }
 
 
 
     public void setUnderground(Boolean underground){
-        this.lights = underground;
+        lightsProperty.setValue(underground);
     }
 
     public void setStoppingDistance(){
-        if(!brake) {
-            stoppingDistance = Math.pow(current_velocity, 2) / 2.4;
+        if(!serviceBrakeProperty.getValue()) {
+            stoppingDistance = Math.pow(currentVelocityProperty.getValue(), 2) / 2.4;
             stoppingDistance +=15;
             stoppingDistance *=1.2;
         }
     }
 
     public void checkStopping(){
-        if(authority ==0 && distInBlock ==0 && current_velocity==0 ){
+        if(authorityProperty.getValue() ==0 && distInBlock ==0 && currentVelocityProperty.getValue()==0 ){
         }else {
-            double travelDistance = current_velocity*1.5;
-            brake = ((authority - (distInBlock + travelDistance)) <= stoppingDistance);
+            double travelDistance = currentVelocityProperty.getValue()*1.5;
+            serviceBrakeProperty.setValue(((authorityProperty.getValue() - (distInBlock + travelDistance)) <= stoppingDistance));
+
         }
     }
 
 
     public void brakeTrain(double period){
-        current_velocity = current_velocity + (-1.2 *period);
+        currentVelocityProperty.set(currentVelocityProperty.getValue() + (-1.2 *period));
     }
 
-    public void update() {
-        //Calculate elapsed time since last update
-        double deltaTmillis = System.currentTimeMillis() - previousTime;
-        previousTime = System.currentTimeMillis();
 
-        if(brake) {
-            double period = deltaTmillis/1000;
-            brakeTrain(period);
-        }
-        else
-        {
-            power_out = getPower(deltaTmillis);
-
-            //Calculate new velocity and speed
-            current_velocity = current_velocity + (((prevAcceleration + acceleration) / 2) * (deltaTmillis / 1000)); // Average previous two accelerations, multiply by deltaT and add to existing velocity
-            speed = Math.abs(current_velocity);
-
-            //Calculate forces
-            double mass = 37096;
-            double frictionForce = mass * 9.8 * .001 * Math.cos(Math.toRadians(0)); // We've got to convert this to degrees
-            double brakingAcceleration = 0;
-            if (emergency_brake) {
-                brakingAcceleration = -2.37;
-            } else if (brake) {
-                brakingAcceleration = -1.2;
-            }
-
-            double brakingForce = brakingAcceleration * mass;
-            double gradeForce = -(mass * 9.8 * Math.sin(Math.toRadians(0))); //Negative here as a positive grade will reduce forward force
-            double powerForce = Math.sqrt((power_out * mass * 2) / (deltaTmillis / 1000)); // I'll explain whats going on here in lecture
-            double staticForce = frictionForce + brakingForce;
-            double dynamicForce = powerForce + gradeForce;
-
-            //One last velocity check
-            if (current_velocity < 0 && staticForce > dynamicForce)
-            {
-                current_velocity = 0.0;
-            }
-
-            double netForce = 0.0;
-            //Calculate net force
-            if (current_velocity > 0)                                //Forward movement
-            {
-                netForce = dynamicForce - staticForce;
-            } else if (current_velocity < 0 && gradeForce < 0)        //Backwards movement
-            {
-                netForce = dynamicForce + staticForce;
-            } else if (current_velocity == 0)
-            {
-                if (dynamicForce > staticForce)              //Acceleration
-                {
-                   netForce = dynamicForce - staticForce;
-                } else if (dynamicForce <= staticForce)
-                {
-                    if (Math.abs(gradeForce) > staticForce)  //Downhill roll from standstill
-                    {
-                        netForce = dynamicForce + staticForce;
-                    }
-                    else                                    //Standstill
-                    {
-                        netForce = 0;
-                    }
-                }
-            }
-
-            //Calculate new acceleration
-            prevAcceleration = acceleration;
-            acceleration = netForce / mass;
-        }
-    }
 
 }
 
